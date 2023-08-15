@@ -5,16 +5,41 @@ using namespace std;
 int main()
 {
 
+    // gMap.printMap();
+    // rat r1("R1", point(1, 4));
+    // r1.printInfo();
+    // cat c2("C2", point(2, 5));
+    // c2.printInfo();
+    // dragon d1("D1", point(4, 4));
+    // d1.printInfo();
+    // dog d2("D2", point(3, 5));
+    // d2.printInfo();
+    // dog d1("D3", point(1, 4));
+    // zodiac *pr1 = &d1;
+    // pr1->printInfo();
+
+    // zoList zodiacList;
+
+    // zodiacList.add(new rat("R1", point(2, 3)));
+    // zodiacList.add(new monkey("M1", point(10, 41)));
+
+    // zodiacList[0]->printInfo();
+    // zodiacList[1]->printInfo();
+
+    // string **mapArray = new string *[9];
+    // for (int i = 0; i < 9; i++)
+    // {
+    //     mapArray[i] = new string[9];
+    // }
+
+    // gameMap map(mapArray, 9, 9);
     string tempMap[50][50] =
-        {{"W", "W", "WA1B1C1D1E1F", "A", "S"},
-         {"W", "W", "W", "W", "S"},
-         {"W", "S", "D", "D", "S"},
-         {"W", "S", "D", "D", "S"},
-         {"W", "SA1B1C1D1", "A", "A", "A"},
-         {"W", "SA1B1C1D1", "A", "A", "A"},
-         {"W", "SA1B1C1D1", "A", "A", "A"},
-         {"W", "SA1B1C1D1", "A", "A", "A"}};
-    int r = 8;
+        {{"", "", "W", "", "S"},
+         {"", "W", "", "", "S"},
+         {"W", "S", "", "", "S"},
+         {"W", "S", "", "", "S"},
+         {"W", "S", "", "", ""}};
+    int r = 5;
     int c = 5;
     string **Map = new string *[r];
     for (int i = 0; i < r; i++)
@@ -25,17 +50,17 @@ int main()
             Map[i][j] = tempMap[i][j];
         }
     }
+
+    
+
     gameMap gMap(Map, r, c);
-    // gMap.printMap();
-    // rat r1("R1", point(1, 4));
-    // r1.printInfo();
-    // cat c2("C2", point(2, 5));
-    // c2.printInfo();
-    // dragon d1("D1", point(4, 4));
-    // d1.printInfo();
-    // dog d2("D2", point(3, 5));
-    // d2.printInfo();
-    dog d1("D3", point(1, 4));
-    zodiac *pr1 = &d1;
-    pr1->printInfo();
+    Game game(gMap);
+
+    game.addZo(new rat("R1", point(1, 1)));
+    game.addZo(new ox("O1", point(2, 2)));
+    // Add more zodiacs as needed
+
+    game.startGame(point(3, 3), 1); // Set to true to print map during the game
+
+    return 0;
 }

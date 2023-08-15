@@ -6,43 +6,39 @@ using namespace std;
 
 class gameMap
 {
-private:
+public:
     string **mapMat;
     int row;
     int col;
 
-    void printTopHorizontalBorder();
-
-    void printBottomLine();
-
-    void printTopHorizontalCellBorder();
-
-public:
     gameMap(string **inputMat, int r, int c);
-
-    string *&operator[](int i);
-
-    void printMap();
-
+    gameMap(const gameMap& other); // copy constructor
     ~gameMap();
+
+    void printTopHorizontalBorder();
+    void printBottomLine();
+    void printTopHorizontalCellBorder();
+    string *&operator[](int i);
+    void printMap();
 };
 
 struct point
 {
     int x;
     int y;
+
+    point() : x(0), y(0) {}
     point(int xCoord, int yCoord) : x(xCoord), y(yCoord) {}
 };
 
 class zodiac
 {
-protected:
+public:
     string ID;
     point location;
     string status;
     void printCommonInfo() const;
 
-public:
     zodiac(const string &id, const point &loc);
     virtual ~zodiac() {}
 
@@ -144,6 +140,34 @@ public:
     boar(const std::string &id, const point &loc);
     void printInfo() const override;
     void move(const point &goalLocation, const gameMap &gameMap) override;
+};
+
+class zoList
+{
+public:
+    zodiac **zList;
+    int maxSize;
+    int size;
+
+    zoList();
+    ~zoList();
+
+    void add(zodiac *newZodiac);
+    zodiac *&operator[](int i);
+};
+
+class Game
+{
+public:
+    gameMap mapMat;
+    zoList zList;
+    point goalLocation;
+
+    Game(const gameMap &m);
+
+    void addZo(zodiac *k);
+
+    void startGame(point goalLocation, bool printMapFlag);
 };
 
 #endif // LIB_H

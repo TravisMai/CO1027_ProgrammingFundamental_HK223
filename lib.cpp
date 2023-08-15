@@ -138,6 +138,21 @@ void gameMap::printMap()
 
 gameMap::gameMap(string **inputMat, int r, int c) : mapMat(inputMat), row(r), col(c) {}
 
+gameMap::gameMap(const gameMap &other)
+{
+    row = other.row;
+    col = other.col;
+    mapMat = new string *[row];
+    for (int i = 0; i < row; i++)
+    {
+        mapMat[i] = new string[col];
+        for (int j = 0; j < col; j++)
+        {
+            mapMat[i][j] = other.mapMat[i][j];
+        }
+    }
+}
+
 gameMap::~gameMap()
 {
     for (int i = 0; i < row; i++)
@@ -147,7 +162,7 @@ gameMap::~gameMap()
     delete[] mapMat;
 }
 
-zodiac::zodiac(const string &id, const point &loc) : ID(id), location(loc), status("Stuck") {}
+zodiac::zodiac(const string &id, const point &loc) : ID(id), location(loc), status("") {}
 rat::rat(const string &id, const point &loc) : zodiac(id, loc) {}
 ox::ox(const string &id, const point &loc) : zodiac(id, loc) {}
 tiger::tiger(const string &id, const point &loc) : zodiac(id, loc) {}
@@ -241,8 +256,15 @@ void boar::printInfo() const
 }
 
 void zodiac::move(const point &goalLocation, const gameMap &gameMap) {}
-
-void rat::move(const point &goalLocation, const gameMap &gameMap) {}
+void rat::move(const point &goalLocation, const gameMap &gameMap) {
+    cout << "ratsdagdsfgdsfgfsdfgdsfg\n";
+    int x = this->location.x + 1;
+    int y = this->location.y+ 1;
+    if (gameMap.mapMat[x][y].empty())
+        gameMap.mapMat[x][y] = this->ID;
+    else
+        gameMap.mapMat[x][y] += this->ID;
+}
 void ox::move(const point &goalLocation, const gameMap &gameMap) {}
 void tiger::move(const point &goalLocation, const gameMap &gameMap) {}
 void cat::move(const point &goalLocation, const gameMap &gameMap) {}
@@ -254,3 +276,109 @@ void monkey::move(const point &goalLocation, const gameMap &gameMap) {}
 void rooster::move(const point &goalLocation, const gameMap &gameMap) {}
 void dog::move(const point &goalLocation, const gameMap &gameMap) {}
 void boar::move(const point &goalLocation, const gameMap &gameMap) {}
+
+zoList::zoList() : maxSize(12), size(0)
+{
+    zList = new zodiac *[maxSize];
+}
+
+zoList::~zoList()
+{
+    for (int i = 0; i < size; i++)
+    {
+        delete zList[i];
+    }
+    delete[] zList;
+}
+
+void zoList::add(zodiac *newZodiac)
+{
+    if (size < maxSize)
+    {
+        zList[size] = newZodiac;
+        size++;
+    }
+}
+
+zodiac *&zoList::operator[](int i)
+{
+    if (i >= 0 && i < size)
+    {
+        return zList[i];
+    }
+    return zList[0];
+}
+
+Game::Game(const gameMap &m) : mapMat(m) {}
+
+void Game::addZo(zodiac *k)
+{
+    zList.add(k);
+    int x = k->location.x;
+    int y = k->location.y;
+    if (mapMat.mapMat[x][y].empty())
+        mapMat.mapMat[x][y] = k->ID;
+    else
+        mapMat.mapMat[x][y] += k->ID;
+}
+
+gameMap mapClone(nullptr, 0, 0); // Initialize as needed
+
+void Game::startGame(point goalLocation, bool printMapFlag = 0)
+{
+
+    // cout << this->mapMat[1][1] << endl;
+    // take the goal location and print the map
+    gameMap mapClone = mapMat;
+    mapMat[goalLocation.x][goalLocation.y] = 'G';
+    mapClone[4][4] = 'L';
+    int counter = 0;
+
+    while (true && counter < 2)
+    {
+        counter++;
+        if (printMapFlag)
+        {
+            mapMat.printMap();
+            mapClone.printMap();
+        }
+
+        bool allStuck = true;
+        bool winnerFound = false;
+
+        mapMat = mapClone;
+
+        for (int i = 0; i < zList.size; i++)
+        {
+            cout << "zodiac " << i << endl;
+            zodiac *currentZodiac = zList[i];
+            cout << currentZodiac->ID << endl;
+            // cout << currentZodiac->status << endl;
+            if (currentZodiac->status != "Stuck")
+            {
+                allStuck = false;
+                currentZodiac->move(goalLocation, mapMat);
+            }
+            if (currentZodiac->location.x == goalLocation.x && currentZodiac->location.y == goalLocation.y)
+            {
+                winnerFound = true;
+            }
+        }
+        if (allStuck || winnerFound)
+        {
+            if (winnerFound)
+            {
+                std::cout << "Congratulations! We have a winner!\n";
+                for (int i = 0; i < zList.size; i++)
+                {
+                    zList[i]->printInfo();
+                }
+            }
+            else
+            {
+                std::cout << "All zodiacs are stuck. No winner this time.\n";
+            }
+            break;
+        }
+    }
+}
