@@ -39,6 +39,7 @@ public:
     point location;
     point startLocation;
     string status;
+    string zodiacType;
     void printCommonInfo() const;
 
     zodiac(const string &id, const point &loc);
