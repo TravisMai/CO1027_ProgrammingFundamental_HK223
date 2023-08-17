@@ -329,26 +329,14 @@ void boar::printInfo() const
     printCommonInfo();
 }
 
-void zodiac::move(const point &goalLocation, const gameMap &gameMapMat) {}
-void rat::move(const point &goalLocation, const gameMap &gameMapMat)
-{
-    // int x = this->location.x + 2;
-    // int y = this->location.y + 2;
-    // if (gameMap.mapMat[x][y].empty())
-    //     gameMap.mapMat[x][y] = this->ID;
-    // else
-    //     gameMap.mapMat[x][y] += this->ID;
-}
-void ox::move(const point &goalLocation, const gameMap &gameMapMat)
+void zodiac::computeLocation(const point &goalLocation, const gameMap &gameMapMat) {}
+void rat::computeLocation(const point &goalLocation, const gameMap &gameMapMat) {}
+void ox::computeLocation(const point &goalLocation, const gameMap &gameMapMat)
 {
     int maxStep = 2;
-    int startX = this->location.x;
-    int startY = this->location.y;
     bool moveVertical = false;
     int distanceToGoalHorizontal = goalDistance(this->location.x, goalLocation.x);
     int distanceToGoalVertical = goalDistance(this->location.y, goalLocation.y);
-
-    gameMapMat.mapMat[this->location.y][this->location.x] = removeZodiac(gameMapMat.mapMat[this->location.y][this->location.x], string(this->ID));
 
     if (findObstacles(gameMapMat.mapMat[this->location.y][this->location.x], 'W'))
         maxStep = 3;
@@ -380,29 +368,68 @@ void ox::move(const point &goalLocation, const gameMap &gameMapMat)
         else
             this->location.y += distanceToGoalVertical;
     }
-    if (moveVertical)
+}
+void tiger::computeLocation(const point &goalLocation, const gameMap &gameMapMat) {}
+void cat::computeLocation(const point &goalLocation, const gameMap &gameMapMat) {}
+void dragon::computeLocation(const point &goalLocation, const gameMap &gameMapMat) {}
+void snake::computeLocation(const point &goalLocation, const gameMap &gameMapMat) {}
+void horse::computeLocation(const point &goalLocation, const gameMap &gameMapMat) {}
+void goat::computeLocation(const point &goalLocation, const gameMap &gameMapMat) {}
+void monkey::computeLocation(const point &goalLocation, const gameMap &gameMapMat) {}
+void rooster::computeLocation(const point &goalLocation, const gameMap &gameMapMat) {}
+void dog::computeLocation(const point &goalLocation, const gameMap &gameMapMat) {}
+void boar::computeLocation(const point &goalLocation, const gameMap &gameMapMat)
+{
+    int distanceToGoalHorizontal = goalDistance(this->location.x, goalLocation.x);
+    int distanceToGoalVertical = goalDistance(this->location.y, goalLocation.y);
+
+    if (distanceToGoalHorizontal >= distanceToGoalVertical)
     {
-        if (this->location.y > startY)
+        if (this->location.x > goalLocation.x)
+            this->location.x--;
+        else
+            this->location.x++;
+    }
+    else
+    {
+        if (this->location.y > goalLocation.y)
+            this->location.y--;
+        else
+            this->location.y++;
+    }
+}
+
+void zodiac::move(const point &goalLocation, const gameMap &gameMapMat) {}
+void rat::move(const point &goalLocation, const gameMap &gameMapMat) {}
+void ox::move(const point &goalLocation, const gameMap &gameMapMat)
+{
+    int distanceToGoalHorizontal = goalDistance(this->startLocation.x, goalLocation.x);
+    int distanceToGoalVertical = goalDistance(this->startLocation.y, goalLocation.y);
+
+    gameMapMat.mapMat[this->startLocation.y][this->startLocation.x] = removeZodiac(gameMapMat.mapMat[this->startLocation.y][this->startLocation.x], string(this->ID));
+    if (distanceToGoalHorizontal < distanceToGoalVertical)
+    {
+        if (this->location.y > this->startLocation.y)
         {
-            for (int i = startY; i < this->location.y; i++)
+            for (int i = this->startLocation.y; i < this->location.y; i++)
                 gameMapMat.mapMat[i][this->location.x] = removeStone(gameMapMat.mapMat[i][this->location.x]);
         }
         else
         {
-            for (int i = startY; i < this->location.y; i--)
+            for (int i = this->startLocation.y; i < this->location.y; i--)
                 gameMapMat.mapMat[i][this->location.x] = removeStone(gameMapMat.mapMat[i][this->location.x]);
         }
     }
     else
     {
-        if (this->location.x > startX)
+        if (this->location.x > this->startLocation.x)
         {
-            for (int i = startX; i < this->location.x; i++)
+            for (int i = this->startLocation.x; i < this->location.x; i++)
                 gameMapMat.mapMat[this->location.y][i] = removeStone(gameMapMat.mapMat[this->location.y][i]);
         }
         else
         {
-            for (int i = startX; i > this->location.x; i--)
+            for (int i = this->startLocation.x; i > this->location.x; i--)
                 gameMapMat.mapMat[this->location.y][i] = removeStone(gameMapMat.mapMat[this->location.y][i]);
         }
     }
@@ -428,25 +455,7 @@ void rooster::move(const point &goalLocation, const gameMap &gameMapMat) {}
 void dog::move(const point &goalLocation, const gameMap &gameMapMat) {}
 void boar::move(const point &goalLocation, const gameMap &gameMapMat)
 {
-    int distanceToGoalHorizontal = goalDistance(this->location.x, goalLocation.x);
-    int distanceToGoalVertical = goalDistance(this->location.y, goalLocation.y);
-
-    gameMapMat.mapMat[this->location.y][this->location.x] = removeZodiac(gameMapMat.mapMat[this->location.y][this->location.x], string(this->ID));
-
-    if (distanceToGoalHorizontal >= distanceToGoalVertical)
-    {
-        if (this->location.x > goalLocation.x)
-            this->location.x--;
-        else
-            this->location.x++;
-    }
-    else
-    {
-        if (this->location.y > goalLocation.y)
-            this->location.y--;
-        else
-            this->location.y++;
-    }
+    gameMapMat.mapMat[this->startLocation.y][this->startLocation.x] = removeZodiac(gameMapMat.mapMat[this->startLocation.y][this->startLocation.x], string(this->ID));
     if (gameMapMat.mapMat[this->location.y][this->location.x].empty())
     {
         gameMapMat.mapMat[this->location.y][this->location.x] = this->ID;
@@ -524,7 +533,15 @@ void Game::startGame(point goalLocation, bool printMapFlag = 0)
             setStartLocation->startLocation.x = zList[i]->location.x;
             setStartLocation->startLocation.y = zList[i]->location.y;
         }
-
+        for (int i = 0; i < zList.size; i++)
+        {
+            zodiac *currentZodiac = zList[i];
+            if (currentZodiac->status != "Stuck")
+            {
+                allStuck = false;
+                currentZodiac->computeLocation(goalLocation, mapMat);
+            }
+        }
         for (int i = 0; i < zList.size; i++)
         {
             zodiac *currentZodiac = zList[i];
