@@ -7,6 +7,75 @@ int goalDistance(int x, int y)
     return abs(x - y);
 }
 
+string removeZodiac(string input, const string &substring)
+{
+    size_t pos = input.find(substring);
+
+    while (pos != string::npos)
+    {
+        input.erase(pos, substring.length());
+        pos = input.find(substring);
+    }
+
+    return input;
+}
+
+string removeStone(const string &input)
+{
+    string result;
+
+    for (char c : input)
+    {
+        if (c != 'S')
+        {
+            result += c;
+        }
+    }
+
+    return result;
+}
+
+string removeWater(const string &input)
+{
+    string result;
+
+    for (char c : input)
+    {
+        if (c != 'W')
+        {
+            result += c;
+        }
+    }
+
+    return result;
+}
+
+bool findObstacles(const string &input, char obstacles)
+{
+    size_t pos = 0;
+
+    while (pos < input.length())
+    {
+        if (input[pos] == obstacles)
+        {
+            if (pos + 1 < input.length() && isdigit(input[pos + 1]))
+            {
+                pos += 2;
+            }
+            else
+            {
+                return true;
+            }
+        }
+        else
+        {
+            pos++;
+        }
+    }
+
+    return false;
+}
+
 void gameMap::printTopHorizontalBorder()
 {
     cout << ' ';
@@ -260,8 +329,8 @@ void boar::printInfo() const
     printCommonInfo();
 }
 
-void zodiac::move(const point &goalLocation, const gameMap &gameMapMat, const gameMap &gameClone) {}
-void rat::move(const point &goalLocation, const gameMap &gameMapMat, const gameMap &gameClone)
+void zodiac::move(const point &goalLocation, const gameMap &gameMapMat) {}
+void rat::move(const point &goalLocation, const gameMap &gameMapMat)
 {
     // int x = this->location.x + 2;
     // int y = this->location.y + 2;
@@ -270,21 +339,99 @@ void rat::move(const point &goalLocation, const gameMap &gameMapMat, const gameM
     // else
     //     gameMap.mapMat[x][y] += this->ID;
 }
-void ox::move(const point &goalLocation, const gameMap &gameMapMat, const gameMap &gameClone) {}
-void tiger::move(const point &goalLocation, const gameMap &gameMapMat, const gameMap &gameClone) {}
-void cat::move(const point &goalLocation, const gameMap &gameMapMat, const gameMap &gameClone) {}
-void dragon::move(const point &goalLocation, const gameMap &gameMapMat, const gameMap &gameClone) {}
-void snake::move(const point &goalLocation, const gameMap &gameMapMat, const gameMap &gameClone) {}
-void horse::move(const point &goalLocation, const gameMap &gameMapMat, const gameMap &gameClone) {}
-void goat::move(const point &goalLocation, const gameMap &gameMapMat, const gameMap &gameClone) {}
-void monkey::move(const point &goalLocation, const gameMap &gameMapMat, const gameMap &gameClone) {}
-void rooster::move(const point &goalLocation, const gameMap &gameMapMat, const gameMap &gameClone) {}
-void dog::move(const point &goalLocation, const gameMap &gameMapMat, const gameMap &gameClone) {}
-void boar::move(const point &goalLocation, const gameMap &gameMapMat, const gameMap &gameClone)
+void ox::move(const point &goalLocation, const gameMap &gameMapMat)
 {
-    // cout << this->location.x << " " << this->location.y << endl;
+    int maxStep = 2;
+    int startX = this->location.x;
+    int startY = this->location.y;
+    bool moveVertical = false;
     int distanceToGoalHorizontal = goalDistance(this->location.x, goalLocation.x);
     int distanceToGoalVertical = goalDistance(this->location.y, goalLocation.y);
+
+    gameMapMat.mapMat[this->location.y][this->location.x] = removeZodiac(gameMapMat.mapMat[this->location.y][this->location.x], string(this->ID));
+
+    if (findObstacles(gameMapMat.mapMat[this->location.y][this->location.x], 'W'))
+        maxStep = 3;
+    if (findObstacles(gameMapMat.mapMat[this->location.y][this->location.x], 'O'))
+        maxStep = 1;
+
+    if (distanceToGoalHorizontal >= distanceToGoalVertical)
+    {
+        if (this->location.x > goalLocation.x)
+            if (distanceToGoalHorizontal > maxStep)
+                this->location.x -= maxStep;
+            else
+                this->location.x -= distanceToGoalHorizontal;
+        else if (distanceToGoalHorizontal > maxStep)
+            this->location.x += maxStep;
+        else
+            this->location.x += distanceToGoalHorizontal;
+    }
+    else
+    {
+        moveVertical = true;
+        if (this->location.y > goalLocation.y)
+            if (distanceToGoalVertical > maxStep)
+                this->location.y -= maxStep;
+            else
+                this->location.y -= distanceToGoalVertical;
+        else if (distanceToGoalVertical > maxStep)
+            this->location.y += maxStep;
+        else
+            this->location.y += distanceToGoalVertical;
+    }
+    if (moveVertical)
+    {
+        if (this->location.y > startY)
+        {
+            for (int i = startY; i < this->location.y; i++)
+                gameMapMat.mapMat[i][this->location.x] = removeStone(gameMapMat.mapMat[i][this->location.x]);
+        }
+        else
+        {
+            for (int i = startY; i < this->location.y; i--)
+                gameMapMat.mapMat[i][this->location.x] = removeStone(gameMapMat.mapMat[i][this->location.x]);
+        }
+    }
+    else
+    {
+        if (this->location.x > startX)
+        {
+            for (int i = startX; i < this->location.x; i++)
+                gameMapMat.mapMat[this->location.y][i] = removeStone(gameMapMat.mapMat[this->location.y][i]);
+        }
+        else
+        {
+            for (int i = startX; i > this->location.x; i--)
+                gameMapMat.mapMat[this->location.y][i] = removeStone(gameMapMat.mapMat[this->location.y][i]);
+        }
+    }
+
+    if (gameMapMat.mapMat[this->location.y][this->location.x].empty())
+    {
+        gameMapMat.mapMat[this->location.y][this->location.x] = this->ID;
+    }
+    else
+    {
+        gameMapMat.mapMat[this->location.y][this->location.x] = removeStone(gameMapMat.mapMat[this->location.y][this->location.x]);
+        gameMapMat.mapMat[this->location.y][this->location.x] += this->ID;
+    }
+}
+void tiger::move(const point &goalLocation, const gameMap &gameMapMat) {}
+void cat::move(const point &goalLocation, const gameMap &gameMapMat) {}
+void dragon::move(const point &goalLocation, const gameMap &gameMapMat) {}
+void snake::move(const point &goalLocation, const gameMap &gameMapMat) {}
+void horse::move(const point &goalLocation, const gameMap &gameMapMat) {}
+void goat::move(const point &goalLocation, const gameMap &gameMapMat) {}
+void monkey::move(const point &goalLocation, const gameMap &gameMapMat) {}
+void rooster::move(const point &goalLocation, const gameMap &gameMapMat) {}
+void dog::move(const point &goalLocation, const gameMap &gameMapMat) {}
+void boar::move(const point &goalLocation, const gameMap &gameMapMat)
+{
+    int distanceToGoalHorizontal = goalDistance(this->location.x, goalLocation.x);
+    int distanceToGoalVertical = goalDistance(this->location.y, goalLocation.y);
+
+    gameMapMat.mapMat[this->location.y][this->location.x] = removeZodiac(gameMapMat.mapMat[this->location.y][this->location.x], string(this->ID));
 
     if (distanceToGoalHorizontal >= distanceToGoalVertical)
     {
@@ -306,15 +453,9 @@ void boar::move(const point &goalLocation, const gameMap &gameMapMat, const game
     }
     else
     {
-        // cout << gameClone << endl;
-        // cout << "game clone " << gameClone.mapMat[1][1] << endl;
-        if (gameClone.mapMat[this->location.y][this->location.x] == "W" || gameClone.mapMat[this->location.y][this->location.x] == "S")
-        {
-            gameMapMat.mapMat[this->location.y][this->location.x] = this->ID;
-            gameClone.mapMat[this->location.y][this->location.x] = "";
-        }
-        else
-            gameMapMat.mapMat[this->location.y][this->location.x] += this->ID;
+        gameMapMat.mapMat[this->location.y][this->location.x] = removeWater(gameMapMat.mapMat[this->location.y][this->location.x]);
+        gameMapMat.mapMat[this->location.y][this->location.x] = removeStone(gameMapMat.mapMat[this->location.y][this->location.x]);
+        gameMapMat.mapMat[this->location.y][this->location.x] += this->ID;
     }
 }
 
@@ -355,45 +496,27 @@ Game::Game(const gameMap &m) : mapMat(m) {}
 void Game::addZo(zodiac *k)
 {
     zList.add(k);
+    int x = k->location.x;
+    int y = k->location.y;
+    if (mapMat.mapMat[y][x].empty())
+        mapMat.mapMat[y][x] = k->ID;
+    else
+        mapMat.mapMat[y][x] += k->ID;
 }
-
-// gameMap mapClone(nullptr, 0, 0);
 
 void Game::startGame(point goalLocation, bool printMapFlag = 0)
 {
     mapMat[goalLocation.y][goalLocation.x] = 'G';
-    gameMap mapClone = mapMat;
-    for (int i = 0; i < zList.size; i++)
-    {
-        if (mapMat.mapMat[zList[i]->location.y][zList[i]->location.x].empty())
-            mapMat.mapMat[zList[i]->location.y][zList[i]->location.x] = zList[i]->ID;
-        else
-            mapMat.mapMat[zList[i]->location.y][zList[i]->location.x] += zList[i]->ID;
-    }
 
-    int counter = 0;
-
-    while (true && counter < 5)
+    while (true)
     {
-        counter++;
         if (printMapFlag)
         {
-            // cout << "real map\n";
             mapMat.printMap();
-            // cout << "clone map\n";
-            // mapClone.printMap();
         }
 
         bool allStuck = true;
         bool winnerFound = false;
-
-        for (int i = 0; i < mapMat.row; i++)
-        {
-            for (int j = 0; j < mapMat.col; j++)
-            {
-                mapMat[i][j] = mapClone[i][j];
-            }
-        }
 
         for (int i = 0; i < zList.size; i++)
         {
@@ -408,11 +531,10 @@ void Game::startGame(point goalLocation, bool printMapFlag = 0)
             if (currentZodiac->status != "Stuck")
             {
                 allStuck = false;
-                currentZodiac->move(goalLocation, mapMat, mapClone);
+                currentZodiac->move(goalLocation, mapMat);
             }
             if (currentZodiac->location.x == goalLocation.x && currentZodiac->location.y == goalLocation.y)
             {
-                mapMat.printMap();
                 winnerFound = true;
             }
         }
@@ -420,6 +542,7 @@ void Game::startGame(point goalLocation, bool printMapFlag = 0)
         {
             if (winnerFound)
             {
+                mapMat.printMap();
                 cout << "Congratulations! We have a winner!\n";
                 for (int i = 0; i < zList.size; i++)
                 {

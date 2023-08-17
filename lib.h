@@ -2,6 +2,7 @@
 #define LIB_H
 #include <string>
 #include <iomanip>
+#include <cctype>
 using namespace std;
 
 class gameMap
@@ -44,7 +45,7 @@ public:
     virtual ~zodiac() {}
 
     virtual void printInfo() const = 0;
-    virtual void move(const point &goalLocation, const gameMap &gameMapMat, const gameMap &gameClone);
+    virtual void move(const point &goalLocation, const gameMap &gameMapMat);
 };
 
 class rat : public zodiac
@@ -52,7 +53,7 @@ class rat : public zodiac
 public:
     rat(const std::string &id, const point &loc);
     void printInfo() const override;
-    void move(const point &goalLocation, const gameMap &gameMapMat, const gameMap &gameClone) override;
+    void move(const point &goalLocation, const gameMap &gameMapMat) override;
 };
 
 class ox : public zodiac
@@ -60,7 +61,7 @@ class ox : public zodiac
 public:
     ox(const std::string &id, const point &loc);
     void printInfo() const override;
-    void move(const point &goalLocation, const gameMap &gameMapMat, const gameMap &gameClone) override;
+    void move(const point &goalLocation, const gameMap &gameMapMat) override;
 };
 
 class tiger : public zodiac
@@ -68,7 +69,7 @@ class tiger : public zodiac
 public:
     tiger(const std::string &id, const point &loc);
     void printInfo() const override;
-    void move(const point &goalLocation, const gameMap &gameMapMat, const gameMap &gameClone) override;
+    void move(const point &goalLocation, const gameMap &gameMapMat) override;
 };
 
 class cat : public zodiac
@@ -76,7 +77,7 @@ class cat : public zodiac
 public:
     cat(const std::string &id, const point &loc);
     void printInfo() const override;
-    void move(const point &goalLocation, const gameMap &gameMapMat, const gameMap &gameClone) override;
+    void move(const point &goalLocation, const gameMap &gameMapMat) override;
 };
 
 class dragon : public zodiac
@@ -84,7 +85,7 @@ class dragon : public zodiac
 public:
     dragon(const std::string &id, const point &loc);
     void printInfo() const override;
-    void move(const point &goalLocation, const gameMap &gameMapMat, const gameMap &gameClone) override;
+    void move(const point &goalLocation, const gameMap &gameMapMat) override;
 };
 
 class snake : public zodiac
@@ -92,7 +93,7 @@ class snake : public zodiac
 public:
     snake(const std::string &id, const point &loc);
     void printInfo() const override;
-    void move(const point &goalLocation, const gameMap &gameMapMat, const gameMap &gameClone) override;
+    void move(const point &goalLocation, const gameMap &gameMapMat) override;
 };
 
 class horse : public zodiac
@@ -100,7 +101,7 @@ class horse : public zodiac
 public:
     horse(const std::string &id, const point &loc);
     void printInfo() const override;
-    void move(const point &goalLocation, const gameMap &gameMapMat, const gameMap &gameClone) override;
+    void move(const point &goalLocation, const gameMap &gameMapMat) override;
 };
 
 class goat : public zodiac
@@ -108,7 +109,7 @@ class goat : public zodiac
 public:
     goat(const std::string &id, const point &loc);
     void printInfo() const override;
-    void move(const point &goalLocation, const gameMap &gameMapMat, const gameMap &gameClone) override;
+    void move(const point &goalLocation, const gameMap &gameMapMat) override;
 };
 
 class monkey : public zodiac
@@ -116,7 +117,7 @@ class monkey : public zodiac
 public:
     monkey(const std::string &id, const point &loc);
     void printInfo() const override;
-    void move(const point &goalLocation, const gameMap &gameMapMat, const gameMap &gameClone) override;
+    void move(const point &goalLocation, const gameMap &gameMapMat) override;
 };
 
 class rooster : public zodiac
@@ -124,7 +125,7 @@ class rooster : public zodiac
 public:
     rooster(const std::string &id, const point &loc);
     void printInfo() const override;
-    void move(const point &goalLocation, const gameMap &gameMapMat, const gameMap &gameClone) override;
+    void move(const point &goalLocation, const gameMap &gameMapMat) override;
 };
 
 class dog : public zodiac
@@ -132,7 +133,7 @@ class dog : public zodiac
 public:
     dog(const std::string &id, const point &loc);
     void printInfo() const override;
-    void move(const point &goalLocation, const gameMap &gameMapMat, const gameMap &gameClone) override;
+    void move(const point &goalLocation, const gameMap &gameMapMat) override;
 };
 
 class boar : public zodiac
@@ -140,7 +141,7 @@ class boar : public zodiac
 public:
     boar(const std::string &id, const point &loc);
     void printInfo() const override;
-    void move(const point &goalLocation, const gameMap &gameMapMat, const gameMap &gameClone) override;
+    void move(const point &goalLocation, const gameMap &gameMapMat) override;
 };
 
 class zoList

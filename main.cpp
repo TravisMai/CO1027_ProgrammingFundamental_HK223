@@ -37,7 +37,7 @@ int main()
         {{"", "", "W", "", "S"},
          {"", "W", "", "", "S"},
          {"", "S", "", "", "S"},
-         {"W", "S", "", "", "S"}};
+         {"O", "S", "", "", ""}};
     int r = 4;
     int c = 5;
     string **Map = new string *[r];
@@ -55,11 +55,11 @@ int main()
     gameMap gMap(Map, r, c);
     Game game(gMap);
 
-    // game.addZo(new rat("R1", point(1, 1)));
-    game.addZo(new boar("B1", point(3, 0)));
+    game.addZo(new boar("B1", point(4, 0)));
+    game.addZo(new ox("O1", point(0, 3)));
     // Add more zodiacs as needed
 
-    game.startGame(point(0, 2), 1); // Set to true to print map during the game
+    game.startGame(point(4, 3), 1); // Set to true to print map during the game
 
     return 0;
 }
