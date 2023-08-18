@@ -35,7 +35,7 @@ int main()
     // gameMap map(mapArray, 9, 9);
     string tempMap[50][50] =
         {{"", "", "W", "", "S"},
-         {"", "W", "O", "", "S"},
+         {"", "W", "", "", "S"},
          {"W", "W", "", "W", "S"},
          {"", "", "S", "", ""}};
     // string tempMap[50][50] =
