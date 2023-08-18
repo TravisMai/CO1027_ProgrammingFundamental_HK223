@@ -8,7 +8,6 @@ int goalDistance(int x, int y)
 {
     return abs(x - y);
 }
-
 string removeZodiac(string input, const string &substring)
 {
     size_t pos = input.find(substring);
@@ -21,7 +20,6 @@ string removeZodiac(string input, const string &substring)
 
     return input;
 }
-
 string removeStone(const string &input)
 {
     string result;
@@ -36,7 +34,6 @@ string removeStone(const string &input)
 
     return result;
 }
-
 string removeWater(const string &input)
 {
     string result;
@@ -51,7 +48,6 @@ string removeWater(const string &input)
 
     return result;
 }
-
 bool findObstacles(const string &input, char obstacles)
 {
     size_t pos = 0;
@@ -77,7 +73,6 @@ bool findObstacles(const string &input, char obstacles)
 
     return false;
 }
-
 void distanceToObstacles(const point location, const point startLocation, const point goalLocation, int maxStep, int &distanceToGoalHorizontal, int &distanceToGoalVertical, const gameMap &gameMapMat)
 {
     if (location.x > goalLocation.x)
@@ -145,9 +140,11 @@ void distanceToObstacles(const point location, const point startLocation, const 
         }
     }
 }
+
 // ================================== END OF SUPPORT FUNCTION ==================================
 
 // ================================== START OF GAME MAP INITIALIZE ==================================
+
 void gameMap::printTopHorizontalBorder()
 {
     cout << ' ';
@@ -157,7 +154,6 @@ void gameMap::printTopHorizontalBorder()
     }
     cout << '\n';
 }
-
 void gameMap::printBottomLine()
 {
     for (int j = 0; j < col; j++)
@@ -170,7 +166,6 @@ void gameMap::printBottomLine()
     }
     cout << '|' << '\n';
 }
-
 void gameMap::printTopHorizontalCellBorder()
 {
     for (int j = 0; j < col; j++)
@@ -183,12 +178,10 @@ void gameMap::printTopHorizontalCellBorder()
     }
     cout << '|' << '\n';
 }
-
 string *&gameMap::operator[](int i)
 {
     return mapMat[i];
 }
-
 void gameMap::printMap()
 {
     bool cutStringFlag = false;
@@ -281,9 +274,7 @@ void gameMap::printMap()
 
     printBottomLine();
 }
-
 gameMap::gameMap(string **inputMat, int r, int c) : mapMat(inputMat), row(r), col(c) {}
-
 gameMap::gameMap(const gameMap &other)
 {
     row = other.row;
@@ -298,7 +289,6 @@ gameMap::gameMap(const gameMap &other)
         }
     }
 }
-
 gameMap::~gameMap()
 {
     for (int i = 0; i < row; i++)
@@ -313,29 +303,17 @@ gameMap::~gameMap()
 // ================================== START OF CONSTRUCTOR ==================================
 
 zodiac::zodiac(const string &id, const point &loc) : ID(id), location(loc), status("") {}
-
 rat::rat(const string &id, const point &loc) : zodiac(id, loc) { zodiacType = "rat"; }
-
 ox::ox(const string &id, const point &loc) : zodiac(id, loc) { zodiacType = "ox"; }
-
 tiger::tiger(const string &id, const point &loc) : zodiac(id, loc) { zodiacType = "tiger"; }
-
 cat::cat(const string &id, const point &loc) : zodiac(id, loc) { zodiacType = "cat"; }
-
 dragon::dragon(const string &id, const point &loc) : zodiac(id, loc) { zodiacType = "dragon"; }
-
 snake::snake(const string &id, const point &loc) : zodiac(id, loc) { zodiacType = "snake"; }
-
 horse::horse(const string &id, const point &loc) : zodiac(id, loc) { zodiacType = "horse"; }
-
 goat::goat(const string &id, const point &loc) : zodiac(id, loc) { zodiacType = "goat"; }
-
 monkey::monkey(const string &id, const point &loc) : zodiac(id, loc) { zodiacType = "monkey"; }
-
 rooster::rooster(const string &id, const point &loc) : zodiac(id, loc) { zodiacType = "rooster"; }
-
 dog::dog(const string &id, const point &loc) : zodiac(id, loc) { zodiacType = "dog"; }
-
 boar::boar(const string &id, const point &loc) : zodiac(id, loc) { zodiacType = "boar"; }
 
 // ================================== END OF CONSTRUCTOR ==================================
@@ -343,78 +321,65 @@ boar::boar(const string &id, const point &loc) : zodiac(id, loc) { zodiacType = 
 // ================================== START OF ZODIAC PRINTING FUNCTION ==================================
 
 void zodiac::printInfo() const {}
-
 void zodiac::printCommonInfo() const
 {
     cout << ID << " at (" << location.x << "," << location.y << ")\n";
 }
-
 void rat::printInfo() const
 {
     cout << "rat ";
     printCommonInfo();
 }
-
 void ox::printInfo() const
 {
     cout << "ox ";
     printCommonInfo();
 }
-
 void tiger::printInfo() const
 {
     cout << "tiger ";
     printCommonInfo();
 }
-
 void cat::printInfo() const
 {
     cout << "cat ";
     printCommonInfo();
 }
-
 void dragon::printInfo() const
 {
     cout << "dragon ";
     printCommonInfo();
 }
-
 void snake::printInfo() const
 {
     cout << "snake ";
     printCommonInfo();
 }
-
 void horse::printInfo() const
 {
     cout << "horse ";
     printCommonInfo();
 }
-
 void goat::printInfo() const
 {
     cout << "goat ";
     printCommonInfo();
 }
-
 void monkey::printInfo() const
 {
     cout << "monkey ";
     printCommonInfo();
 }
-
 void rooster::printInfo() const
 {
     cout << "rooster ";
     printCommonInfo();
 }
-
 void dog::printInfo() const
 {
     cout << "dog ";
     printCommonInfo();
 }
-
 void boar::printInfo() const
 {
     cout << "boar ";
@@ -426,9 +391,7 @@ void boar::printInfo() const
 // ================================== START OF LOCATION COMPUTE FUNCTION ==================================
 
 void zodiac::computeLocation(const point &goalLocation, const gameMap &gameMapMat) {}
-
 void rat::computeLocation(const point &goalLocation, const gameMap &gameMapMat) {}
-
 void ox::computeLocation(const point &goalLocation, const gameMap &gameMapMat)
 {
     int maxStep = 2;
@@ -465,11 +428,8 @@ void ox::computeLocation(const point &goalLocation, const gameMap &gameMapMat)
             this->location.y += distanceToGoalVertical;
     }
 }
-
 void tiger::computeLocation(const point &goalLocation, const gameMap &gameMapMat) {}
-
 void cat::computeLocation(const point &goalLocation, const gameMap &gameMapMat) {}
-
 void dragon::computeLocation(const point &goalLocation, const gameMap &gameMapMat)
 {
     int maxStep = 1;
@@ -520,11 +480,8 @@ void dragon::computeLocation(const point &goalLocation, const gameMap &gameMapMa
         }
     }
 }
-
 void snake::computeLocation(const point &goalLocation, const gameMap &gameMapMat) {}
-
 void horse::computeLocation(const point &goalLocation, const gameMap &gameMapMat) {}
-
 void goat::computeLocation(const point &goalLocation, const gameMap &gameMapMat)
 {
     int maxStep = 2;
@@ -690,13 +647,9 @@ void goat::computeLocation(const point &goalLocation, const gameMap &gameMapMat)
         }
     }
 }
-
 void monkey::computeLocation(const point &goalLocation, const gameMap &gameMapMat) {}
-
 void rooster::computeLocation(const point &goalLocation, const gameMap &gameMapMat) {}
-
 void dog::computeLocation(const point &goalLocation, const gameMap &gameMapMat) {}
-
 void boar::computeLocation(const point &goalLocation, const gameMap &gameMapMat)
 {
     int distanceToGoalHorizontal = goalDistance(this->location.x, goalLocation.x);
@@ -723,9 +676,7 @@ void boar::computeLocation(const point &goalLocation, const gameMap &gameMapMat)
 // ================================== START OF MOVE FUNCTION ==================================
 
 void zodiac::move(const point &goalLocation, const gameMap &gameMapMat) {}
-
 void rat::move(const point &goalLocation, const gameMap &gameMapMat) {}
-
 void ox::move(const point &goalLocation, const gameMap &gameMapMat)
 {
     int distanceToGoalHorizontal = goalDistance(this->startLocation.x, goalLocation.x);
@@ -768,11 +719,8 @@ void ox::move(const point &goalLocation, const gameMap &gameMapMat)
         gameMapMat.mapMat[this->location.y][this->location.x] += this->ID;
     }
 }
-
 void tiger::move(const point &goalLocation, const gameMap &gameMapMat) {}
-
 void cat::move(const point &goalLocation, const gameMap &gameMapMat) {}
-
 void dragon::move(const point &goalLocation, const gameMap &gameMapMat)
 {
     gameMapMat.mapMat[this->startLocation.y][this->startLocation.x] = removeZodiac(gameMapMat.mapMat[this->startLocation.y][this->startLocation.x], string(this->ID));
@@ -785,11 +733,8 @@ void dragon::move(const point &goalLocation, const gameMap &gameMapMat)
         gameMapMat.mapMat[this->location.y][this->location.x] += this->ID;
     }
 }
-
 void snake::move(const point &goalLocation, const gameMap &gameMapMat) {}
-
 void horse::move(const point &goalLocation, const gameMap &gameMapMat) {}
-
 void goat::move(const point &goalLocation, const gameMap &gameMapMat)
 {
     gameMapMat.mapMat[this->startLocation.y][this->startLocation.x] = removeZodiac(gameMapMat.mapMat[this->startLocation.y][this->startLocation.x], string(this->ID));
@@ -802,13 +747,9 @@ void goat::move(const point &goalLocation, const gameMap &gameMapMat)
         gameMapMat.mapMat[this->location.y][this->location.x] += this->ID;
     }
 }
-
 void monkey::move(const point &goalLocation, const gameMap &gameMapMat) {}
-
 void rooster::move(const point &goalLocation, const gameMap &gameMapMat) {}
-
 void dog::move(const point &goalLocation, const gameMap &gameMapMat) {}
-
 void boar::move(const point &goalLocation, const gameMap &gameMapMat)
 {
     gameMapMat.mapMat[this->startLocation.y][this->startLocation.x] = removeZodiac(gameMapMat.mapMat[this->startLocation.y][this->startLocation.x], string(this->ID));
@@ -832,7 +773,6 @@ zoList::zoList() : maxSize(12), size(0)
 {
     zList = new zodiac *[maxSize];
 }
-
 zoList::~zoList()
 {
     for (int i = 0; i < size; i++)
@@ -841,7 +781,6 @@ zoList::~zoList()
     }
     delete[] zList;
 }
-
 void zoList::add(zodiac *newZodiac)
 {
     if (size < maxSize)
@@ -850,7 +789,6 @@ void zoList::add(zodiac *newZodiac)
         size++;
     }
 }
-
 zodiac *&zoList::operator[](int i)
 {
     if (i >= 0 && i < size)
@@ -865,7 +803,6 @@ zodiac *&zoList::operator[](int i)
 // ================================== START OF GAME INITIALIZE ==================================
 
 Game::Game(const gameMap &m) : mapMat(m) {}
-
 void Game::addZo(zodiac *k)
 {
     zList.add(k);
@@ -876,7 +813,6 @@ void Game::addZo(zodiac *k)
     else
         mapMat.mapMat[y][x] += k->ID;
 }
-
 void Game::startGame(point goalLocation, bool printMapFlag = 0)
 {
     mapMat[goalLocation.y][goalLocation.x] = 'G';
