@@ -397,7 +397,7 @@ void ox::computeLocation(const point &goalLocation, const gameMap &gameMapMat)
     int maxStep = 2;
     int distanceToGoalHorizontal = goalDistance(this->location.y, goalLocation.y);
     int distanceToGoalVertical = goalDistance(this->location.x, goalLocation.x);
-    
+
     if (findObstacles(gameMapMat.mapMat[this->location.x][this->location.y], 'W'))
         maxStep = 3;
     if (findObstacles(gameMapMat.mapMat[this->location.x][this->location.y], 'O'))
@@ -494,6 +494,8 @@ void goat::computeLocation(const point &goalLocation, const gameMap &gameMapMat)
     {
         this->status = "Stuck";
     }
+    else
+        this->status = "";
 
     if (findObstacles(gameMapMat.mapMat[this->location.x][this->location.y], 'O'))
         maxStep = 1;
@@ -838,26 +840,18 @@ void Game::startGame(point goalLocation, bool printMapFlag = 0)
         for (int i = 0; i < zList.size; i++)
         {
             zodiac *currentZodiac = zList[i];
-            if (currentZodiac->status != "Stuck")
-            {
-                allStuck = false;
-                currentZodiac->computeLocation(goalLocation, mapMat);
-            }
+            currentZodiac->computeLocation(goalLocation, mapMat);
         }
         for (int i = 0; i < zList.size; i++)
         {
             zodiac *currentZodiac = zList[i];
-            if (currentZodiac->status != "Stuck")
-            {
-                allStuck = false;
-                currentZodiac->move(goalLocation, mapMat);
-            }
+            currentZodiac->move(goalLocation, mapMat);
+
             if (currentZodiac->location.x == goalLocation.x && currentZodiac->location.y == goalLocation.y)
             {
                 winnerFound = true;
             }
         }
-        allStuck = true;
         for (int i = 0; i < zList.size; i++)
         {
             zodiac *currentZodiac = zList[i];

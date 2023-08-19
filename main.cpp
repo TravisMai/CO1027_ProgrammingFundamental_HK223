@@ -33,16 +33,16 @@ int main()
     // }
 
     // gameMap map(mapArray, 9, 9);
-    // string tempMap[50][50] =
-    //     {{"", "", "W", "", "S"},
-    //      {"", "S", "S", "S", "S"},
-    //      {"W", "W", "S", "W", "S"},
-    //      {"", "W", "O", "S", ""}};
     string tempMap[50][50] =
         {{"", "", "W", "", "S"},
-         {"", "", "W", "", "S"},
-         {"", "S", "", "", "S"},
-         {"O", "S", "", "", ""}};
+         {"", "S", "S", "S", "S"},
+         {"W", "W", "S", "W", "S"},
+         {"", "W", "O", "S", ""}};
+    // string tempMap[50][50] =
+    //     {{"", "", "W", "", "S"},
+    //      {"", "", "W", "", "S"},
+    //      {"", "S", "", "", "S"},
+    //      {"O", "S", "", "", ""}};
     int r = 4;
     int c = 5;
     string **Map = new string *[r];
@@ -58,8 +58,8 @@ int main()
     gameMap gMap(Map, r, c);
     Game game(gMap);
 
-    // game.addZo(new dragon("DR1", point(0, 0)));
-    // game.addZo(new ox("O1", point(1, 0)));
+    game.addZo(new dragon("DR1", point(0, 0)));
+    game.addZo(new ox("O1", point(2, 0)));
     game.addZo(new goat("G1", point(3, 0)));
     game.addZo(new boar("B1", point(3, 0)));
 
