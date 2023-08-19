@@ -34,17 +34,21 @@ int main()
 
     // gameMap map(mapArray, 9, 9);
     string tempMap[50][50] =
-        {{"", "", "W", "", "S"},
-         {"", "S", "S", "S", "S"},
-         {"W", "W", "S", "W", "S"},
-         {"", "W", "O", "S", ""}};
+        {{"", "", "W", "", "", "", "", "W", "", "S"},
+         {"", "W", "", "", "", "S", "", "", "", "S"},
+         {"", "", "O", "", "", "W", "", "", "", "S"},
+         {"", "", "T", "", "W", "", "", "", "", "S"},
+         {"", "", "T", "", "O", "", "", "W", "", "S"},
+         {"", "", "", "", "", "", "", "W", "", "S"},
+         {"", "", "", "", "", "", "", "", "", "S"},
+         {"", "S", "", "S", "S", "", "", "W", "", "S"}};
     // string tempMap[50][50] =
     //     {{"", "", "W", "", "S"},
     //      {"", "", "W", "", "S"},
     //      {"", "S", "", "", "S"},
     //      {"O", "S", "", "", ""}};
-    int r = 4;
-    int c = 5;
+    int r = 8;
+    int c = 10;
     string **Map = new string *[r];
     for (int i = 0; i < r; i++)
     {
@@ -63,7 +67,7 @@ int main()
     game.addZo(new goat("G1", point(3, 0)));
     game.addZo(new boar("B1", point(3, 0)));
 
-    game.startGame(point(1, 4), 1); // Set to true to print map during the game
+    game.startGame(point(6, 9), 1); // Set to true to print map during the game
 
     return 0;
 }
