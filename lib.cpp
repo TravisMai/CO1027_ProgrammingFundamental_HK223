@@ -840,14 +840,15 @@ void Game::addZo(zodiac *k)
 }
 void Game::startGame(point goalLocation, bool printMapFlag = 0)
 {
+    cout << "GAME START" << endl;
     mapMat[goalLocation.x][goalLocation.y] = 'G';
-
+    mapMat.printMap();
+    zodiac *winnerZodiac = nullptr;
+    int turn = 0;
     while (true)
     {
-        if (printMapFlag)
-        {
-            mapMat.printMap();
-        }
+        turn++;
+        cout << "TURN " << turn << endl;
 
         bool allStuck = true;
         bool winnerFound = false;
@@ -870,8 +871,21 @@ void Game::startGame(point goalLocation, bool printMapFlag = 0)
 
             if (currentZodiac->location.x == goalLocation.x && currentZodiac->location.y == goalLocation.y)
             {
-                winnerFound = true;
+                if (!winnerFound)
+                {
+                    winnerFound = true;
+                    winnerZodiac = currentZodiac;
+                }
             }
+        }
+        for (int i = 0; i < zList.size; i++)
+        {
+            zodiac *currentZodiac = zList[i];
+            cout << currentZodiac->zodiacType << " " << currentZodiac->ID << " at (" << currentZodiac->location.x << "," << currentZodiac->location.y << ") move from (" << currentZodiac->startLocation.x << "," << currentZodiac->startLocation.y << ")\n";
+        }
+        if (printMapFlag)
+        {
+            mapMat.printMap();
         }
         for (int i = 0; i < zList.size; i++)
         {
@@ -885,12 +899,8 @@ void Game::startGame(point goalLocation, bool printMapFlag = 0)
         {
             if (winnerFound)
             {
-                mapMat.printMap();
-                cout << "Congratulations! We have a winner!\n";
-                for (int i = 0; i < zList.size; i++)
-                {
-                    zList[i]->printInfo();
-                }
+                cout << "########RESULT#########\nCongratulations to the winner ";
+                winnerZodiac->printInfo();
             }
             else
             {

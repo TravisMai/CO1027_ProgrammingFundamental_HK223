@@ -180,9 +180,7 @@ public:
     point goalLocation;
 
     Game(const gameMap &m);
-
     void addZo(zodiac *k);
-
     void startGame(point goalLocation, bool printMapFlag);
 };
 
