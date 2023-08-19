@@ -34,7 +34,7 @@ int main()
 
     // gameMap map(mapArray, 9, 9);
     string tempMap[50][50] =
-        {{"", "", "W", "", "", "", "", "W", "", "S"},
+        {{"", "", "", "", "", "", "", "W", "", "S"},
          {"", "W", "", "", "", "S", "", "", "", "S"},
          {"", "", "O", "", "", "W", "", "", "", "S"},
          {"", "", "T", "", "W", "", "", "", "", "S"},
@@ -63,6 +63,7 @@ int main()
     Game game(gMap);
 
     game.addZo(new dragon("DR1", point(0, 0)));
+    game.addZo(new cat("C1", point(0, 0)));
     game.addZo(new ox("O1", point(2, 0)));
     game.addZo(new goat("G1", point(3, 0)));
     game.addZo(new boar("B1", point(3, 0)));

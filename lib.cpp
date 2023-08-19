@@ -592,7 +592,33 @@ void ox::computeLocation(const point &goalLocation, const gameMap &gameMapMat)
     }
 }
 void tiger::computeLocation(const point &goalLocation, const gameMap &gameMapMat) {}
-void cat::computeLocation(const point &goalLocation, const gameMap &gameMapMat) {}
+void cat::computeLocation(const point &goalLocation, const gameMap &gameMapMat)
+{
+    int maxStep = 2;
+    int distanceToGoalHorizontal = goalDistance(this->location.y, goalLocation.y);
+    int distanceToGoalVertical = goalDistance(this->location.x, goalLocation.x);
+
+    int ogirinalHorizontal = distanceToGoalHorizontal;
+    int ogirinalVertical = distanceToGoalVertical;
+
+    distanceToObstacles(this->location, this->startLocation, goalLocation, maxStep, distanceToGoalHorizontal, distanceToGoalVertical, gameMapMat);
+
+    if ((distanceToGoalHorizontal == 0) && (distanceToGoalVertical == 0))
+    {
+        this->status = "Stuck";
+    }
+    else
+    {
+        this->status = "";
+        if (findObstacles(gameMapMat.mapMat[this->location.x][this->location.y], 'O'))
+            maxStep = 1;
+
+        if (ogirinalHorizontal < ogirinalVertical)
+            verticalCalculation(this->location, this->startLocation, goalLocation, maxStep, distanceToGoalHorizontal, distanceToGoalVertical, gameMapMat);
+        else
+            horizontalCalculation(this->location, this->startLocation, goalLocation, maxStep, distanceToGoalHorizontal, distanceToGoalVertical, gameMapMat);
+    }
+}
 void dragon::computeLocation(const point &goalLocation, const gameMap &gameMapMat)
 {
     int maxStep = 1;
@@ -745,7 +771,18 @@ void ox::move(const point &goalLocation, const gameMap &gameMapMat)
     }
 }
 void tiger::move(const point &goalLocation, const gameMap &gameMapMat) {}
-void cat::move(const point &goalLocation, const gameMap &gameMapMat) {}
+void cat::move(const point &goalLocation, const gameMap &gameMapMat)
+{
+    gameMapMat.mapMat[this->startLocation.x][this->startLocation.y] = removeZodiac(gameMapMat.mapMat[this->startLocation.x][this->startLocation.y], string(this->ID));
+    if (gameMapMat.mapMat[this->location.x][this->location.y].empty())
+    {
+        gameMapMat.mapMat[this->location.x][this->location.y] = this->ID;
+    }
+    else
+    {
+        gameMapMat.mapMat[this->location.x][this->location.y] += this->ID;
+    }
+}
 void dragon::move(const point &goalLocation, const gameMap &gameMapMat)
 {
     gameMapMat.mapMat[this->startLocation.x][this->startLocation.y] = removeZodiac(gameMapMat.mapMat[this->startLocation.x][this->startLocation.y], string(this->ID));
