@@ -169,7 +169,7 @@ public:
     ~zoList();
 
     void add(zodiac *newZodiac);
-    zodiac *&operator[](int i);
+    zodiac *operator[](int i);
 };
 
 class Game

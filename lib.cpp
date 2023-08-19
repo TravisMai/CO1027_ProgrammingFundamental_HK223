@@ -789,13 +789,13 @@ void zoList::add(zodiac *newZodiac)
         size++;
     }
 }
-zodiac *&zoList::operator[](int i)
+zodiac *zoList::operator[](int i)
 {
     if (i >= 0 && i < size)
     {
         return zList[i];
     }
-    return zList[0];
+    return nullptr;
 }
 
 // ================================== END OF ZOLIST INITIALIZE ==================================
