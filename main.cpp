@@ -33,16 +33,16 @@ int main()
     // }
 
     // gameMap map(mapArray, 9, 9);
-    string tempMap[50][50] =
-        {{"", "", "W", "", "S"},
-         {"", "W", "", "", "S"},
-         {"W", "W", "", "W", "S"},
-         {"", "", "O", "", ""}};
     // string tempMap[50][50] =
     //     {{"", "", "W", "", "S"},
-    //      {"", "W", "O", "", "S"},
-    //      {"", "S", "", "", "S"},
-    //      {"O", "S", "", "", ""}};
+    //      {"", "S", "S", "S", "S"},
+    //      {"W", "W", "S", "W", "S"},
+    //      {"", "W", "O", "S", ""}};
+    string tempMap[50][50] =
+        {{"", "", "W", "", "S"},
+         {"", "", "W", "", "S"},
+         {"", "S", "", "", "S"},
+         {"O", "S", "", "", ""}};
     int r = 4;
     int c = 5;
     string **Map = new string *[r];
@@ -59,10 +59,11 @@ int main()
     Game game(gMap);
 
     // game.addZo(new dragon("DR1", point(0, 0)));
-    // game.addZo(new ox("O1", point(0, 3)));
-    game.addZo(new goat("G1", point(0, 3)));
+    // game.addZo(new ox("O1", point(1, 0)));
+    game.addZo(new goat("G1", point(3, 0)));
+    game.addZo(new boar("B1", point(3, 0)));
 
-    game.startGame(point(4, 1), 1); // Set to true to print map during the game
+    game.startGame(point(1, 4), 1); // Set to true to print map during the game
 
     return 0;
 }

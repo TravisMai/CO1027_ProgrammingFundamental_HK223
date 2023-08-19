@@ -78,15 +78,15 @@ void distanceToObstacles(const point location, const point startLocation, const 
     if (location.x > goalLocation.x)
     {
         int tempMaxStep = maxStep;
-        if (distanceToGoalHorizontal < maxStep)
+        if (distanceToGoalVertical < maxStep)
         {
-            tempMaxStep = distanceToGoalHorizontal;
+            tempMaxStep = distanceToGoalVertical;
         }
         for (int i = startLocation.x; i >= (startLocation.x - tempMaxStep); i--)
         {
-            if (findObstacles(gameMapMat.mapMat[startLocation.y][i], 'W') || findObstacles(gameMapMat.mapMat[startLocation.y][i], 'S'))
+            if (findObstacles(gameMapMat.mapMat[i][startLocation.y], 'W') || findObstacles(gameMapMat.mapMat[i][startLocation.y], 'S'))
             {
-                distanceToGoalHorizontal = (abs(i - startLocation.x) - 1);
+                distanceToGoalVertical = (abs(i - startLocation.x) - 1);
                 break;
             }
         }
@@ -94,15 +94,15 @@ void distanceToObstacles(const point location, const point startLocation, const 
     else if (location.x < goalLocation.x)
     {
         int tempMaxStep = maxStep;
-        if (distanceToGoalHorizontal < maxStep)
+        if (distanceToGoalVertical < maxStep)
         {
-            tempMaxStep = distanceToGoalHorizontal;
+            tempMaxStep = distanceToGoalVertical;
         }
         for (int i = startLocation.x; i <= (startLocation.x + tempMaxStep); i++)
         {
-            if (findObstacles(gameMapMat.mapMat[startLocation.y][i], 'W') || findObstacles(gameMapMat.mapMat[startLocation.y][i], 'S'))
+            if (findObstacles(gameMapMat.mapMat[i][startLocation.y], 'W') || findObstacles(gameMapMat.mapMat[i][startLocation.y], 'S'))
             {
-                distanceToGoalHorizontal = (abs(i - startLocation.x) - 1);
+                distanceToGoalVertical = (abs(i - startLocation.x) - 1);
                 break;
             }
         }
@@ -110,15 +110,15 @@ void distanceToObstacles(const point location, const point startLocation, const 
     if (location.y > goalLocation.y)
     {
         int tempMaxStep = maxStep;
-        if (distanceToGoalVertical < maxStep)
+        if (distanceToGoalHorizontal < maxStep)
         {
-            tempMaxStep = distanceToGoalVertical;
+            tempMaxStep = distanceToGoalHorizontal;
         }
         for (int i = startLocation.y; i >= (startLocation.y - tempMaxStep); i--)
         {
-            if (findObstacles(gameMapMat.mapMat[i][startLocation.x], 'W') || findObstacles(gameMapMat.mapMat[i][startLocation.x], 'S'))
+            if (findObstacles(gameMapMat.mapMat[startLocation.x][i], 'W') || findObstacles(gameMapMat.mapMat[startLocation.x][i], 'S'))
             {
-                distanceToGoalVertical = (abs(i - startLocation.y) - 1);
+                distanceToGoalHorizontal = (abs(i - startLocation.y) - 1);
                 break;
             }
         }
@@ -126,15 +126,15 @@ void distanceToObstacles(const point location, const point startLocation, const 
     else if (location.y < goalLocation.y)
     {
         int tempMaxStep = maxStep;
-        if (distanceToGoalVertical < maxStep)
+        if (distanceToGoalHorizontal < maxStep)
         {
-            tempMaxStep = distanceToGoalVertical;
+            tempMaxStep = distanceToGoalHorizontal;
         }
         for (int i = startLocation.y; i <= (startLocation.y + tempMaxStep); i++)
         {
-            if (findObstacles(gameMapMat.mapMat[i][startLocation.x], 'W') || findObstacles(gameMapMat.mapMat[i][startLocation.x], 'S'))
+            if (findObstacles(gameMapMat.mapMat[startLocation.x][i], 'W') || findObstacles(gameMapMat.mapMat[startLocation.x][i], 'S'))
             {
-                distanceToGoalVertical = (abs(i - startLocation.y) - 1);
+                distanceToGoalHorizontal = (abs(i - startLocation.y) - 1);
                 break;
             }
         }
@@ -395,37 +395,37 @@ void rat::computeLocation(const point &goalLocation, const gameMap &gameMapMat) 
 void ox::computeLocation(const point &goalLocation, const gameMap &gameMapMat)
 {
     int maxStep = 2;
-    int distanceToGoalHorizontal = goalDistance(this->location.x, goalLocation.x);
-    int distanceToGoalVertical = goalDistance(this->location.y, goalLocation.y);
-
-    if (findObstacles(gameMapMat.mapMat[this->location.y][this->location.x], 'W'))
+    int distanceToGoalHorizontal = goalDistance(this->location.y, goalLocation.y);
+    int distanceToGoalVertical = goalDistance(this->location.x, goalLocation.x);
+    
+    if (findObstacles(gameMapMat.mapMat[this->location.x][this->location.y], 'W'))
         maxStep = 3;
-    if (findObstacles(gameMapMat.mapMat[this->location.y][this->location.x], 'O'))
+    if (findObstacles(gameMapMat.mapMat[this->location.x][this->location.y], 'O'))
         maxStep = 1;
 
-    if (distanceToGoalHorizontal >= distanceToGoalVertical)
+    if (distanceToGoalHorizontal < distanceToGoalVertical)
     {
         if (this->location.x > goalLocation.x)
-            if (distanceToGoalHorizontal > maxStep)
+            if (distanceToGoalVertical > maxStep)
                 this->location.x -= maxStep;
             else
-                this->location.x -= distanceToGoalHorizontal;
-        else if (distanceToGoalHorizontal > maxStep)
+                this->location.x -= distanceToGoalVertical;
+        else if (distanceToGoalVertical > maxStep)
             this->location.x += maxStep;
         else
-            this->location.x += distanceToGoalHorizontal;
+            this->location.x += distanceToGoalVertical;
     }
     else
     {
         if (this->location.y > goalLocation.y)
-            if (distanceToGoalVertical > maxStep)
+            if (distanceToGoalHorizontal > maxStep)
                 this->location.y -= maxStep;
             else
-                this->location.y -= distanceToGoalVertical;
-        else if (distanceToGoalVertical > maxStep)
+                this->location.y -= distanceToGoalHorizontal;
+        else if (distanceToGoalHorizontal > maxStep)
             this->location.y += maxStep;
         else
-            this->location.y += distanceToGoalVertical;
+            this->location.y += distanceToGoalHorizontal;
     }
 }
 void tiger::computeLocation(const point &goalLocation, const gameMap &gameMapMat) {}
@@ -434,49 +434,49 @@ void dragon::computeLocation(const point &goalLocation, const gameMap &gameMapMa
 {
     int maxStep = 1;
 
-    if (this->location.x > goalLocation.x)
+    if (this->location.y > goalLocation.y)
     {
-        if (this->location.y > goalLocation.y)
+        if (this->location.x > goalLocation.x)
         {
-            this->location.x -= maxStep;
             this->location.y -= maxStep;
-        }
-        else if (this->location.y < goalLocation.y)
-        {
             this->location.x -= maxStep;
-            this->location.y += maxStep;
+        }
+        else if (this->location.x < goalLocation.x)
+        {
+            this->location.y -= maxStep;
+            this->location.x += maxStep;
         }
         else
         {
-            this->location.x -= maxStep;
+            this->location.y -= maxStep;
         }
     }
-    else if (this->location.x < goalLocation.x)
+    else if (this->location.y < goalLocation.y)
     {
-        if (this->location.y > goalLocation.y)
+        if (this->location.x > goalLocation.x)
         {
-            this->location.x += maxStep;
-            this->location.y -= maxStep;
-        }
-        else if (this->location.y < goalLocation.y)
-        {
-            this->location.x += maxStep;
             this->location.y += maxStep;
+            this->location.x -= maxStep;
+        }
+        else if (this->location.x < goalLocation.x)
+        {
+            this->location.y += maxStep;
+            this->location.x += maxStep;
         }
         else
         {
-            this->location.x += maxStep;
+            this->location.y += maxStep;
         }
     }
     else
     {
-        if (this->location.y > goalLocation.y)
+        if (this->location.x > goalLocation.x)
         {
-            this->location.y -= maxStep;
+            this->location.x -= maxStep;
         }
-        else if (this->location.y < goalLocation.y)
+        else if (this->location.x < goalLocation.x)
         {
-            this->location.y += maxStep;
+            this->location.x += maxStep;
         }
     }
 }
@@ -485,8 +485,8 @@ void horse::computeLocation(const point &goalLocation, const gameMap &gameMapMat
 void goat::computeLocation(const point &goalLocation, const gameMap &gameMapMat)
 {
     int maxStep = 2;
-    int distanceToGoalHorizontal = goalDistance(this->location.x, goalLocation.x);
-    int distanceToGoalVertical = goalDistance(this->location.y, goalLocation.y);
+    int distanceToGoalHorizontal = goalDistance(this->location.y, goalLocation.y);
+    int distanceToGoalVertical = goalDistance(this->location.x, goalLocation.x);
 
     distanceToObstacles(this->location, this->startLocation, goalLocation, maxStep, distanceToGoalHorizontal, distanceToGoalVertical, gameMapMat);
 
@@ -495,19 +495,19 @@ void goat::computeLocation(const point &goalLocation, const gameMap &gameMapMat)
         this->status = "Stuck";
     }
 
-    if (findObstacles(gameMapMat.mapMat[this->location.y][this->location.x], 'O'))
+    if (findObstacles(gameMapMat.mapMat[this->location.x][this->location.y], 'O'))
         maxStep = 1;
 
-    if (distanceToGoalHorizontal >= distanceToGoalVertical)
+    if (distanceToGoalHorizontal < distanceToGoalVertical)
     {
         if (this->location.x > goalLocation.x)
         {
-            if (distanceToGoalHorizontal > maxStep)
+            if (distanceToGoalVertical > maxStep)
             {
                 bool isOstacle = false;
                 for (int i = this->startLocation.x; i <= (this->startLocation.x - maxStep); i--)
                 {
-                    if (findObstacles(gameMapMat.mapMat[this->startLocation.y][i], 'W') || findObstacles(gameMapMat.mapMat[this->startLocation.y][i], 'S'))
+                    if (findObstacles(gameMapMat.mapMat[i][this->startLocation.y], 'W') || findObstacles(gameMapMat.mapMat[i][this->startLocation.y], 'S'))
                     {
                         isOstacle = true;
                         this->location.x -= (abs(i - this->startLocation.x) - 1);
@@ -522,9 +522,9 @@ void goat::computeLocation(const point &goalLocation, const gameMap &gameMapMat)
             else
             {
                 bool isOstacle = false;
-                for (int i = this->startLocation.x; i <= (this->startLocation.x - distanceToGoalHorizontal); i--)
+                for (int i = this->startLocation.x; i <= (this->startLocation.x - distanceToGoalVertical); i--)
                 {
-                    if (findObstacles(gameMapMat.mapMat[this->startLocation.y][i], 'W') || findObstacles(gameMapMat.mapMat[this->startLocation.y][i], 'S'))
+                    if (findObstacles(gameMapMat.mapMat[i][this->startLocation.y], 'W') || findObstacles(gameMapMat.mapMat[i][this->startLocation.y], 'S'))
                     {
                         isOstacle = true;
                         this->location.x -= (abs(i - this->startLocation.x) - 1);
@@ -533,16 +533,16 @@ void goat::computeLocation(const point &goalLocation, const gameMap &gameMapMat)
                 }
                 if (!isOstacle)
                 {
-                    this->location.x -= distanceToGoalHorizontal;
+                    this->location.x -= distanceToGoalVertical;
                 }
             }
         }
-        else if (distanceToGoalHorizontal > maxStep)
+        else if (distanceToGoalVertical > maxStep)
         {
             bool isOstacle = false;
             for (int i = this->startLocation.x; i <= (this->startLocation.x + maxStep); i++)
             {
-                if (findObstacles(gameMapMat.mapMat[this->startLocation.y][i], 'W') || findObstacles(gameMapMat.mapMat[this->startLocation.y][i], 'S'))
+                if (findObstacles(gameMapMat.mapMat[i][this->startLocation.y], 'W') || findObstacles(gameMapMat.mapMat[i][this->startLocation.y], 'S'))
                 {
                     isOstacle = true;
                     this->location.x += (abs(i - this->startLocation.x) - 1);
@@ -557,9 +557,9 @@ void goat::computeLocation(const point &goalLocation, const gameMap &gameMapMat)
         else
         {
             bool isOstacle = false;
-            for (int i = this->startLocation.x; i <= (this->startLocation.x + distanceToGoalHorizontal); i++)
+            for (int i = this->startLocation.x; i <= (this->startLocation.x + distanceToGoalVertical); i++)
             {
-                if (findObstacles(gameMapMat.mapMat[this->startLocation.y][i], 'W') || findObstacles(gameMapMat.mapMat[this->startLocation.y][i], 'S'))
+                if (findObstacles(gameMapMat.mapMat[i][this->startLocation.y], 'W') || findObstacles(gameMapMat.mapMat[i][this->startLocation.y], 'S'))
                 {
                     isOstacle = true;
                     this->location.x += (abs(i - this->startLocation.x) - 1);
@@ -568,7 +568,7 @@ void goat::computeLocation(const point &goalLocation, const gameMap &gameMapMat)
             }
             if (!isOstacle)
             {
-                this->location.x += distanceToGoalHorizontal;
+                this->location.x += distanceToGoalVertical;
             }
         }
     }
@@ -576,12 +576,12 @@ void goat::computeLocation(const point &goalLocation, const gameMap &gameMapMat)
     {
         if (this->location.y > goalLocation.y)
         {
-            if (distanceToGoalVertical > maxStep)
+            if (distanceToGoalHorizontal > maxStep)
             {
                 bool isOstacle = false;
                 for (int i = this->startLocation.y; i <= (this->startLocation.y - maxStep); i--)
                 {
-                    if (findObstacles(gameMapMat.mapMat[i][this->startLocation.x], 'W') || findObstacles(gameMapMat.mapMat[i][this->startLocation.x], 'S'))
+                    if (findObstacles(gameMapMat.mapMat[this->startLocation.x][i], 'W') || findObstacles(gameMapMat.mapMat[this->startLocation.x][i], 'S'))
                     {
                         isOstacle = true;
                         this->location.y -= (abs(i - this->startLocation.y) - 1);
@@ -596,9 +596,9 @@ void goat::computeLocation(const point &goalLocation, const gameMap &gameMapMat)
             else
             {
                 bool isOstacle = false;
-                for (int i = this->startLocation.y; i <= (this->startLocation.y - distanceToGoalVertical); i--)
+                for (int i = this->startLocation.y; i <= (this->startLocation.y - distanceToGoalHorizontal); i--)
                 {
-                    if (findObstacles(gameMapMat.mapMat[i][this->startLocation.x], 'W') || findObstacles(gameMapMat.mapMat[i][this->startLocation.x], 'S'))
+                    if (findObstacles(gameMapMat.mapMat[this->startLocation.x][i], 'W') || findObstacles(gameMapMat.mapMat[this->startLocation.x][i], 'S'))
                     {
                         isOstacle = true;
                         this->location.y -= (abs(i - this->startLocation.y) - 1);
@@ -607,16 +607,17 @@ void goat::computeLocation(const point &goalLocation, const gameMap &gameMapMat)
                 }
                 if (!isOstacle)
                 {
-                    this->location.y -= distanceToGoalVertical;
+                    this->location.y -= distanceToGoalHorizontal;
                 }
             }
         }
-        else if (distanceToGoalVertical > maxStep)
+        else if (distanceToGoalHorizontal > maxStep)
         {
+            cout << "herasde\n";
             bool isOstacle = false;
             for (int i = this->startLocation.y; i <= (this->startLocation.y + maxStep); i++)
             {
-                if (findObstacles(gameMapMat.mapMat[i][this->startLocation.x], 'W') || findObstacles(gameMapMat.mapMat[i][this->startLocation.x], 'S'))
+                if (findObstacles(gameMapMat.mapMat[this->startLocation.x][i], 'W') || findObstacles(gameMapMat.mapMat[this->startLocation.x][i], 'S'))
                 {
                     isOstacle = true;
                     this->location.y += (abs(i - this->startLocation.y) - 1);
@@ -625,15 +626,16 @@ void goat::computeLocation(const point &goalLocation, const gameMap &gameMapMat)
             }
             if (!isOstacle)
             {
+                cout << "wtf\n";
                 this->location.y += maxStep;
             }
         }
         else
         {
             bool isOstacle = false;
-            for (int i = this->startLocation.y; i <= (this->startLocation.y + distanceToGoalVertical); i++)
+            for (int i = this->startLocation.y; i <= (this->startLocation.y + distanceToGoalHorizontal); i++)
             {
-                if (findObstacles(gameMapMat.mapMat[i][this->startLocation.x], 'W') || findObstacles(gameMapMat.mapMat[i][this->startLocation.x], 'S'))
+                if (findObstacles(gameMapMat.mapMat[this->startLocation.x][i], 'W') || findObstacles(gameMapMat.mapMat[this->startLocation.x][i], 'S'))
                 {
                     isOstacle = true;
                     this->location.y += (abs(i - this->startLocation.y) - 1);
@@ -642,7 +644,7 @@ void goat::computeLocation(const point &goalLocation, const gameMap &gameMapMat)
             }
             if (!isOstacle)
             {
-                this->location.y += distanceToGoalVertical;
+                this->location.y += distanceToGoalHorizontal;
             }
         }
     }
@@ -652,10 +654,10 @@ void rooster::computeLocation(const point &goalLocation, const gameMap &gameMapM
 void dog::computeLocation(const point &goalLocation, const gameMap &gameMapMat) {}
 void boar::computeLocation(const point &goalLocation, const gameMap &gameMapMat)
 {
-    int distanceToGoalHorizontal = goalDistance(this->location.x, goalLocation.x);
-    int distanceToGoalVertical = goalDistance(this->location.y, goalLocation.y);
+    int distanceToGoalHorizontal = goalDistance(this->location.y, goalLocation.y);
+    int distanceToGoalVertical = goalDistance(this->location.x, goalLocation.x);
 
-    if (distanceToGoalHorizontal >= distanceToGoalVertical)
+    if (distanceToGoalHorizontal < distanceToGoalVertical)
     {
         if (this->location.x > goalLocation.x)
             this->location.x--;
@@ -679,72 +681,72 @@ void zodiac::move(const point &goalLocation, const gameMap &gameMapMat) {}
 void rat::move(const point &goalLocation, const gameMap &gameMapMat) {}
 void ox::move(const point &goalLocation, const gameMap &gameMapMat)
 {
-    int distanceToGoalHorizontal = goalDistance(this->startLocation.x, goalLocation.x);
-    int distanceToGoalVertical = goalDistance(this->startLocation.y, goalLocation.y);
-    gameMapMat.mapMat[this->startLocation.y][this->startLocation.x] = removeZodiac(gameMapMat.mapMat[this->startLocation.y][this->startLocation.x], string(this->ID));
+    int distanceToGoalHorizontal = goalDistance(this->startLocation.y, goalLocation.y);
+    int distanceToGoalVertical = goalDistance(this->startLocation.x, goalLocation.x);
+    gameMapMat.mapMat[this->startLocation.x][this->startLocation.y] = removeZodiac(gameMapMat.mapMat[this->startLocation.x][this->startLocation.y], string(this->ID));
     if (distanceToGoalHorizontal < distanceToGoalVertical)
-    {
-        if (this->location.y > this->startLocation.y)
-        {
-            for (int i = this->startLocation.y; i < this->location.y; i++)
-                gameMapMat.mapMat[i][this->location.x] = removeStone(gameMapMat.mapMat[i][this->location.x]);
-        }
-        else
-        {
-            for (int i = this->startLocation.y; i < this->location.y; i--)
-                gameMapMat.mapMat[i][this->location.x] = removeStone(gameMapMat.mapMat[i][this->location.x]);
-        }
-    }
-    else
     {
         if (this->location.x > this->startLocation.x)
         {
             for (int i = this->startLocation.x; i < this->location.x; i++)
-                gameMapMat.mapMat[this->location.y][i] = removeStone(gameMapMat.mapMat[this->location.y][i]);
+                gameMapMat.mapMat[i][this->location.y] = removeStone(gameMapMat.mapMat[i][this->location.y]);
         }
         else
         {
             for (int i = this->startLocation.x; i > this->location.x; i--)
-                gameMapMat.mapMat[this->location.y][i] = removeStone(gameMapMat.mapMat[this->location.y][i]);
+                gameMapMat.mapMat[i][this->location.y] = removeStone(gameMapMat.mapMat[i][this->location.y]);
         }
-    }
-
-    if (gameMapMat.mapMat[this->location.y][this->location.x].empty())
-    {
-        gameMapMat.mapMat[this->location.y][this->location.x] = this->ID;
     }
     else
     {
-        gameMapMat.mapMat[this->location.y][this->location.x] = removeStone(gameMapMat.mapMat[this->location.y][this->location.x]);
-        gameMapMat.mapMat[this->location.y][this->location.x] += this->ID;
+        if (this->location.y > this->startLocation.y)
+        {
+            for (int i = this->startLocation.y; i < this->location.y; i++)
+                gameMapMat.mapMat[this->location.x][i] = removeStone(gameMapMat.mapMat[this->location.x][i]);
+        }
+        else
+        {
+            for (int i = this->startLocation.y; i < this->location.y; i--)
+                gameMapMat.mapMat[this->location.x][i] = removeStone(gameMapMat.mapMat[this->location.x][i]);
+        }
+    }
+
+    if (gameMapMat.mapMat[this->location.x][this->location.y].empty())
+    {
+        gameMapMat.mapMat[this->location.x][this->location.y] = this->ID;
+    }
+    else
+    {
+        gameMapMat.mapMat[this->location.x][this->location.y] = removeStone(gameMapMat.mapMat[this->location.x][this->location.y]);
+        gameMapMat.mapMat[this->location.x][this->location.y] += this->ID;
     }
 }
 void tiger::move(const point &goalLocation, const gameMap &gameMapMat) {}
 void cat::move(const point &goalLocation, const gameMap &gameMapMat) {}
 void dragon::move(const point &goalLocation, const gameMap &gameMapMat)
 {
-    gameMapMat.mapMat[this->startLocation.y][this->startLocation.x] = removeZodiac(gameMapMat.mapMat[this->startLocation.y][this->startLocation.x], string(this->ID));
-    if (gameMapMat.mapMat[this->location.y][this->location.x].empty())
+    gameMapMat.mapMat[this->startLocation.x][this->startLocation.y] = removeZodiac(gameMapMat.mapMat[this->startLocation.x][this->startLocation.y], string(this->ID));
+    if (gameMapMat.mapMat[this->location.x][this->location.y].empty())
     {
-        gameMapMat.mapMat[this->location.y][this->location.x] = this->ID;
+        gameMapMat.mapMat[this->location.x][this->location.y] = this->ID;
     }
     else
     {
-        gameMapMat.mapMat[this->location.y][this->location.x] += this->ID;
+        gameMapMat.mapMat[this->location.x][this->location.y] += this->ID;
     }
 }
 void snake::move(const point &goalLocation, const gameMap &gameMapMat) {}
 void horse::move(const point &goalLocation, const gameMap &gameMapMat) {}
 void goat::move(const point &goalLocation, const gameMap &gameMapMat)
 {
-    gameMapMat.mapMat[this->startLocation.y][this->startLocation.x] = removeZodiac(gameMapMat.mapMat[this->startLocation.y][this->startLocation.x], string(this->ID));
-    if (gameMapMat.mapMat[this->location.y][this->location.x].empty())
+    gameMapMat.mapMat[this->startLocation.x][this->startLocation.y] = removeZodiac(gameMapMat.mapMat[this->startLocation.x][this->startLocation.y], string(this->ID));
+    if (gameMapMat.mapMat[this->location.x][this->location.y].empty())
     {
-        gameMapMat.mapMat[this->location.y][this->location.x] = this->ID;
+        gameMapMat.mapMat[this->location.x][this->location.y] = this->ID;
     }
     else
     {
-        gameMapMat.mapMat[this->location.y][this->location.x] += this->ID;
+        gameMapMat.mapMat[this->location.x][this->location.y] += this->ID;
     }
 }
 void monkey::move(const point &goalLocation, const gameMap &gameMapMat) {}
@@ -752,16 +754,16 @@ void rooster::move(const point &goalLocation, const gameMap &gameMapMat) {}
 void dog::move(const point &goalLocation, const gameMap &gameMapMat) {}
 void boar::move(const point &goalLocation, const gameMap &gameMapMat)
 {
-    gameMapMat.mapMat[this->startLocation.y][this->startLocation.x] = removeZodiac(gameMapMat.mapMat[this->startLocation.y][this->startLocation.x], string(this->ID));
-    if (gameMapMat.mapMat[this->location.y][this->location.x].empty())
+    gameMapMat.mapMat[this->startLocation.x][this->startLocation.y] = removeZodiac(gameMapMat.mapMat[this->startLocation.x][this->startLocation.y], string(this->ID));
+    if (gameMapMat.mapMat[this->location.x][this->location.y].empty())
     {
-        gameMapMat.mapMat[this->location.y][this->location.x] = this->ID;
+        gameMapMat.mapMat[this->location.x][this->location.y] = this->ID;
     }
     else
     {
-        gameMapMat.mapMat[this->location.y][this->location.x] = removeWater(gameMapMat.mapMat[this->location.y][this->location.x]);
-        gameMapMat.mapMat[this->location.y][this->location.x] = removeStone(gameMapMat.mapMat[this->location.y][this->location.x]);
-        gameMapMat.mapMat[this->location.y][this->location.x] += this->ID;
+        gameMapMat.mapMat[this->location.x][this->location.y] = removeWater(gameMapMat.mapMat[this->location.x][this->location.y]);
+        gameMapMat.mapMat[this->location.x][this->location.y] = removeStone(gameMapMat.mapMat[this->location.x][this->location.y]);
+        gameMapMat.mapMat[this->location.x][this->location.y] += this->ID;
     }
 }
 
@@ -808,14 +810,14 @@ void Game::addZo(zodiac *k)
     zList.add(k);
     int x = k->location.x;
     int y = k->location.y;
-    if (mapMat.mapMat[y][x].empty())
-        mapMat.mapMat[y][x] = k->ID;
+    if (mapMat.mapMat[x][y].empty())
+        mapMat.mapMat[x][y] = k->ID;
     else
-        mapMat.mapMat[y][x] += k->ID;
+        mapMat.mapMat[x][y] += k->ID;
 }
 void Game::startGame(point goalLocation, bool printMapFlag = 0)
 {
-    mapMat[goalLocation.y][goalLocation.x] = 'G';
+    mapMat[goalLocation.x][goalLocation.y] = 'G';
 
     while (true)
     {
