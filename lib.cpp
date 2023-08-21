@@ -460,6 +460,7 @@ void defaultComputeLocation(point &location, point &startLocation, const point g
     else
     {
         status = "";
+        cout << "monkey" << endl;
         if (findObstacles(gameMapMat.mapMat[location.x][location.y], 'O'))
             maxStep = 1;
 
@@ -469,7 +470,7 @@ void defaultComputeLocation(point &location, point &startLocation, const point g
             horizontalCalculation(location, startLocation, goalLocation, maxStep, zodiacType, distanceToGoalHorizontal, distanceToGoalVertical, gameMapMat);
     }
 }
-void computeOxBoar(point &location, const point goalLocation, int maxStep, const gameMap &gameMapMat)
+void computeOxBoarMonkey(point &location, const point goalLocation, int maxStep, const gameMap &gameMapMat)
 {
     int distanceToGoalHorizontal = goalDistance(location.y, goalLocation.y);
     int distanceToGoalVertical = goalDistance(location.x, goalLocation.x);
@@ -585,6 +586,18 @@ void tigerPushBack(point &location, const point goalLocation, const gameMap &gam
             else
                 location.x -= 2;
         }
+    }
+}
+void defaultMove(point &location, point &startLocation, string ID, const gameMap &gameMapMat)
+{
+    gameMapMat.mapMat[startLocation.x][startLocation.y] = removeZodiac(gameMapMat.mapMat[startLocation.x][startLocation.y], string(ID));
+    if (gameMapMat.mapMat[location.x][location.y].empty())
+    {
+        gameMapMat.mapMat[location.x][location.y] = ID;
+    }
+    else
+    {
+        gameMapMat.mapMat[location.x][location.y] += ID;
     }
 }
 
@@ -852,11 +865,11 @@ void ox::computeLocation(const point &goalLocation, const gameMap &gameMapMat)
     int maxStep = this->step + this->bufferSize;
 
     if (findObstacles(gameMapMat.mapMat[this->location.x][this->location.y], 'W'))
-        maxStep = 3;
+        maxStep = 3 + this->bufferSize;
     if (findObstacles(gameMapMat.mapMat[this->location.x][this->location.y], 'O'))
         maxStep = 1;
 
-    computeOxBoar(this->location, goalLocation, maxStep, gameMapMat);
+    computeOxBoarMonkey(this->location, goalLocation, maxStep, gameMapMat);
 }
 void tiger::computeLocation(const point &goalLocation, const gameMap &gameMapMat)
 {
@@ -988,9 +1001,26 @@ void goat::computeLocation(const point &goalLocation, const gameMap &gameMapMat)
     int maxStep = this->step + this->bufferSize;
     defaultComputeLocation(this->location, this->startLocation, goalLocation, maxStep, this->status, this->zodiacType, gameMapMat);
 }
-void monkey::computeLocation(const point &goalLocation, const gameMap &gameMapMat) {}
+void monkey::computeLocation(const point &goalLocation, const gameMap &gameMapMat)
+{
+    int maxStep = this->step + this->bufferSize;
+
+    if (findObstacles(gameMapMat.mapMat[this->location.x][this->location.y], 'T'))
+        maxStep = 4 + this->bufferSize;
+    if (findObstacles(gameMapMat.mapMat[this->location.x][this->location.y], 'O'))
+        maxStep = 1;
+
+    if (findObstacles(gameMapMat.mapMat[this->location.x][this->location.y], 'T'))
+        computeOxBoarMonkey(this->location, goalLocation, maxStep, gameMapMat);
+    else
+        defaultComputeLocation(this->location, this->startLocation, goalLocation, maxStep, this->status, this->zodiacType, gameMapMat);
+}
 void rooster::computeLocation(const point &goalLocation, const gameMap &gameMapMat) {}
-void dog::computeLocation(const point &goalLocation, const gameMap &gameMapMat) {}
+void dog::computeLocation(const point &goalLocation, const gameMap &gameMapMat)
+{
+    int maxStep = this->step + this->bufferSize;
+    defaultComputeLocation(this->location, this->startLocation, goalLocation, maxStep, this->status, this->zodiacType, gameMapMat);
+}
 void boar::computeLocation(const point &goalLocation, const gameMap &gameMapMat)
 {
     int maxStep = this->step + this->bufferSize;
@@ -998,7 +1028,7 @@ void boar::computeLocation(const point &goalLocation, const gameMap &gameMapMat)
     if (findObstacles(gameMapMat.mapMat[this->location.x][this->location.y], 'O'))
         maxStep = 1;
 
-    computeOxBoar(this->location, goalLocation, maxStep, gameMapMat);
+    computeOxBoarMonkey(this->location, goalLocation, maxStep, gameMapMat);
 }
 
 // ================================== END OF LOCATION COMPUTE FUNCTION ==================================
@@ -1034,7 +1064,7 @@ void ox::move(const point &goalLocation, const gameMap &gameMapMat)
         }
         else
         {
-            for (int i = this->startLocation.y; i < this->location.y; i--)
+            for (int i = this->startLocation.y; i > this->location.y; i--)
                 gameMapMat.mapMat[this->location.x][i] = removeStone(gameMapMat.mapMat[this->location.x][i]);
         }
     }
@@ -1051,57 +1081,31 @@ void ox::move(const point &goalLocation, const gameMap &gameMapMat)
 }
 void tiger::move(const point &goalLocation, const gameMap &gameMapMat)
 {
-    gameMapMat.mapMat[this->startLocation.x][this->startLocation.y] = removeZodiac(gameMapMat.mapMat[this->startLocation.x][this->startLocation.y], string(this->ID));
-    if (gameMapMat.mapMat[this->location.x][this->location.y].empty())
-    {
-        gameMapMat.mapMat[this->location.x][this->location.y] = this->ID;
-    }
-    else
-    {
-        gameMapMat.mapMat[this->location.x][this->location.y] += this->ID;
-    }
+    defaultMove(this->location, this->startLocation, string(this->ID), gameMapMat);
 }
 void cat::move(const point &goalLocation, const gameMap &gameMapMat)
 {
-    gameMapMat.mapMat[this->startLocation.x][this->startLocation.y] = removeZodiac(gameMapMat.mapMat[this->startLocation.x][this->startLocation.y], string(this->ID));
-    if (gameMapMat.mapMat[this->location.x][this->location.y].empty())
-    {
-        gameMapMat.mapMat[this->location.x][this->location.y] = this->ID;
-    }
-    else
-    {
-        gameMapMat.mapMat[this->location.x][this->location.y] += this->ID;
-    }
+    defaultMove(this->location, this->startLocation, string(this->ID), gameMapMat);
 }
 void dragon::move(const point &goalLocation, const gameMap &gameMapMat)
 {
-    gameMapMat.mapMat[this->startLocation.x][this->startLocation.y] = removeZodiac(gameMapMat.mapMat[this->startLocation.x][this->startLocation.y], string(this->ID));
-    if (gameMapMat.mapMat[this->location.x][this->location.y].empty())
-    {
-        gameMapMat.mapMat[this->location.x][this->location.y] = this->ID;
-    }
-    else
-    {
-        gameMapMat.mapMat[this->location.x][this->location.y] += this->ID;
-    }
+    defaultMove(this->location, this->startLocation, string(this->ID), gameMapMat);
 }
 void snake::move(const point &goalLocation, const gameMap &gameMapMat) {}
 void horse::move(const point &goalLocation, const gameMap &gameMapMat) {}
 void goat::move(const point &goalLocation, const gameMap &gameMapMat)
 {
-    gameMapMat.mapMat[this->startLocation.x][this->startLocation.y] = removeZodiac(gameMapMat.mapMat[this->startLocation.x][this->startLocation.y], string(this->ID));
-    if (gameMapMat.mapMat[this->location.x][this->location.y].empty())
-    {
-        gameMapMat.mapMat[this->location.x][this->location.y] = this->ID;
-    }
-    else
-    {
-        gameMapMat.mapMat[this->location.x][this->location.y] += this->ID;
-    }
+    defaultMove(this->location, this->startLocation, string(this->ID), gameMapMat);
 }
-void monkey::move(const point &goalLocation, const gameMap &gameMapMat) {}
+void monkey::move(const point &goalLocation, const gameMap &gameMapMat)
+{
+    defaultMove(this->location, this->startLocation, string(this->ID), gameMapMat);
+}
 void rooster::move(const point &goalLocation, const gameMap &gameMapMat) {}
-void dog::move(const point &goalLocation, const gameMap &gameMapMat) {}
+void dog::move(const point &goalLocation, const gameMap &gameMapMat)
+{
+    defaultMove(this->location, this->startLocation, string(this->ID), gameMapMat);
+}
 void boar::move(const point &goalLocation, const gameMap &gameMapMat)
 {
     gameMapMat.mapMat[this->startLocation.x][this->startLocation.y] = removeZodiac(gameMapMat.mapMat[this->startLocation.x][this->startLocation.y], string(this->ID));
@@ -1180,12 +1184,15 @@ void Game::startGame(point goalLocation, bool printMapFlag = 0)
         bool allStuck = true;
         bool winnerFound = false;
 
+        // set start location to current location when start game
         for (int i = 0; i < zList.size; i++)
         {
             zodiac *setStartLocation = zList[i];
             setStartLocation->startLocation.x = zList[i]->location.x;
             setStartLocation->startLocation.y = zList[i]->location.y;
         }
+
+        // tiger effect
         for (int i = 0; i < zList.size; i++)
         {
             zodiac *tiger = zList[i];
@@ -1200,15 +1207,43 @@ void Game::startGame(point goalLocation, bool printMapFlag = 0)
                         mapMat[otherZodiac->startLocation.x][otherZodiac->startLocation.y] = removeZodiac(mapMat[otherZodiac->startLocation.x][otherZodiac->startLocation.y], string(otherZodiac->ID));
                         otherZodiac->startLocation.x = otherZodiac->location.x;
                         otherZodiac->startLocation.y = otherZodiac->location.y;
+                        if (otherZodiac->zodiacType == "dog" && otherZodiac->bufferSize == 0)
+                        {
+                            otherZodiac->bufferSize++;
+                        }
                     }
                 }
             }
         }
+
+        // dog effect
+        for (int i = 0; i < zList.size; i++)
+        {
+            zodiac *dog = zList[i];
+            if (dog->zodiacType == "dog")
+            {
+                for (int i = 0; i < zList.size; i++)
+                {
+                    zodiac *otherZodiac = zList[i];
+                    if ((otherZodiac->location.x == dog->location.x) && (otherZodiac->location.y == dog->location.y) && (otherZodiac != dog))
+                    {
+                        if (dog->bufferSize == 0)
+                            dog->bufferSize++;
+                        if ((otherZodiac->zodiacType != "cat") && (otherZodiac->bufferSize == 0))
+                            otherZodiac->bufferSize++;
+                    }
+                }
+            }
+        }
+
+        // compute the location of all zodiacs before move
         for (int i = 0; i < zList.size; i++)
         {
             zodiac *currentZodiac = zList[i];
             currentZodiac->computeLocation(goalLocation, mapMat);
         }
+
+        // move
         for (int i = 0; i < zList.size; i++)
         {
             zodiac *currentZodiac = zList[i];
@@ -1222,6 +1257,15 @@ void Game::startGame(point goalLocation, bool printMapFlag = 0)
                 }
             }
         }
+
+        // reset buffer size
+        for (int i = 0; i < zList.size; i++)
+        {
+            zodiac *currentZodiac = zList[i];
+            currentZodiac->bufferSize = 0;
+        }
+
+        // print result of each turn
         for (int i = 0; i < zList.size; i++)
         {
             zodiac *currentZodiac = zList[i];

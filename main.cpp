@@ -35,18 +35,13 @@ int main()
     // gameMap map(mapArray, 9, 9);
     string tempMap[50][50] =
         {{"", "", "", "", "", "", "", "W", "", "S"},
-         {"", "W", "", "", "", "S", "", "", "", "S"},
+         {"O", "", "", "", "", "S", "", "", "", "S"},
          {"W", "", "", "", "", "W", "", "", "", "S"},
-         {"", "S", "S", "S", "W", "", "", "", "", "S"},
+         {"", "T", "", "", "", "", "", "", "", "S"},
          {"", "", "T", "", "O", "", "", "W", "", "S"},
          {"", "", "", "", "", "", "", "W", "", "S"},
          {"", "", "", "", "", "", "", "", "", "S"},
-         {"", "S", "", "S", "S", "", "", "W", "", "S"}};
-    // string tempMap[50][50] =
-    //     {{"", "", "W", "", "S"},
-    //      {"", "", "W", "", "S"},
-    //      {"", "S", "", "", "S"},
-    //      {"O", "S", "", "", ""}};
+         {"", "S", "", "S", "S", "W", "", "W", "", "T"}};
     int r = 8;
     int c = 10;
     string **Map = new string *[r];
@@ -66,10 +61,12 @@ int main()
     // game.addZo(new cat("C1", point(0, 0)));
     // game.addZo(new ox("O1", point(2, 0)));
     // game.addZo(new goat("G1", point(3, 0)));
-    game.addZo(new boar("B1", point(1, 2)));
-    game.addZo(new tiger("T1", point(1, 2)));
-    game.addZo(new tiger("T2", point(1, 2)));
-    game.addZo(new cat("C1", point(1, 2)));
+    // game.addZo(new ox("O1", point(1, 2)));
+    // game.addZo(new tiger("T1", point(1, 2)));
+    // game.addZo(new tiger("T2", point(1, 2)));
+    // game.addZo(new cat("C1", point(3, 4)));
+    // game.addZo(new dog("D1", point(3, 4)));
+    game.addZo(new monkey("M1", point(7, 9)));
 
     game.startGame(point(0, 0), 1); // Set to true to print map during the game
 
