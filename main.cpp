@@ -36,8 +36,8 @@ int main()
     string tempMap[50][50] =
         {{"", "", "", "", "", "", "", "W", "", "S"},
          {"", "W", "", "", "", "S", "", "", "", "S"},
-         {"", "", "", "", "", "W", "", "", "", "S"},
-         {"", "", "T", "", "W", "", "", "", "", "S"},
+         {"W", "", "", "", "", "W", "", "", "", "S"},
+         {"", "S", "S", "S", "W", "", "", "", "", "S"},
          {"", "", "T", "", "O", "", "", "W", "", "S"},
          {"", "", "", "", "", "", "", "W", "", "S"},
          {"", "", "", "", "", "", "", "", "", "S"},
@@ -66,7 +66,7 @@ int main()
     game.addZo(new cat("C1", point(0, 0)));
     game.addZo(new ox("O1", point(2, 0)));
     game.addZo(new goat("G1", point(3, 0)));
-    game.addZo(new boar("B1", point(3, 0)));
+    game.addZo(new boar("B1", point(3, 4)));
 
     game.startGame(point(6, 9), 1); // Set to true to print map during the game
 

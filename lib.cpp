@@ -443,7 +443,7 @@ void verticalCalculation(point &location, const point startLocation, const point
         horizontalCalculation(location, startLocation, goalLocation, maxStep, zodiacType, distanceToGoalHorizontal, distanceToGoalVertical, gameMapMat);
     }
 }
-void defaultMovement(point &location, point &startLocation, const point goalLocation, int maxStep, string &status, string zodiacType, const gameMap &gameMapMat)
+void defaultComputeLocation(point &location, point &startLocation, const point goalLocation, int maxStep, string &status, string zodiacType, const gameMap &gameMapMat)
 {
     int distanceToGoalHorizontal = goalDistance(location.y, goalLocation.y);
     int distanceToGoalVertical = goalDistance(location.x, goalLocation.x);
@@ -467,6 +467,36 @@ void defaultMovement(point &location, point &startLocation, const point goalLoca
             verticalCalculation(location, startLocation, goalLocation, maxStep, zodiacType, distanceToGoalHorizontal, distanceToGoalVertical, gameMapMat);
         else
             horizontalCalculation(location, startLocation, goalLocation, maxStep, zodiacType, distanceToGoalHorizontal, distanceToGoalVertical, gameMapMat);
+    }
+}
+void computeOxBoar(point &location, const point goalLocation, int maxStep, const gameMap &gameMapMat)
+{
+    int distanceToGoalHorizontal = goalDistance(location.y, goalLocation.y);
+    int distanceToGoalVertical = goalDistance(location.x, goalLocation.x);
+
+    if (distanceToGoalHorizontal < distanceToGoalVertical)
+    {
+        if (location.x > goalLocation.x)
+            if (distanceToGoalVertical > maxStep)
+                location.x -= maxStep;
+            else
+                location.x -= distanceToGoalVertical;
+        else if (distanceToGoalVertical > maxStep)
+            location.x += maxStep;
+        else
+            location.x += distanceToGoalVertical;
+    }
+    else
+    {
+        if (location.y > goalLocation.y)
+            if (distanceToGoalHorizontal > maxStep)
+                location.y -= maxStep;
+            else
+                location.y -= distanceToGoalHorizontal;
+        else if (distanceToGoalHorizontal > maxStep)
+            location.y += maxStep;
+        else
+            location.y += distanceToGoalHorizontal;
     }
 }
 
@@ -732,44 +762,19 @@ void rat::computeLocation(const point &goalLocation, const gameMap &gameMapMat) 
 void ox::computeLocation(const point &goalLocation, const gameMap &gameMapMat)
 {
     int maxStep = this->step + this->bufferSize;
-    int distanceToGoalHorizontal = goalDistance(this->location.y, goalLocation.y);
-    int distanceToGoalVertical = goalDistance(this->location.x, goalLocation.x);
 
     if (findObstacles(gameMapMat.mapMat[this->location.x][this->location.y], 'W'))
         maxStep = 3;
     if (findObstacles(gameMapMat.mapMat[this->location.x][this->location.y], 'O'))
         maxStep = 1;
 
-    if (distanceToGoalHorizontal < distanceToGoalVertical)
-    {
-        if (this->location.x > goalLocation.x)
-            if (distanceToGoalVertical > maxStep)
-                this->location.x -= maxStep;
-            else
-                this->location.x -= distanceToGoalVertical;
-        else if (distanceToGoalVertical > maxStep)
-            this->location.x += maxStep;
-        else
-            this->location.x += distanceToGoalVertical;
-    }
-    else
-    {
-        if (this->location.y > goalLocation.y)
-            if (distanceToGoalHorizontal > maxStep)
-                this->location.y -= maxStep;
-            else
-                this->location.y -= distanceToGoalHorizontal;
-        else if (distanceToGoalHorizontal > maxStep)
-            this->location.y += maxStep;
-        else
-            this->location.y += distanceToGoalHorizontal;
-    }
+    computeOxBoar(this->location, goalLocation, maxStep, gameMapMat);
 }
 void tiger::computeLocation(const point &goalLocation, const gameMap &gameMapMat) {}
 void cat::computeLocation(const point &goalLocation, const gameMap &gameMapMat)
 {
     int maxStep = this->step + this->bufferSize;
-    defaultMovement(this->location, this->startLocation, goalLocation, maxStep, this->status, this->zodiacType, gameMapMat);
+    defaultComputeLocation(this->location, this->startLocation, goalLocation, maxStep, this->status, this->zodiacType, gameMapMat);
 }
 void dragon::computeLocation(const point &goalLocation, const gameMap &gameMapMat)
 {
@@ -798,7 +803,7 @@ void dragon::computeLocation(const point &goalLocation, const gameMap &gameMapMa
                 this->location.x -= distanceToMove;
             }
             else
-                defaultMovement(this->location, this->startLocation, goalLocation, maxStep, this->status, this->zodiacType, gameMapMat);
+                defaultComputeLocation(this->location, this->startLocation, goalLocation, maxStep, this->status, this->zodiacType, gameMapMat);
         }
         else if (this->location.x < goalLocation.x)
         {
@@ -818,11 +823,11 @@ void dragon::computeLocation(const point &goalLocation, const gameMap &gameMapMa
                 this->location.x += distanceToMove;
             }
             else
-                defaultMovement(this->location, this->startLocation, goalLocation, maxStep, this->status, this->zodiacType, gameMapMat);
+                defaultComputeLocation(this->location, this->startLocation, goalLocation, maxStep, this->status, this->zodiacType, gameMapMat);
         }
         else
         {
-            defaultMovement(this->location, this->startLocation, goalLocation, maxStep, this->status, this->zodiacType, gameMapMat);
+            defaultComputeLocation(this->location, this->startLocation, goalLocation, maxStep, this->status, this->zodiacType, gameMapMat);
         }
     }
     else if (this->location.y < goalLocation.y)
@@ -845,7 +850,7 @@ void dragon::computeLocation(const point &goalLocation, const gameMap &gameMapMa
                 this->location.x -= distanceToMove;
             }
             else
-                defaultMovement(this->location, this->startLocation, goalLocation, maxStep, this->status, this->zodiacType, gameMapMat);
+                defaultComputeLocation(this->location, this->startLocation, goalLocation, maxStep, this->status, this->zodiacType, gameMapMat);
         }
         else if (this->location.x < goalLocation.x)
         {
@@ -865,22 +870,22 @@ void dragon::computeLocation(const point &goalLocation, const gameMap &gameMapMa
                 this->location.x += distanceToMove;
             }
             else
-                defaultMovement(this->location, this->startLocation, goalLocation, maxStep, this->status, this->zodiacType, gameMapMat);
+                defaultComputeLocation(this->location, this->startLocation, goalLocation, maxStep, this->status, this->zodiacType, gameMapMat);
         }
         else
         {
-            defaultMovement(this->location, this->startLocation, goalLocation, maxStep, this->status, this->zodiacType, gameMapMat);
+            defaultComputeLocation(this->location, this->startLocation, goalLocation, maxStep, this->status, this->zodiacType, gameMapMat);
         }
     }
     else
     {
         if (this->location.x > goalLocation.x)
         {
-            defaultMovement(this->location, this->startLocation, goalLocation, maxStep, this->status, this->zodiacType, gameMapMat);
+            defaultComputeLocation(this->location, this->startLocation, goalLocation, maxStep, this->status, this->zodiacType, gameMapMat);
         }
         else if (this->location.x < goalLocation.x)
         {
-            defaultMovement(this->location, this->startLocation, goalLocation, maxStep, this->status, this->zodiacType, gameMapMat);
+            defaultComputeLocation(this->location, this->startLocation, goalLocation, maxStep, this->status, this->zodiacType, gameMapMat);
         }
     }
 }
@@ -889,7 +894,7 @@ void horse::computeLocation(const point &goalLocation, const gameMap &gameMapMat
 void goat::computeLocation(const point &goalLocation, const gameMap &gameMapMat)
 {
     int maxStep = this->step + this->bufferSize;
-    defaultMovement(this->location, this->startLocation, goalLocation, maxStep, this->status, this->zodiacType, gameMapMat);
+    defaultComputeLocation(this->location, this->startLocation, goalLocation, maxStep, this->status, this->zodiacType, gameMapMat);
 }
 void monkey::computeLocation(const point &goalLocation, const gameMap &gameMapMat) {}
 void rooster::computeLocation(const point &goalLocation, const gameMap &gameMapMat) {}
@@ -897,26 +902,11 @@ void dog::computeLocation(const point &goalLocation, const gameMap &gameMapMat) 
 void boar::computeLocation(const point &goalLocation, const gameMap &gameMapMat)
 {
     int maxStep = this->step + this->bufferSize;
-    int distanceToGoalHorizontal = goalDistance(this->location.y, goalLocation.y);
-    int distanceToGoalVertical = goalDistance(this->location.x, goalLocation.x);
 
     if (findObstacles(gameMapMat.mapMat[this->location.x][this->location.y], 'O'))
         maxStep = 1;
 
-    if (distanceToGoalHorizontal < distanceToGoalVertical)
-    {
-        if (this->location.x > goalLocation.x)
-            this->location.x -= maxStep;
-        else
-            this->location.x += maxStep;
-    }
-    else
-    {
-        if (this->location.y > goalLocation.y)
-            this->location.y -= maxStep;
-        else
-            this->location.y += maxStep;
-    }
+    computeOxBoar(this->location, goalLocation, maxStep, gameMapMat);
 }
 
 // ================================== END OF LOCATION COMPUTE FUNCTION ==================================
