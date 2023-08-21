@@ -13,7 +13,7 @@ public:
     int col;
 
     gameMap(string **inputMat, int r, int c);
-    gameMap(const gameMap& other); // copy constructor
+    gameMap(const gameMap &other); // copy constructor
     ~gameMap();
 
     void printTopHorizontalBorder();
@@ -40,11 +40,13 @@ public:
     point startLocation;
     string status;
     string zodiacType;
-    void printCommonInfo() const;
+    int step;
+    int bufferSize;
 
     zodiac(const string &id, const point &loc);
     virtual ~zodiac() {}
 
+    void printCommonInfo() const;
     virtual void printInfo() const = 0;
     virtual void computeLocation(const point &goalLocation, const gameMap &gameMapMat);
     virtual void move(const point &goalLocation, const gameMap &gameMapMat);

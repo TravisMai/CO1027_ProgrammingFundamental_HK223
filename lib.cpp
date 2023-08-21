@@ -73,7 +73,7 @@ bool findObstacles(const string &input, char obstacles)
 
     return false;
 }
-void distanceToObstacles(const point location, const point startLocation, const point goalLocation, int maxStep, int &distanceToGoalHorizontal, int &distanceToGoalVertical, const gameMap &gameMapMat)
+void distanceToObstacles(const point location, const point startLocation, const point goalLocation, int maxStep, string zodiacType, int &distanceToGoalHorizontal, int &distanceToGoalVertical, const gameMap &gameMapMat)
 {
     if (location.x > goalLocation.x)
     {
@@ -84,10 +84,21 @@ void distanceToObstacles(const point location, const point startLocation, const 
         }
         for (int i = startLocation.x; i >= (startLocation.x - tempMaxStep); i--)
         {
-            if (findObstacles(gameMapMat.mapMat[i][startLocation.y], 'W') || findObstacles(gameMapMat.mapMat[i][startLocation.y], 'S'))
+            if (zodiacType != "dragon")
             {
-                distanceToGoalVertical = (abs(i - startLocation.x) - 1);
-                break;
+                if (findObstacles(gameMapMat.mapMat[i][startLocation.y], 'W') || findObstacles(gameMapMat.mapMat[i][startLocation.y], 'S'))
+                {
+                    distanceToGoalVertical = (abs(i - startLocation.x) - 1);
+                    break;
+                }
+            }
+            else
+            {
+                if (findObstacles(gameMapMat.mapMat[i][startLocation.y], 'O'))
+                {
+                    distanceToGoalVertical = (abs(i - startLocation.x) - 1);
+                    break;
+                }
             }
         }
     }
@@ -100,10 +111,21 @@ void distanceToObstacles(const point location, const point startLocation, const 
         }
         for (int i = startLocation.x; i <= (startLocation.x + tempMaxStep); i++)
         {
-            if (findObstacles(gameMapMat.mapMat[i][startLocation.y], 'W') || findObstacles(gameMapMat.mapMat[i][startLocation.y], 'S'))
+            if (zodiacType != "dragon")
             {
-                distanceToGoalVertical = (abs(i - startLocation.x) - 1);
-                break;
+                if (findObstacles(gameMapMat.mapMat[i][startLocation.y], 'W') || findObstacles(gameMapMat.mapMat[i][startLocation.y], 'S'))
+                {
+                    distanceToGoalVertical = (abs(i - startLocation.x) - 1);
+                    break;
+                }
+            }
+            else
+            {
+                if (findObstacles(gameMapMat.mapMat[i][startLocation.y], 'O'))
+                {
+                    distanceToGoalVertical = (abs(i - startLocation.x) - 1);
+                    break;
+                }
             }
         }
     }
@@ -116,10 +138,21 @@ void distanceToObstacles(const point location, const point startLocation, const 
         }
         for (int i = startLocation.y; i >= (startLocation.y - tempMaxStep); i--)
         {
-            if (findObstacles(gameMapMat.mapMat[startLocation.x][i], 'W') || findObstacles(gameMapMat.mapMat[startLocation.x][i], 'S'))
+            if (zodiacType != "dragon")
             {
-                distanceToGoalHorizontal = (abs(i - startLocation.y) - 1);
-                break;
+                if (findObstacles(gameMapMat.mapMat[startLocation.x][i], 'W') || findObstacles(gameMapMat.mapMat[startLocation.x][i], 'S'))
+                {
+                    distanceToGoalHorizontal = (abs(i - startLocation.y) - 1);
+                    break;
+                }
+            }
+            else
+            {
+                if (findObstacles(gameMapMat.mapMat[startLocation.x][i], 'O'))
+                {
+                    distanceToGoalHorizontal = (abs(i - startLocation.y) - 1);
+                    break;
+                }
             }
         }
     }
@@ -132,16 +165,27 @@ void distanceToObstacles(const point location, const point startLocation, const 
         }
         for (int i = startLocation.y; i <= (startLocation.y + tempMaxStep); i++)
         {
-            if (findObstacles(gameMapMat.mapMat[startLocation.x][i], 'W') || findObstacles(gameMapMat.mapMat[startLocation.x][i], 'S'))
+            if (zodiacType != "dragon")
             {
-                distanceToGoalHorizontal = (abs(i - startLocation.y) - 1);
-                break;
+                if (findObstacles(gameMapMat.mapMat[startLocation.x][i], 'W') || findObstacles(gameMapMat.mapMat[startLocation.x][i], 'S'))
+                {
+                    distanceToGoalHorizontal = (abs(i - startLocation.y) - 1);
+                    break;
+                }
+            }
+            else
+            {
+                if (findObstacles(gameMapMat.mapMat[startLocation.x][i], 'O'))
+                {
+                    distanceToGoalHorizontal = (abs(i - startLocation.y) - 1);
+                    break;
+                }
             }
         }
     }
 }
-void verticalCalculation(point &location, const point startLocation, const point goalLocation, int maxStep, int distanceToGoalHorizontal, int distanceToGoalVertical, const gameMap &gameMapMat);
-void horizontalCalculation(point &location, const point startLocation, const point goalLocation, int maxStep, int distanceToGoalHorizontal, int distanceToGoalVertical, const gameMap &gameMapMat)
+void verticalCalculation(point &location, const point startLocation, const point goalLocation, int maxStep, string zodiacType, int distanceToGoalHorizontal, int distanceToGoalVertical, const gameMap &gameMapMat);
+void horizontalCalculation(point &location, const point startLocation, const point goalLocation, int maxStep, string zodiacType, int distanceToGoalHorizontal, int distanceToGoalVertical, const gameMap &gameMapMat)
 {
     if (distanceToGoalHorizontal > 0)
     {
@@ -152,11 +196,23 @@ void horizontalCalculation(point &location, const point startLocation, const poi
                 bool isOstacle = false;
                 for (int i = startLocation.y; i <= (startLocation.y - maxStep); i--)
                 {
-                    if (findObstacles(gameMapMat.mapMat[startLocation.x][i], 'W') || findObstacles(gameMapMat.mapMat[startLocation.x][i], 'S'))
+                    if (zodiacType != "dragon")
                     {
-                        isOstacle = true;
-                        location.y -= (abs(i - startLocation.y) - 1);
-                        break;
+                        if (findObstacles(gameMapMat.mapMat[startLocation.x][i], 'W') || findObstacles(gameMapMat.mapMat[startLocation.x][i], 'S'))
+                        {
+                            isOstacle = true;
+                            location.y -= (abs(i - startLocation.y) - 1);
+                            break;
+                        }
+                    }
+                    else
+                    {
+                        if (findObstacles(gameMapMat.mapMat[startLocation.x][i], 'O'))
+                        {
+                            isOstacle = true;
+                            location.y -= (abs(i - startLocation.y) - 1);
+                            break;
+                        }
                     }
                 }
                 if (!isOstacle)
@@ -169,11 +225,23 @@ void horizontalCalculation(point &location, const point startLocation, const poi
                 bool isOstacle = false;
                 for (int i = startLocation.y; i <= (startLocation.y - distanceToGoalHorizontal); i--)
                 {
-                    if (findObstacles(gameMapMat.mapMat[startLocation.x][i], 'W') || findObstacles(gameMapMat.mapMat[startLocation.x][i], 'S'))
+                    if (zodiacType != "dragon")
                     {
-                        isOstacle = true;
-                        location.y -= (abs(i - startLocation.y) - 1);
-                        break;
+                        if (findObstacles(gameMapMat.mapMat[startLocation.x][i], 'W') || findObstacles(gameMapMat.mapMat[startLocation.x][i], 'S'))
+                        {
+                            isOstacle = true;
+                            location.y -= (abs(i - startLocation.y) - 1);
+                            break;
+                        }
+                    }
+                    else
+                    {
+                        if (findObstacles(gameMapMat.mapMat[startLocation.x][i], 'O'))
+                        {
+                            isOstacle = true;
+                            location.y -= (abs(i - startLocation.y) - 1);
+                            break;
+                        }
                     }
                 }
                 if (!isOstacle)
@@ -187,11 +255,23 @@ void horizontalCalculation(point &location, const point startLocation, const poi
             bool isOstacle = false;
             for (int i = startLocation.y; i <= (startLocation.y + maxStep); i++)
             {
-                if (findObstacles(gameMapMat.mapMat[startLocation.x][i], 'W') || findObstacles(gameMapMat.mapMat[startLocation.x][i], 'S'))
+                if (zodiacType != "dragon")
                 {
-                    isOstacle = true;
-                    location.y += (abs(i - startLocation.y) - 1);
-                    break;
+                    if (findObstacles(gameMapMat.mapMat[startLocation.x][i], 'W') || findObstacles(gameMapMat.mapMat[startLocation.x][i], 'S'))
+                    {
+                        isOstacle = true;
+                        location.y += (abs(i - startLocation.y) - 1);
+                        break;
+                    }
+                }
+                else
+                {
+                    if (findObstacles(gameMapMat.mapMat[startLocation.x][i], 'O'))
+                    {
+                        isOstacle = true;
+                        location.y += (abs(i - startLocation.y) - 1);
+                        break;
+                    }
                 }
             }
             if (!isOstacle)
@@ -204,11 +284,23 @@ void horizontalCalculation(point &location, const point startLocation, const poi
             bool isOstacle = false;
             for (int i = startLocation.y; i <= (startLocation.y + distanceToGoalHorizontal); i++)
             {
-                if (findObstacles(gameMapMat.mapMat[startLocation.x][i], 'W') || findObstacles(gameMapMat.mapMat[startLocation.x][i], 'S'))
+                if (zodiacType != "dragon")
                 {
-                    isOstacle = true;
-                    location.y += (abs(i - startLocation.y) - 1);
-                    break;
+                    if (findObstacles(gameMapMat.mapMat[startLocation.x][i], 'W') || findObstacles(gameMapMat.mapMat[startLocation.x][i], 'S'))
+                    {
+                        isOstacle = true;
+                        location.y += (abs(i - startLocation.y) - 1);
+                        break;
+                    }
+                }
+                else
+                {
+                    if (findObstacles(gameMapMat.mapMat[startLocation.x][i], 'O'))
+                    {
+                        isOstacle = true;
+                        location.y += (abs(i - startLocation.y) - 1);
+                        break;
+                    }
                 }
             }
             if (!isOstacle)
@@ -219,10 +311,10 @@ void horizontalCalculation(point &location, const point startLocation, const poi
     }
     else
     {
-        verticalCalculation(location, startLocation, goalLocation, maxStep, distanceToGoalHorizontal, distanceToGoalVertical, gameMapMat);
+        verticalCalculation(location, startLocation, goalLocation, maxStep, zodiacType, distanceToGoalHorizontal, distanceToGoalVertical, gameMapMat);
     }
 }
-void verticalCalculation(point &location, const point startLocation, const point goalLocation, int maxStep, int distanceToGoalHorizontal, int distanceToGoalVertical, const gameMap &gameMapMat)
+void verticalCalculation(point &location, const point startLocation, const point goalLocation, int maxStep, string zodiacType, int distanceToGoalHorizontal, int distanceToGoalVertical, const gameMap &gameMapMat)
 {
     if (distanceToGoalVertical > 0)
     {
@@ -233,11 +325,23 @@ void verticalCalculation(point &location, const point startLocation, const point
                 bool isOstacle = false;
                 for (int i = startLocation.x; i <= (startLocation.x - maxStep); i--)
                 {
-                    if (findObstacles(gameMapMat.mapMat[i][startLocation.y], 'W') || findObstacles(gameMapMat.mapMat[i][startLocation.y], 'S'))
+                    if (zodiacType != "dragon")
                     {
-                        isOstacle = true;
-                        location.x -= (abs(i - startLocation.x) - 1);
-                        break;
+                        if (findObstacles(gameMapMat.mapMat[i][startLocation.y], 'W') || findObstacles(gameMapMat.mapMat[i][startLocation.y], 'S'))
+                        {
+                            isOstacle = true;
+                            location.x -= (abs(i - startLocation.x) - 1);
+                            break;
+                        }
+                    }
+                    else
+                    {
+                        if (findObstacles(gameMapMat.mapMat[i][startLocation.y], 'O'))
+                        {
+                            isOstacle = true;
+                            location.x -= (abs(i - startLocation.x) - 1);
+                            break;
+                        }
                     }
                 }
                 if (!isOstacle)
@@ -250,11 +354,23 @@ void verticalCalculation(point &location, const point startLocation, const point
                 bool isOstacle = false;
                 for (int i = startLocation.x; i <= (startLocation.x - distanceToGoalVertical); i--)
                 {
-                    if (findObstacles(gameMapMat.mapMat[i][startLocation.y], 'W') || findObstacles(gameMapMat.mapMat[i][startLocation.y], 'S'))
+                    if (zodiacType != "dragon")
                     {
-                        isOstacle = true;
-                        location.x -= (abs(i - startLocation.x) - 1);
-                        break;
+                        if (findObstacles(gameMapMat.mapMat[i][startLocation.y], 'W') || findObstacles(gameMapMat.mapMat[i][startLocation.y], 'S'))
+                        {
+                            isOstacle = true;
+                            location.x -= (abs(i - startLocation.x) - 1);
+                            break;
+                        }
+                    }
+                    else
+                    {
+                        if (findObstacles(gameMapMat.mapMat[i][startLocation.y], 'O'))
+                        {
+                            isOstacle = true;
+                            location.x -= (abs(i - startLocation.x) - 1);
+                            break;
+                        }
                     }
                 }
                 if (!isOstacle)
@@ -268,11 +384,23 @@ void verticalCalculation(point &location, const point startLocation, const point
             bool isOstacle = false;
             for (int i = startLocation.x; i <= (startLocation.x + maxStep); i++)
             {
-                if (findObstacles(gameMapMat.mapMat[i][startLocation.y], 'W') || findObstacles(gameMapMat.mapMat[i][startLocation.y], 'S'))
+                if (zodiacType != "dragon")
                 {
-                    isOstacle = true;
-                    location.x += (abs(i - startLocation.x) - 1);
-                    break;
+                    if (findObstacles(gameMapMat.mapMat[i][startLocation.y], 'W') || findObstacles(gameMapMat.mapMat[i][startLocation.y], 'S'))
+                    {
+                        isOstacle = true;
+                        location.x += (abs(i - startLocation.x) - 1);
+                        break;
+                    }
+                }
+                else
+                {
+                    if (findObstacles(gameMapMat.mapMat[i][startLocation.y], 'O'))
+                    {
+                        isOstacle = true;
+                        location.x += (abs(i - startLocation.x) - 1);
+                        break;
+                    }
                 }
             }
             if (!isOstacle)
@@ -285,11 +413,23 @@ void verticalCalculation(point &location, const point startLocation, const point
             bool isOstacle = false;
             for (int i = startLocation.x; i <= (startLocation.x + distanceToGoalVertical); i++)
             {
-                if (findObstacles(gameMapMat.mapMat[i][startLocation.y], 'W') || findObstacles(gameMapMat.mapMat[i][startLocation.y], 'S'))
+                if (zodiacType != "dragon")
                 {
-                    isOstacle = true;
-                    location.x += (abs(i - startLocation.x) - 1);
-                    break;
+                    if (findObstacles(gameMapMat.mapMat[i][startLocation.y], 'W') || findObstacles(gameMapMat.mapMat[i][startLocation.y], 'S'))
+                    {
+                        isOstacle = true;
+                        location.x += (abs(i - startLocation.x) - 1);
+                        break;
+                    }
+                }
+                else
+                {
+                    if (findObstacles(gameMapMat.mapMat[i][startLocation.y], 'O'))
+                    {
+                        isOstacle = true;
+                        location.x += (abs(i - startLocation.x) - 1);
+                        break;
+                    }
                 }
             }
             if (!isOstacle)
@@ -300,7 +440,33 @@ void verticalCalculation(point &location, const point startLocation, const point
     }
     else
     {
-        horizontalCalculation(location, startLocation, goalLocation, maxStep, distanceToGoalHorizontal, distanceToGoalVertical, gameMapMat);
+        horizontalCalculation(location, startLocation, goalLocation, maxStep, zodiacType, distanceToGoalHorizontal, distanceToGoalVertical, gameMapMat);
+    }
+}
+void defaultMovement(point &location, point &startLocation, const point goalLocation, int maxStep, string &status, string zodiacType, const gameMap &gameMapMat)
+{
+    int distanceToGoalHorizontal = goalDistance(location.y, goalLocation.y);
+    int distanceToGoalVertical = goalDistance(location.x, goalLocation.x);
+
+    int ogirinalHorizontal = distanceToGoalHorizontal;
+    int ogirinalVertical = distanceToGoalVertical;
+
+    distanceToObstacles(location, startLocation, goalLocation, maxStep, zodiacType, distanceToGoalHorizontal, distanceToGoalVertical, gameMapMat);
+
+    if ((distanceToGoalHorizontal == 0) && (distanceToGoalVertical == 0))
+    {
+        status = "Stuck";
+    }
+    else
+    {
+        status = "";
+        if (findObstacles(gameMapMat.mapMat[location.x][location.y], 'O'))
+            maxStep = 1;
+
+        if (ogirinalHorizontal < ogirinalVertical)
+            verticalCalculation(location, startLocation, goalLocation, maxStep, zodiacType, distanceToGoalHorizontal, distanceToGoalVertical, gameMapMat);
+        else
+            horizontalCalculation(location, startLocation, goalLocation, maxStep, zodiacType, distanceToGoalHorizontal, distanceToGoalVertical, gameMapMat);
     }
 }
 
@@ -465,19 +631,39 @@ gameMap::~gameMap()
 
 // ================================== START OF CONSTRUCTOR ==================================
 
-zodiac::zodiac(const string &id, const point &loc) : ID(id), location(loc), status("") {}
-rat::rat(const string &id, const point &loc) : zodiac(id, loc) { zodiacType = "rat"; }
+zodiac::zodiac(const string &id, const point &loc) : ID(id), location(loc), status("")
+{
+    step = 2;
+    bufferSize = 0;
+}
+rat::rat(const string &id, const point &loc) : zodiac(id, loc)
+{
+    zodiacType = "rat";
+    step = 1;
+}
 ox::ox(const string &id, const point &loc) : zodiac(id, loc) { zodiacType = "ox"; }
 tiger::tiger(const string &id, const point &loc) : zodiac(id, loc) { zodiacType = "tiger"; }
 cat::cat(const string &id, const point &loc) : zodiac(id, loc) { zodiacType = "cat"; }
-dragon::dragon(const string &id, const point &loc) : zodiac(id, loc) { zodiacType = "dragon"; }
+dragon::dragon(const string &id, const point &loc) : zodiac(id, loc)
+{
+    zodiacType = "dragon";
+    step = 1;
+}
 snake::snake(const string &id, const point &loc) : zodiac(id, loc) { zodiacType = "snake"; }
-horse::horse(const string &id, const point &loc) : zodiac(id, loc) { zodiacType = "horse"; }
+horse::horse(const string &id, const point &loc) : zodiac(id, loc)
+{
+    zodiacType = "horse";
+    step = 3;
+}
 goat::goat(const string &id, const point &loc) : zodiac(id, loc) { zodiacType = "goat"; }
 monkey::monkey(const string &id, const point &loc) : zodiac(id, loc) { zodiacType = "monkey"; }
 rooster::rooster(const string &id, const point &loc) : zodiac(id, loc) { zodiacType = "rooster"; }
 dog::dog(const string &id, const point &loc) : zodiac(id, loc) { zodiacType = "dog"; }
-boar::boar(const string &id, const point &loc) : zodiac(id, loc) { zodiacType = "boar"; }
+boar::boar(const string &id, const point &loc) : zodiac(id, loc)
+{
+    zodiacType = "boar";
+    step = 1;
+}
 
 // ================================== END OF CONSTRUCTOR ==================================
 
@@ -486,66 +672,54 @@ boar::boar(const string &id, const point &loc) : zodiac(id, loc) { zodiacType = 
 void zodiac::printInfo() const {}
 void zodiac::printCommonInfo() const
 {
-    cout << ID << " at (" << location.x << "," << location.y << ")\n";
+    cout << zodiacType << " " << ID << " at (" << location.x << "," << location.y << ")\n";
 }
 void rat::printInfo() const
 {
-    cout << "rat ";
     printCommonInfo();
 }
 void ox::printInfo() const
 {
-    cout << "ox ";
     printCommonInfo();
 }
 void tiger::printInfo() const
 {
-    cout << "tiger ";
     printCommonInfo();
 }
 void cat::printInfo() const
 {
-    cout << "cat ";
     printCommonInfo();
 }
 void dragon::printInfo() const
 {
-    cout << "dragon ";
     printCommonInfo();
 }
 void snake::printInfo() const
 {
-    cout << "snake ";
     printCommonInfo();
 }
 void horse::printInfo() const
 {
-    cout << "horse ";
     printCommonInfo();
 }
 void goat::printInfo() const
 {
-    cout << "goat ";
     printCommonInfo();
 }
 void monkey::printInfo() const
 {
-    cout << "monkey ";
     printCommonInfo();
 }
 void rooster::printInfo() const
 {
-    cout << "rooster ";
     printCommonInfo();
 }
 void dog::printInfo() const
 {
-    cout << "dog ";
     printCommonInfo();
 }
 void boar::printInfo() const
 {
-    cout << "boar ";
     printCommonInfo();
 }
 
@@ -557,7 +731,7 @@ void zodiac::computeLocation(const point &goalLocation, const gameMap &gameMapMa
 void rat::computeLocation(const point &goalLocation, const gameMap &gameMapMat) {}
 void ox::computeLocation(const point &goalLocation, const gameMap &gameMapMat)
 {
-    int maxStep = 2;
+    int maxStep = this->step + this->bufferSize;
     int distanceToGoalHorizontal = goalDistance(this->location.y, goalLocation.y);
     int distanceToGoalVertical = goalDistance(this->location.x, goalLocation.x);
 
@@ -594,78 +768,119 @@ void ox::computeLocation(const point &goalLocation, const gameMap &gameMapMat)
 void tiger::computeLocation(const point &goalLocation, const gameMap &gameMapMat) {}
 void cat::computeLocation(const point &goalLocation, const gameMap &gameMapMat)
 {
-    int maxStep = 2;
-    int distanceToGoalHorizontal = goalDistance(this->location.y, goalLocation.y);
-    int distanceToGoalVertical = goalDistance(this->location.x, goalLocation.x);
-
-    int ogirinalHorizontal = distanceToGoalHorizontal;
-    int ogirinalVertical = distanceToGoalVertical;
-
-    distanceToObstacles(this->location, this->startLocation, goalLocation, maxStep, distanceToGoalHorizontal, distanceToGoalVertical, gameMapMat);
-
-    if ((distanceToGoalHorizontal == 0) && (distanceToGoalVertical == 0))
-    {
-        this->status = "Stuck";
-    }
-    else
-    {
-        this->status = "";
-        if (findObstacles(gameMapMat.mapMat[this->location.x][this->location.y], 'O'))
-            maxStep = 1;
-
-        if (ogirinalHorizontal < ogirinalVertical)
-            verticalCalculation(this->location, this->startLocation, goalLocation, maxStep, distanceToGoalHorizontal, distanceToGoalVertical, gameMapMat);
-        else
-            horizontalCalculation(this->location, this->startLocation, goalLocation, maxStep, distanceToGoalHorizontal, distanceToGoalVertical, gameMapMat);
-    }
+    int maxStep = this->step + this->bufferSize;
+    defaultMovement(this->location, this->startLocation, goalLocation, maxStep, this->status, this->zodiacType, gameMapMat);
 }
 void dragon::computeLocation(const point &goalLocation, const gameMap &gameMapMat)
 {
-    int maxStep = 1;
+    int maxStep = this->step + this->bufferSize;
+    int distanceToGoalHorizontal = goalDistance(this->location.y, goalLocation.y);
+    int distanceToGoalVertical = goalDistance(this->location.x, goalLocation.x);
+    int distanceToMove = min(distanceToGoalHorizontal, distanceToGoalVertical);
 
     if (this->location.y > goalLocation.y)
     {
         if (this->location.x > goalLocation.x)
         {
-            this->location.y -= maxStep;
-            this->location.x -= maxStep;
+            for (int i = 1; i <= maxStep; i++)
+            {
+                if (findObstacles(gameMapMat.mapMat[this->location.x - i][this->location.y - i], 'O'))
+                    distanceToMove = i - 1;
+            }
+            if (distanceToMove > maxStep)
+            {
+                this->location.y -= maxStep;
+                this->location.x -= maxStep;
+            }
+            else if (distanceToMove > 0)
+            {
+                this->location.y -= distanceToMove;
+                this->location.x -= distanceToMove;
+            }
+            else
+                defaultMovement(this->location, this->startLocation, goalLocation, maxStep, this->status, this->zodiacType, gameMapMat);
         }
         else if (this->location.x < goalLocation.x)
         {
-            this->location.y -= maxStep;
-            this->location.x += maxStep;
+            for (int i = 1; i <= maxStep; i++)
+            {
+                if (findObstacles(gameMapMat.mapMat[this->location.x + i][this->location.y - i], 'O'))
+                    distanceToMove = i - 1;
+            }
+            if (distanceToMove > maxStep)
+            {
+                this->location.y -= maxStep;
+                this->location.x += maxStep;
+            }
+            else if (distanceToMove > 0)
+            {
+                this->location.y -= distanceToMove;
+                this->location.x += distanceToMove;
+            }
+            else
+                defaultMovement(this->location, this->startLocation, goalLocation, maxStep, this->status, this->zodiacType, gameMapMat);
         }
         else
         {
-            this->location.y -= maxStep;
+            defaultMovement(this->location, this->startLocation, goalLocation, maxStep, this->status, this->zodiacType, gameMapMat);
         }
     }
     else if (this->location.y < goalLocation.y)
     {
         if (this->location.x > goalLocation.x)
         {
-            this->location.y += maxStep;
-            this->location.x -= maxStep;
+            for (int i = 1; i <= maxStep; i++)
+            {
+                if (findObstacles(gameMapMat.mapMat[this->location.x - i][this->location.y + i], 'O'))
+                    distanceToMove = i - 1;
+            }
+            if (distanceToMove > maxStep)
+            {
+                this->location.y += maxStep;
+                this->location.x -= maxStep;
+            }
+            else if (distanceToMove > 0)
+            {
+                this->location.y += distanceToMove;
+                this->location.x -= distanceToMove;
+            }
+            else
+                defaultMovement(this->location, this->startLocation, goalLocation, maxStep, this->status, this->zodiacType, gameMapMat);
         }
         else if (this->location.x < goalLocation.x)
         {
-            this->location.y += maxStep;
-            this->location.x += maxStep;
+            for (int i = 1; i <= maxStep; i++)
+            {
+                if (findObstacles(gameMapMat.mapMat[this->location.x + i][this->location.y + i], 'O'))
+                    distanceToMove = i - 1;
+            }
+            if (distanceToMove > maxStep)
+            {
+                this->location.y += maxStep;
+                this->location.x += maxStep;
+            }
+            else if (distanceToMove > 0)
+            {
+                this->location.y += distanceToMove;
+                this->location.x += distanceToMove;
+            }
+            else
+                defaultMovement(this->location, this->startLocation, goalLocation, maxStep, this->status, this->zodiacType, gameMapMat);
         }
         else
         {
-            this->location.y += maxStep;
+            defaultMovement(this->location, this->startLocation, goalLocation, maxStep, this->status, this->zodiacType, gameMapMat);
         }
     }
     else
     {
         if (this->location.x > goalLocation.x)
         {
-            this->location.x -= maxStep;
+            defaultMovement(this->location, this->startLocation, goalLocation, maxStep, this->status, this->zodiacType, gameMapMat);
         }
         else if (this->location.x < goalLocation.x)
         {
-            this->location.x += maxStep;
+            defaultMovement(this->location, this->startLocation, goalLocation, maxStep, this->status, this->zodiacType, gameMapMat);
         }
     }
 }
@@ -673,52 +888,34 @@ void snake::computeLocation(const point &goalLocation, const gameMap &gameMapMat
 void horse::computeLocation(const point &goalLocation, const gameMap &gameMapMat) {}
 void goat::computeLocation(const point &goalLocation, const gameMap &gameMapMat)
 {
-    int maxStep = 2;
-    int distanceToGoalHorizontal = goalDistance(this->location.y, goalLocation.y);
-    int distanceToGoalVertical = goalDistance(this->location.x, goalLocation.x);
-
-    int ogirinalHorizontal = distanceToGoalHorizontal;
-    int ogirinalVertical = distanceToGoalVertical;
-
-    distanceToObstacles(this->location, this->startLocation, goalLocation, maxStep, distanceToGoalHorizontal, distanceToGoalVertical, gameMapMat);
-
-    if ((distanceToGoalHorizontal == 0) && (distanceToGoalVertical == 0))
-    {
-        this->status = "Stuck";
-    }
-    else
-    {
-        this->status = "";
-        if (findObstacles(gameMapMat.mapMat[this->location.x][this->location.y], 'O'))
-            maxStep = 1;
-
-        if (ogirinalHorizontal < ogirinalVertical)
-            verticalCalculation(this->location, this->startLocation, goalLocation, maxStep, distanceToGoalHorizontal, distanceToGoalVertical, gameMapMat);
-        else
-            horizontalCalculation(this->location, this->startLocation, goalLocation, maxStep, distanceToGoalHorizontal, distanceToGoalVertical, gameMapMat);
-    }
+    int maxStep = this->step + this->bufferSize;
+    defaultMovement(this->location, this->startLocation, goalLocation, maxStep, this->status, this->zodiacType, gameMapMat);
 }
 void monkey::computeLocation(const point &goalLocation, const gameMap &gameMapMat) {}
 void rooster::computeLocation(const point &goalLocation, const gameMap &gameMapMat) {}
 void dog::computeLocation(const point &goalLocation, const gameMap &gameMapMat) {}
 void boar::computeLocation(const point &goalLocation, const gameMap &gameMapMat)
 {
+    int maxStep = this->step + this->bufferSize;
     int distanceToGoalHorizontal = goalDistance(this->location.y, goalLocation.y);
     int distanceToGoalVertical = goalDistance(this->location.x, goalLocation.x);
+
+    if (findObstacles(gameMapMat.mapMat[this->location.x][this->location.y], 'O'))
+        maxStep = 1;
 
     if (distanceToGoalHorizontal < distanceToGoalVertical)
     {
         if (this->location.x > goalLocation.x)
-            this->location.x--;
+            this->location.x -= maxStep;
         else
-            this->location.x++;
+            this->location.x += maxStep;
     }
     else
     {
         if (this->location.y > goalLocation.y)
-            this->location.y--;
+            this->location.y -= maxStep;
         else
-            this->location.y++;
+            this->location.y += maxStep;
     }
 }
 
@@ -905,7 +1102,6 @@ void Game::startGame(point goalLocation, bool printMapFlag = 0)
         {
             zodiac *currentZodiac = zList[i];
             currentZodiac->move(goalLocation, mapMat);
-
             if (currentZodiac->location.x == goalLocation.x && currentZodiac->location.y == goalLocation.y)
             {
                 if (!winnerFound)
