@@ -499,6 +499,94 @@ void computeOxBoar(point &location, const point goalLocation, int maxStep, const
             location.y += distanceToGoalHorizontal;
     }
 }
+void tigerPushBack(point &location, const point goalLocation, const gameMap &gameMapMat)
+{
+    if (location.y > goalLocation.y)
+    {
+        if (location.x > goalLocation.x)
+        {
+            if ((location.x + 2) >= gameMapMat.row)
+                location.x = gameMapMat.row - 1;
+            else
+                location.x += 2;
+
+            if ((location.y + 2) >= gameMapMat.col)
+                location.y = gameMapMat.col - 1;
+            else
+                location.y += 2;
+        }
+        else if (location.x < goalLocation.x)
+        {
+            if ((location.x - 2) < 0)
+                location.x = 0;
+            else
+                location.x -= 2;
+
+            if ((location.y + 2) >= gameMapMat.col)
+                location.y = gameMapMat.col - 1;
+            else
+                location.y += 2;
+        }
+        else
+        {
+            if ((location.y + 2) >= gameMapMat.col)
+                location.y = gameMapMat.col - 1;
+            else
+                location.y += 2;
+        }
+    }
+    else if (location.y < goalLocation.y)
+    {
+        if (location.x > goalLocation.x)
+        {
+            if ((location.x + 2) >= gameMapMat.row)
+                location.x = gameMapMat.row - 1;
+            else
+                location.x += 2;
+
+            if ((location.y - 2) < 0)
+                location.y = 0;
+            else
+                location.y -= 2;
+        }
+        else if (location.x < goalLocation.x)
+        {
+            if ((location.x - 2) < 0)
+                location.x = 0;
+            else
+                location.x -= 2;
+
+            if ((location.y - 2) < 0)
+                location.y = 0;
+            else
+                location.y -= 2;
+        }
+        else
+        {
+            if ((location.y - 2) < 0)
+                location.y = 0;
+            else
+                location.y -= 2;
+        }
+    }
+    else
+    {
+        if (location.x > goalLocation.x)
+        {
+            if ((location.x + 2) >= gameMapMat.row)
+                location.x = gameMapMat.row - 1;
+            else
+                location.x += 2;
+        }
+        else if (location.x < goalLocation.x)
+        {
+            if ((location.x - 2) < 0)
+                location.x = 0;
+            else
+                location.x -= 2;
+        }
+    }
+}
 
 // ================================== END OF SUPPORT FUNCTION ==================================
 
@@ -770,7 +858,11 @@ void ox::computeLocation(const point &goalLocation, const gameMap &gameMapMat)
 
     computeOxBoar(this->location, goalLocation, maxStep, gameMapMat);
 }
-void tiger::computeLocation(const point &goalLocation, const gameMap &gameMapMat) {}
+void tiger::computeLocation(const point &goalLocation, const gameMap &gameMapMat)
+{
+    int maxStep = this->step + this->bufferSize;
+    defaultComputeLocation(this->location, this->startLocation, goalLocation, maxStep, this->status, this->zodiacType, gameMapMat);
+}
 void cat::computeLocation(const point &goalLocation, const gameMap &gameMapMat)
 {
     int maxStep = this->step + this->bufferSize;
@@ -957,7 +1049,18 @@ void ox::move(const point &goalLocation, const gameMap &gameMapMat)
         gameMapMat.mapMat[this->location.x][this->location.y] += this->ID;
     }
 }
-void tiger::move(const point &goalLocation, const gameMap &gameMapMat) {}
+void tiger::move(const point &goalLocation, const gameMap &gameMapMat)
+{
+    gameMapMat.mapMat[this->startLocation.x][this->startLocation.y] = removeZodiac(gameMapMat.mapMat[this->startLocation.x][this->startLocation.y], string(this->ID));
+    if (gameMapMat.mapMat[this->location.x][this->location.y].empty())
+    {
+        gameMapMat.mapMat[this->location.x][this->location.y] = this->ID;
+    }
+    else
+    {
+        gameMapMat.mapMat[this->location.x][this->location.y] += this->ID;
+    }
+}
 void cat::move(const point &goalLocation, const gameMap &gameMapMat)
 {
     gameMapMat.mapMat[this->startLocation.x][this->startLocation.y] = removeZodiac(gameMapMat.mapMat[this->startLocation.x][this->startLocation.y], string(this->ID));
@@ -1082,6 +1185,24 @@ void Game::startGame(point goalLocation, bool printMapFlag = 0)
             zodiac *setStartLocation = zList[i];
             setStartLocation->startLocation.x = zList[i]->location.x;
             setStartLocation->startLocation.y = zList[i]->location.y;
+        }
+        for (int i = 0; i < zList.size; i++)
+        {
+            zodiac *tiger = zList[i];
+            if (tiger->zodiacType == "tiger")
+            {
+                for (int i = 0; i < zList.size; i++)
+                {
+                    zodiac *otherZodiac = zList[i];
+                    if ((otherZodiac->zodiacType != "tiger") && (otherZodiac->zodiacType != "cat") && (otherZodiac->location.x == tiger->location.x) && (otherZodiac->location.y == tiger->location.y))
+                    {
+                        tigerPushBack(otherZodiac->location, goalLocation, mapMat);
+                        mapMat[otherZodiac->startLocation.x][otherZodiac->startLocation.y] = removeZodiac(mapMat[otherZodiac->startLocation.x][otherZodiac->startLocation.y], string(otherZodiac->ID));
+                        otherZodiac->startLocation.x = otherZodiac->location.x;
+                        otherZodiac->startLocation.y = otherZodiac->location.y;
+                    }
+                }
+            }
         }
         for (int i = 0; i < zList.size; i++)
         {

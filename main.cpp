@@ -62,13 +62,16 @@ int main()
     gameMap gMap(Map, r, c);
     Game game(gMap);
 
-    game.addZo(new dragon("DR1", point(0, 0)));
-    game.addZo(new cat("C1", point(0, 0)));
-    game.addZo(new ox("O1", point(2, 0)));
-    game.addZo(new goat("G1", point(3, 0)));
-    game.addZo(new boar("B1", point(3, 4)));
+    // game.addZo(new dragon("DR1", point(0, 0)));
+    // game.addZo(new cat("C1", point(0, 0)));
+    // game.addZo(new ox("O1", point(2, 0)));
+    // game.addZo(new goat("G1", point(3, 0)));
+    game.addZo(new boar("B1", point(1, 2)));
+    game.addZo(new tiger("T1", point(1, 2)));
+    game.addZo(new tiger("T2", point(1, 2)));
+    game.addZo(new cat("C1", point(1, 2)));
 
-    game.startGame(point(6, 9), 1); // Set to true to print map during the game
+    game.startGame(point(0, 0), 1); // Set to true to print map during the game
 
     return 0;
 }
