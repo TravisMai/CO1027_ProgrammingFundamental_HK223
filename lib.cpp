@@ -253,6 +253,99 @@ void distanceToObstacles(const point location, const point startLocation, const 
         }
     }
 }
+void distanceToObstaclesRooster(const point location, const point startLocation, const point goalLocation, int maxStep, int &distanceToGoalHorizontal, int &distanceToGoalVertical, const gameMap &gameMapMat)
+{
+    bool vertical = false;
+    bool horizontal = false;
+    if (location.x > goalLocation.x)
+    {
+        int tempMaxStep = maxStep;
+        if (distanceToGoalVertical < maxStep)
+        {
+            tempMaxStep = distanceToGoalVertical;
+        }
+        // for (int i = startLocation.x - 1; i >= (startLocation.x - tempMaxStep); i--)
+        for (int i = startLocation.x - tempMaxStep; i <= startLocation.x - 1; i++)
+        {
+            if (i < 0)
+                i = 0;
+
+            if (!findObstacles(gameMapMat.mapMat[i][startLocation.y], 'W'))
+            {
+                distanceToGoalVertical = abs(i - startLocation.x);
+                vertical = true;
+                break;
+            }
+        }
+    }
+    else if (location.x < goalLocation.x)
+    {
+        int tempMaxStep = maxStep;
+        if (distanceToGoalVertical < maxStep)
+        {
+            tempMaxStep = distanceToGoalVertical;
+        }
+        // for (int i = startLocation.x + 1; i <= startLocation.x + tempMaxStep; i++)
+        for (int i = startLocation.x + tempMaxStep; i >= startLocation.x + 1; i--)
+        {
+            if (i >= gameMapMat.row)
+                i = gameMapMat.row - 1;
+
+            if (!findObstacles(gameMapMat.mapMat[i][startLocation.y], 'W'))
+            {
+                distanceToGoalVertical = abs(i - startLocation.x);
+                vertical = true;
+                break;
+            }
+        }
+    }
+    if (location.y > goalLocation.y)
+    {
+        int tempMaxStep = maxStep;
+        if (distanceToGoalHorizontal < maxStep)
+        {
+            tempMaxStep = distanceToGoalHorizontal;
+        }
+        // for (int i = startLocation.y - 1; i >= (startLocation.y - tempMaxStep); i--)
+        for (int i = startLocation.y - tempMaxStep; i <= startLocation.y - 1; i++)
+        {
+            if (i < 0)
+                i = 0;
+
+            if (!findObstacles(gameMapMat.mapMat[startLocation.x][i], 'W'))
+            {
+                distanceToGoalHorizontal = abs(i - startLocation.y);
+                horizontal = true;
+                break;
+            }
+        }
+    }
+    else if (location.y < goalLocation.y)
+    {
+        int tempMaxStep = maxStep;
+        if (distanceToGoalHorizontal < maxStep)
+        {
+            tempMaxStep = distanceToGoalHorizontal;
+        }
+        // for (int i = startLocation.y + 1; i <= (startLocation.y + tempMaxStep); i++)
+        for (int i = startLocation.y + tempMaxStep; i >= startLocation.y + 1; i--)
+        {
+            if (i >= gameMapMat.col)
+                i = gameMapMat.col - 1;
+
+            if (!findObstacles(gameMapMat.mapMat[startLocation.x][i], 'W'))
+            {
+                distanceToGoalHorizontal = abs(i - startLocation.y);
+                horizontal = true;
+                break;
+            }
+        }
+    }
+    if (!vertical)
+        distanceToGoalVertical = 0;
+    if (!horizontal)
+        distanceToGoalHorizontal = 0;
+}
 void verticalCalculation(point &location, const point startLocation, const point goalLocation, int maxStep, string zodiacType, int distanceToGoalHorizontal, int distanceToGoalVertical, const gameMap &gameMapMat);
 void horizontalCalculation(point &location, const point startLocation, const point goalLocation, int maxStep, string zodiacType, int distanceToGoalHorizontal, int distanceToGoalVertical, const gameMap &gameMapMat)
 {
@@ -633,6 +726,45 @@ void defaultComputeLocation(point &location, point &startLocation, const point g
         else
             horizontalCalculation(location, startLocation, goalLocation, maxStep, zodiacType, distanceToGoalHorizontal, distanceToGoalVertical, gameMapMat);
     }
+}
+void computeRooster(point &location, const point startLocation, const point goalLocation, int maxStep, string &status, const gameMap &gameMapMat)
+{
+    int distanceToGoalHorizontal = goalDistance(location.y, goalLocation.y);
+    int distanceToGoalVertical = goalDistance(location.x, goalLocation.x);
+
+    distanceToObstaclesRooster(location, startLocation, goalLocation, maxStep, distanceToGoalHorizontal, distanceToGoalVertical, gameMapMat);
+
+    if (distanceToGoalHorizontal == 0 && distanceToGoalVertical == 0)
+    {
+        status = "Stuck";
+        return;
+    }
+
+    if (goalDistance(location.y, goalLocation.y) < goalDistance(location.x, goalLocation.x))
+    {
+        if (location.x > goalLocation.x)
+            if (distanceToGoalVertical > maxStep)
+                location.x -= maxStep;
+            else
+                location.x -= distanceToGoalVertical;
+        else if (distanceToGoalVertical > maxStep)
+            location.x += maxStep;
+        else
+            location.x += distanceToGoalVertical;
+    }
+    else
+    {
+        if (location.y > goalLocation.y)
+            if (distanceToGoalHorizontal > maxStep)
+                location.y -= maxStep;
+            else
+                location.y -= distanceToGoalHorizontal;
+        else if (distanceToGoalHorizontal > maxStep)
+            location.y += maxStep;
+        else
+            location.y += distanceToGoalHorizontal;
+    }
+
 }
 void computeOxBoarMonkey(point &location, const point goalLocation, int maxStep, const gameMap &gameMapMat)
 {
@@ -1187,7 +1319,22 @@ void monkey::computeLocation(const point &goalLocation, const gameMap &gameMapMa
     else
         defaultComputeLocation(this->location, this->startLocation, goalLocation, maxStep, this->status, this->zodiacType, gameMapMat);
 }
-void rooster::computeLocation(const point &goalLocation, const gameMap &gameMapMat) {}
+void rooster::computeLocation(const point &goalLocation, const gameMap &gameMapMat)
+{
+    int maxStep = this->step + this->bufferSize;
+    if (findObstacles(gameMapMat.mapMat[this->location.x][this->location.y], 'S') || findObstacles(gameMapMat.mapMat[this->location.x][this->location.y], 'T'))
+        maxStep = 3 + this->bufferSize;
+    if (findObstacles(gameMapMat.mapMat[this->location.x][this->location.y], 'O'))
+        maxStep = 1;
+
+    if (maxStep == (3 + this->bufferSize))
+    {
+        computeRooster(this->location, this->startLocation, goalLocation, maxStep, this->status, gameMapMat);
+    }
+    else
+    {
+    }
+}
 void dog::computeLocation(const point &goalLocation, const gameMap &gameMapMat)
 {
     int maxStep = this->step + this->bufferSize;
@@ -1401,7 +1548,7 @@ void Game::startGame(point goalLocation, bool printMapFlag = 0)
     mapMat.printMap();
     zodiac *winnerZodiac = nullptr;
     int turn = 0;
-    while (true)
+    while (true && turn < 2)
     {
         turn++;
         cout << "TURN " << turn << endl;
