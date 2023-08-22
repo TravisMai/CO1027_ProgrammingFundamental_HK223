@@ -41,7 +41,7 @@ int main()
          {"", "", "T", "", "O", "", "", "W", "", "S"},
          {"", "", "", "", "", "", "", "W", "", "S"},
          {"", "", "", "", "", "", "", "", "", "S"},
-         {"", "S", "", "S", "S", "WT", "", "W", "", "T"}};
+         {"", "W", "", "", "W", "WT", "", "W", "W", "T"}};
     int r = 8;
     int c = 10;
     string **Map = new string *[r];
@@ -63,6 +63,7 @@ int main()
     game.addZo(new ox("O1", point(1, 2)));
     game.addZo(new tiger("T1", point(1, 2)));
     game.addZo(new snake("S1", point(1, 2)));
+    game.addZo(new horse("H1", point(7, 0)));
     // game.addZo(new tiger("T2", point(6, 8)));
     // game.addZo(new dragon("DR2", point(6, 8)));
     // game.addZo(new cat("C1", point(2, 5)));

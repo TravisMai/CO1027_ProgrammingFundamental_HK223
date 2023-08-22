@@ -2,7 +2,6 @@
 #define LIB_H
 #include <string>
 #include <iomanip>
-#include <cctype>
 using namespace std;
 
 class gameMap
