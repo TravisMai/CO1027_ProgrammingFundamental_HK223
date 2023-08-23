@@ -4,6 +4,18 @@ using namespace std;
 
 // ================================== START OF SUPPORT FUNCTION ==================================
 
+void modifyArray(int arr[], int size) {
+    int current = arr[0];
+    int count = 1;
+
+    for (int i = 0; i < size; i++) {
+        if (arr[i] != current) {
+            current = arr[i];
+            count++;
+        }
+        arr[i] = count;
+    }
+}
 int goalDistance(int x, int y)
 {
     return abs(x - y);
@@ -1237,6 +1249,7 @@ zodiac::zodiac(const string &id, const point &loc) : ID(id), location(loc), stat
 {
     step = 2;
     bufferSize = 0;
+    distanceToGoal = -1;
 }
 rat::rat(const string &id, const point &loc) : zodiac(id, loc)
 {
@@ -1917,6 +1930,48 @@ void Game::startGame(point goalLocation, bool printMapFlag = 0)
             {
                 cout << "########RESULT#########\nCongratulations to the winner ";
                 winnerZodiac->printInfo();
+                int rankStore[zList.size];
+                for (int i = 0; i < zList.size; i++)
+                {
+                    zodiac *currentZodiac = zList[i];
+                    currentZodiac->distanceToGoal = goalDistance(currentZodiac->location.x, goalLocation.x) + goalDistance(currentZodiac->location.y, goalLocation.y);
+                    rankStore[i] = currentZodiac->distanceToGoal;
+                }
+                for (int i = 0; i < zList.size - 1; i++)
+                {
+                    for (int j = 0; j < zList.size - i - 1; j++)
+                    {
+                        if (rankStore[j] > rankStore[j + 1])
+                        {
+                            int temp = rankStore[j];
+                            rankStore[j] = rankStore[j + 1];
+                            rankStore[j + 1] = temp;
+                        }
+                    }
+                }
+                int rankCounter[zList.size];
+                for (int i = 0; i < zList.size; i++)
+                {
+                    rankCounter[i] = rankStore[i];
+                }
+                modifyArray(rankCounter, zList.size);
+                for (int i = 0; i < zList.size; i++)
+                {
+                    for (int j = 0; j < zList.size; j++)
+                    {
+                        zodiac *currentZodiac = zList[j];
+                        if ((currentZodiac->distanceToGoal == rankStore[i]))
+                        {
+                            if (currentZodiac->ID != winnerZodiac->ID)
+                            {
+                                cout << "Rank " << rankCounter[i] << ": ";
+                                currentZodiac->printInfo();
+                            }
+                            currentZodiac->distanceToGoal = -1;
+                            break;
+                        }
+                    }
+                }
             }
             else
             {

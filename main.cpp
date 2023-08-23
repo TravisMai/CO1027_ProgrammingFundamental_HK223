@@ -37,7 +37,7 @@ int main()
         {{"", "", "", "S", "", "", "", "W", "", "S"},
          {"O", "", "", "", "", "S", "", "", "", "S"},
          {"W", "", "", "", "", "W", "", "", "", "S"},
-         {"", "", "T", "S", "W", "", "", "", "", "S"},
+         {"", "", "", "S", "", "", "", "", "", "S"},
          {"", "", "T", "", "O", "", "", "W", "", "S"},
          {"", "", "", "", "", "", "", "W", "", "S"},
          {"", "", "", "", "", "", "", "", "", "S"},
@@ -58,12 +58,12 @@ int main()
     Game game(gMap);
 
     game.addZo(new dragon("DR1", point(0, 0)));
-    game.addZo(new cat("C2", point(0, 0)));
     game.addZo(new goat("G1", point(3, 0)));
     game.addZo(new ox("O1", point(1, 2)));
     game.addZo(new tiger("T1", point(1, 2)));
     game.addZo(new snake("S1", point(1, 2)));
     game.addZo(new horse("H1", point(7, 0)));
+    game.addZo(new cat("C2", point(0, 0)));
     game.addZo(new monkey("M1", point(3, 1)));
     game.addZo(new rooster("R1", point(3, 1)));
     game.addZo(new rat("R2", point(3, 1)));

@@ -41,6 +41,7 @@ public:
     string zodiacType;
     int step;
     int bufferSize;
+    int distanceToGoal;
 
     zodiac(const string &id, const point &loc);
     virtual ~zodiac() {}
