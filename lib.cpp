@@ -1,15 +1,18 @@
 #include "lib.h"
 #include <iostream>
 using namespace std;
-
+// 2052612 - Mai Huu Nghia
 // ================================== START OF SUPPORT FUNCTION ==================================
-
-void modifyArray(int arr[], int size) {
+// this property is belong to Mai Huu Nghia - 2052612
+void modifyArray(int arr[], int size)
+{
     int current = arr[0];
     int count = 1;
-
-    for (int i = 0; i < size; i++) {
-        if (arr[i] != current) {
+    // 20.52.612
+    for (int i = 0; i < size; i++)
+    {
+        if (arr[i] != current)
+        {
             current = arr[i];
             count++;
         }
@@ -23,7 +26,7 @@ int goalDistance(int x, int y)
 string removeZodiac(string input, const string &substring)
 {
     size_t pos = input.find(substring);
-
+    // 20.52.612
     while (pos != string::npos)
     {
         input.erase(pos, substring.length());
@@ -58,7 +61,7 @@ string removeStone(const string &input)
             result += input[i];
         }
     }
-
+    // 20.52.612
     return result;
 }
 string removeWater(const string &input)
@@ -83,7 +86,7 @@ string removeWater(const string &input)
             result += input[i];
         }
     }
-
+    // 20.52.612
     return result;
 }
 bool findObstacles(const string &input, char obstacles)
@@ -108,7 +111,7 @@ bool findObstacles(const string &input, char obstacles)
             pos++;
         }
     }
-
+    // 20.52.612
     return false;
 }
 void distanceToObstacles(const point location, const point startLocation, const point goalLocation, int maxStep, string zodiacType, int &distanceToGoalHorizontal, int &distanceToGoalVertical, const gameMap &gameMapMat)
@@ -124,7 +127,7 @@ void distanceToObstacles(const point location, const point startLocation, const 
         {
             if (i < 0)
                 break;
-
+            // 20.52.612
             /* if (zodiacType == "rooster")
             {
                 if (findObstacles(gameMapMat.mapMat[i][startLocation.y], 'W'))
@@ -171,7 +174,7 @@ void distanceToObstacles(const point location, const point startLocation, const 
         {
             if (i >= gameMapMat.row)
                 break;
-
+            // 20.52.612
             /* if (zodiacType == "rooster")
             {
                 if (findObstacles(gameMapMat.mapMat[i][startLocation.y], 'W'))
@@ -218,7 +221,7 @@ void distanceToObstacles(const point location, const point startLocation, const 
         {
             if (i < 0)
                 break;
-
+            // 20.52.612
             /* if (zodiacType == "rooster")
             {
                 if (findObstacles(gameMapMat.mapMat[startLocation.x][i], 'W'))
@@ -265,6 +268,7 @@ void distanceToObstacles(const point location, const point startLocation, const 
         {
             if (i >= gameMapMat.col)
                 break;
+            // 20.52.612
             /* if (zodiacType == "rooster")
             {
                 if (findObstacles(gameMapMat.mapMat[startLocation.x][i], 'W'))
@@ -312,7 +316,7 @@ void distanceToObstaclesRooster(const point location, const point startLocation,
         {
             tempMaxStep = distanceToGoalVertical;
         }
-        // for (int i = startLocation.x - 1; i >= (startLocation.x - tempMaxStep); i--)
+        // for (int i = startLocation.x - 1; i >= (startLocation.x - tempMaxStep); i--) // 20.52.612
         for (int i = startLocation.x - tempMaxStep; i <= startLocation.x - 1; i++)
         {
             if (i < 0)
@@ -408,13 +412,13 @@ void horizontalCalculation(point &location, const point startLocation, const poi
                 {
                     if (i < 0)
                         break;
-
+                    // 20.52.612
                     /* if (zodiacType == "rooster")
                     {
                         if (findObstacles(gameMapMat.mapMat[startLocation.x][i], 'W'))
                         {
                             isOstacle = true;
-                            location.y -= (abs(i - startLocation.y) - 1);
+                            location.y -= (abs(i - startLocation.y) - 1); // nghia.maiemches
                             break;
                         }
                     }
@@ -465,7 +469,7 @@ void horizontalCalculation(point &location, const point startLocation, const poi
                         if (findObstacles(gameMapMat.mapMat[startLocation.x][i], 'W'))
                         {
                             isOstacle = true;
-                            location.y -= (abs(i - startLocation.y) - 1);
+                            location.y -= (abs(i - startLocation.y) - 1);// nghia.maiemches
                             break;
                         }
                     }
@@ -517,7 +521,7 @@ void horizontalCalculation(point &location, const point startLocation, const poi
                     if (findObstacles(gameMapMat.mapMat[startLocation.x][i], 'W'))
                     {
                         isOstacle = true;
-                        location.y += (abs(i - startLocation.y) - 1);
+                        location.y += (abs(i - startLocation.y) - 1);// nghia.maiemches
                         break;
                     }
                 }
@@ -566,7 +570,7 @@ void horizontalCalculation(point &location, const point startLocation, const poi
                 /* if (zodiacType == "rooster")
                 {
                     if (findObstacles(gameMapMat.mapMat[startLocation.x][i], 'W'))
-                    {
+                    {// nghia.maiemches
                         isOstacle = true;
                         location.y += (abs(i - startLocation.y) - 1);
                         break;
@@ -631,7 +635,7 @@ void verticalCalculation(point &location, const point startLocation, const point
                         if (findObstacles(gameMapMat.mapMat[i][startLocation.y], 'W'))
                         {
                             isOstacle = true;
-                            location.x -= (abs(i - startLocation.x) - 1);
+                            location.x -= (abs(i - startLocation.x) - 1);// nghia.maiemches
                             break;
                         }
                     }
@@ -681,7 +685,7 @@ void verticalCalculation(point &location, const point startLocation, const point
                     {
                         if (findObstacles(gameMapMat.mapMat[i][startLocation.y], 'W'))
                         {
-                            isOstacle = true;
+                            isOstacle = true;// nghia.maiemches
                             location.x -= (abs(i - startLocation.x) - 1);
                             break;
                         }
@@ -694,7 +698,7 @@ void verticalCalculation(point &location, const point startLocation, const point
                             isOstacle = true;
                             location.x -= (abs(i - startLocation.x) - 1);
                             break;
-                        }
+                        } // gulupleple
                     }
                     else if (zodiacType == "horse")
                     {
@@ -734,7 +738,7 @@ void verticalCalculation(point &location, const point startLocation, const point
                     if (findObstacles(gameMapMat.mapMat[i][startLocation.y], 'W'))
                     {
                         isOstacle = true;
-                        location.x += (abs(i - startLocation.x) - 1);
+                        location.x += (abs(i - startLocation.x) - 1);// nghia.maiemches
                         break;
                     }
                 }
@@ -784,7 +788,7 @@ void verticalCalculation(point &location, const point startLocation, const point
                 {
                     if (findObstacles(gameMapMat.mapMat[i][startLocation.y], 'W'))
                     {
-                        isOstacle = true;
+                        isOstacle = true;// nghia.maiemches
                         location.x += (abs(i - startLocation.x) - 1);
                         break;
                     }
@@ -832,10 +836,10 @@ void defaultComputeLocation(point &location, point &startLocation, const point g
 {
     int distanceToGoalHorizontal = goalDistance(location.y, goalLocation.y);
     int distanceToGoalVertical = goalDistance(location.x, goalLocation.x);
-
+    // nghia.maiemches
     int ogirinalHorizontal = distanceToGoalHorizontal;
     int ogirinalVertical = distanceToGoalVertical;
-
+    // nghia.maiemches
     distanceToObstacles(location, startLocation, goalLocation, maxStep, zodiacType, distanceToGoalHorizontal, distanceToGoalVertical, gameMapMat);
 
     if ((distanceToGoalHorizontal == 0) && (distanceToGoalVertical == 0))
@@ -887,7 +891,7 @@ void computeRooster(point &location, const point startLocation, const point goal
             else
                 location.y -= distanceToGoalHorizontal;
         else if (distanceToGoalHorizontal > maxStep)
-            location.y += maxStep;
+            location.y += maxStep; // nghia.maiemches
         else
             location.y += distanceToGoalHorizontal;
     }
@@ -905,7 +909,7 @@ void computeOxBoarMonkey(point &location, const point goalLocation, int maxStep,
             else
                 location.x -= distanceToGoalVertical;
         else if (distanceToGoalVertical > maxStep)
-            location.x += maxStep;
+            location.x += maxStep; // gulupleple
         else
             location.x += distanceToGoalVertical;
     }
@@ -917,7 +921,7 @@ void computeOxBoarMonkey(point &location, const point goalLocation, int maxStep,
             else
                 location.y -= distanceToGoalHorizontal;
         else if (distanceToGoalHorizontal > maxStep)
-            location.y += maxStep;
+            location.y += maxStep; // TravisMai
         else
             location.y += distanceToGoalHorizontal;
     }
@@ -925,7 +929,7 @@ void computeOxBoarMonkey(point &location, const point goalLocation, int maxStep,
 void tigerPushBack(point &location, const point goalLocation, const gameMap &gameMapMat)
 {
     if (location.y > goalLocation.y)
-    {
+    { // gulupleple
         if (location.x > goalLocation.x)
         {
             if ((location.x + 2) >= gameMapMat.row)
@@ -957,7 +961,7 @@ void tigerPushBack(point &location, const point goalLocation, const gameMap &gam
             else
                 location.y += 2;
         }
-    }
+    } // TravisMai
     else if (location.y < goalLocation.y)
     {
         if (location.x > goalLocation.x)
@@ -1019,14 +1023,14 @@ void defaultMove(point &location, point &startLocation, string ID, const gameMap
     }
     else
     {
-        gameMapMat.mapMat[location.x][location.y] += ID;
+        gameMapMat.mapMat[location.x][location.y] += ID; // TravisMai
     }
 }
 bool isRoosterNextToStone(point &location, const point startLocation, const point goalLocation, int maxStep, string &status, string zodiacType, const gameMap &gameMapMat)
 {
-    int distanceToGoalHorizontal = goalDistance(location.y, goalLocation.y);
+    int distanceToGoalHorizontal = goalDistance(location.y, goalLocation.y); // gulupleple
     int distanceToGoalVertical = goalDistance(location.x, goalLocation.x);
-
+    // gulupleple
     int ogirinalHorizontal = distanceToGoalHorizontal;
     int ogirinalVertical = distanceToGoalVertical;
 
@@ -1063,7 +1067,7 @@ bool isRoosterNextToStone(point &location, const point startLocation, const poin
         }
         else
         {
-            if (distanceToGoalHorizontal == 0)
+            if (distanceToGoalHorizontal == 0) // TravisMai
             {
                 if (location.y > goalLocation.y && findObstacles(gameMapMat.mapMat[location.x][location.y - 1], 'S'))
                 {
@@ -1083,11 +1087,11 @@ bool isRoosterNextToStone(point &location, const point startLocation, const poin
         }
     }
 }
-
+// this property is belong to Mai Huu Nghia - 2052612
 // ================================== END OF SUPPORT FUNCTION ==================================
-
+// 2052612 - Mai Huu Nghia
 // ================================== START OF GAME MAP INITIALIZE ==================================
-
+// this property is belong to Mai Huu Nghia - 2052612
 void gameMap::printTopHorizontalBorder()
 {
     cout << ' ';
@@ -1240,11 +1244,11 @@ gameMap::~gameMap()
     }
     delete[] mapMat;
 }
-
+// this property is belong to Mai Huu Nghia - 2052612
 // ================================== END OF GAME MAP INITIALIZE ==================================
-
+// 2052612 - Mai Huu Nghia
 // ================================== START OF CONSTRUCTOR ==================================
-
+// this property is belong to Mai Huu Nghia - 2052612
 zodiac::zodiac(const string &id, const point &loc) : ID(id), location(loc), status("")
 {
     step = 2;
@@ -1264,7 +1268,7 @@ dragon::dragon(const string &id, const point &loc) : zodiac(id, loc)
     zodiacType = "dragon";
     step = 1;
 }
-snake::snake(const string &id, const point &loc) : zodiac(id, loc) { zodiacType = "snake"; }
+snake::snake(const string &id, const point &loc) : zodiac(id, loc) { zodiacType = "snake"; } // TravisMai
 horse::horse(const string &id, const point &loc) : zodiac(id, loc)
 {
     zodiacType = "horse";
@@ -1279,11 +1283,11 @@ boar::boar(const string &id, const point &loc) : zodiac(id, loc)
     zodiacType = "boar";
     step = 1;
 }
-
+// this property is belong to Mai Huu Nghia - 2052612
 // ================================== END OF CONSTRUCTOR ==================================
-
+// 2052612 - Mai Huu Nghia
 // ================================== START OF ZODIAC PRINTING FUNCTION ==================================
-
+// this property is belong to Mai Huu Nghia - 2052612
 void zodiac::printInfo() const {}
 void zodiac::printCommonInfo() const
 {
@@ -1337,11 +1341,11 @@ void boar::printInfo() const
 {
     printCommonInfo();
 }
-
+// this property is belong to Mai Huu Nghia - 2052612
 // ================================== END OF ZODIAC PRINTING FUNCTION ==================================
-
+// 2052612 - Mai Huu Nghia
 // ================================== START OF LOCATION COMPUTE FUNCTION ==================================
-
+// this property is belong to Mai Huu Nghia - 2052612
 void zodiac::computeLocation(const point &goalLocation, const gameMap &gameMapMat) {}
 void rat::computeLocation(const point &goalLocation, const gameMap &gameMapMat)
 {
@@ -1353,7 +1357,7 @@ void ox::computeLocation(const point &goalLocation, const gameMap &gameMapMat)
     int maxStep = this->step + this->bufferSize;
 
     if (findObstacles(gameMapMat.mapMat[this->location.x][this->location.y], 'W'))
-        maxStep = 3 + this->bufferSize;
+        maxStep = 3 + this->bufferSize; // TravisMai
     if (findObstacles(gameMapMat.mapMat[this->location.x][this->location.y], 'O'))
         maxStep = 1;
 
@@ -1381,7 +1385,7 @@ void dragon::computeLocation(const point &goalLocation, const gameMap &gameMapMa
         if (this->location.x > goalLocation.x)
         {
             for (int i = 1; i <= maxStep; i++)
-            {
+            { // gulupleple
                 if (findObstacles(gameMapMat.mapMat[this->location.x - i][this->location.y - i], 'O'))
                     distanceToMove = i - 1;
             }
@@ -1417,7 +1421,7 @@ void dragon::computeLocation(const point &goalLocation, const gameMap &gameMapMa
             }
             else
                 defaultComputeLocation(this->location, this->startLocation, goalLocation, maxStep, this->status, this->zodiacType, gameMapMat);
-        }
+        } // TravisMai
         else
         {
             defaultComputeLocation(this->location, this->startLocation, goalLocation, maxStep, this->status, this->zodiacType, gameMapMat);
@@ -1451,7 +1455,7 @@ void dragon::computeLocation(const point &goalLocation, const gameMap &gameMapMa
             {
                 if (findObstacles(gameMapMat.mapMat[this->location.x + i][this->location.y + i], 'O'))
                     distanceToMove = i - 1;
-            }
+            } // TravisMai
             if (distanceToMove > maxStep)
             {
                 this->location.y += maxStep;
@@ -1459,7 +1463,7 @@ void dragon::computeLocation(const point &goalLocation, const gameMap &gameMapMa
             }
             else if (distanceToMove > 0)
             {
-                this->location.y += distanceToMove;
+                this->location.y += distanceToMove; // TravisMai
                 this->location.x += distanceToMove;
             }
             else
@@ -1480,7 +1484,7 @@ void dragon::computeLocation(const point &goalLocation, const gameMap &gameMapMa
         {
             defaultComputeLocation(this->location, this->startLocation, goalLocation, maxStep, this->status, this->zodiacType, gameMapMat);
         }
-    }
+    } // gulupleple
 }
 void snake::computeLocation(const point &goalLocation, const gameMap &gameMapMat)
 {
@@ -1544,11 +1548,11 @@ void boar::computeLocation(const point &goalLocation, const gameMap &gameMapMat)
 
     computeOxBoarMonkey(this->location, goalLocation, maxStep, gameMapMat);
 }
-
+// this property is belong to Mai Huu Nghia - 2052612
 // ================================== END OF LOCATION COMPUTE FUNCTION ==================================
-
+// 2052612 - Mai Huu Nghia
 // ================================== START OF MOVE FUNCTION ==================================
-
+// this property is belong to Mai Huu Nghia - 2052612
 void zodiac::move(const point &goalLocation, const gameMap &gameMapMat) {}
 void rat::move(const point &goalLocation, const gameMap &gameMapMat)
 {
@@ -1573,7 +1577,7 @@ void ox::move(const point &goalLocation, const gameMap &gameMapMat)
         }
     }
     else
-    {
+    { // TravisMai
         if (this->location.y > this->startLocation.y)
         {
             for (int i = this->startLocation.y; i < this->location.y; i++)
@@ -1586,7 +1590,7 @@ void ox::move(const point &goalLocation, const gameMap &gameMapMat)
         }
     }
     if (gameMapMat.mapMat[this->location.x][this->location.y].empty())
-    {
+    { // TravisMai
         gameMapMat.mapMat[this->location.x][this->location.y] = this->ID;
     }
     else
@@ -1634,7 +1638,7 @@ void horse::move(const point &goalLocation, const gameMap &gameMapMat)
                     this->step = 1;
             }
         }
-    }
+    } // TravisMai
     else
     {
         if (this->location.y > this->startLocation.y)
@@ -1653,7 +1657,7 @@ void horse::move(const point &goalLocation, const gameMap &gameMapMat)
                     this->step = 1;
             }
         }
-    }
+    } // TravisMai
     if (gameMapMat.mapMat[this->location.x][this->location.y].empty())
     {
         gameMapMat.mapMat[this->location.x][this->location.y] = this->ID;
@@ -1690,14 +1694,14 @@ void boar::move(const point &goalLocation, const gameMap &gameMapMat)
     {
         gameMapMat.mapMat[this->location.x][this->location.y] = removeWater(gameMapMat.mapMat[this->location.x][this->location.y]);
         gameMapMat.mapMat[this->location.x][this->location.y] = removeStone(gameMapMat.mapMat[this->location.x][this->location.y]);
-        gameMapMat.mapMat[this->location.x][this->location.y] += this->ID;
+        gameMapMat.mapMat[this->location.x][this->location.y] += this->ID; // TravisMai
     }
 }
-
+// this property is belong to Mai Huu Nghia - 2052612
 // ================================== END OF MOVE FUNCTION ==================================
-
+// 2052612 - Mai Huu Nghia
 // ================================== START OF ZOLIST INITIALIZE ==================================
-
+// this property is belong to Mai Huu Nghia - 2052612
 zoList::zoList() : maxSize(12), size(0)
 {
     zList = new zodiac *[maxSize];
@@ -1726,24 +1730,40 @@ zodiac *zoList::operator[](int i)
     }
     return nullptr;
 }
-
+// this property is belong to Mai Huu Nghia - 2052612
 // ================================== END OF ZOLIST INITIALIZE ==================================
-
+// 2052612 - Mai Huu Nghia
 // ================================== START OF GAME INITIALIZE ==================================
-
+// this property is belong to Mai Huu Nghia - 2052612
 Game::Game(const gameMap &m) : mapMat(m) {}
 void Game::addZo(zodiac *k)
 {
     zList.add(k);
     int x = k->location.x;
     int y = k->location.y;
-    if (mapMat.mapMat[x][y].empty())
-        mapMat.mapMat[x][y] = k->ID;
-    else
-        mapMat.mapMat[x][y] += k->ID;
+    if (x >= 0 && x < mapMat.row && y >= 0 && y < mapMat.col)
+    {
+        if (mapMat.mapMat[x][y].empty())
+            mapMat.mapMat[x][y] = k->ID;
+        else
+            mapMat.mapMat[x][y] += k->ID;
+    }
 }
 void Game::startGame(point goalLocation, bool printMapFlag = 0)
 {
+    if (goalLocation.x < 0 || goalLocation.x >= mapMat.row || goalLocation.y < 0 || goalLocation.y >= mapMat.col)
+    {
+        cout << "Out of Bound";
+        return;
+    }
+    for (int i = 0; i < zList.size; i++)
+    {
+        if (zList[i]->location.x < 0 || zList[i]->location.x >= mapMat.row || zList[i]->location.y < 0 || zList[i]->location.y >= mapMat.col)
+        {
+            cout << "Out of Bound";
+            return;
+        }
+    }
     cout << "GAME START" << endl;
     mapMat[goalLocation.x][goalLocation.y] = 'G';
     mapMat.printMap();
@@ -1772,11 +1792,11 @@ void Game::startGame(point goalLocation, bool printMapFlag = 0)
             if (tiger->zodiacType == "tiger")
             {
                 for (int i = 0; i < zList.size; i++)
-                {
+                { // gulupleple
                     zodiac *otherZodiac = zList[i];
                     if ((otherZodiac->zodiacType != "tiger") && (otherZodiac->zodiacType != "cat") && (otherZodiac->location.x == tiger->location.x) && (otherZodiac->location.y == tiger->location.y))
                     {
-                        tigerPushBack(otherZodiac->location, goalLocation, mapMat);
+                        tigerPushBack(otherZodiac->location, goalLocation, mapMat); // gulupleple
                         mapMat[otherZodiac->startLocation.x][otherZodiac->startLocation.y] = removeZodiac(mapMat[otherZodiac->startLocation.x][otherZodiac->startLocation.y], string(otherZodiac->ID));
                         otherZodiac->startLocation.x = otherZodiac->location.x;
                         otherZodiac->startLocation.y = otherZodiac->location.y;
@@ -1803,7 +1823,7 @@ void Game::startGame(point goalLocation, bool printMapFlag = 0)
                 {
                     zodiac *otherZodiac = zList[i];
                     if ((otherZodiac->location.x == dog->location.x) && (otherZodiac->location.y == dog->location.y) && (otherZodiac != dog))
-                    {
+                    { // TravisMai
                         if (dog->bufferSize == 0)
                             dog->bufferSize++;
                         if ((otherZodiac->zodiacType != "cat") && (otherZodiac->bufferSize == 0))
@@ -1811,12 +1831,12 @@ void Game::startGame(point goalLocation, bool printMapFlag = 0)
                     }
                 }
             }
-        }
+        } // gulupleple
 
         // snake effect
         for (int i = 0; i < zList.size; i++)
         {
-            zodiac *snake = zList[i];
+            zodiac *snake = zList[i]; // TravisMai
             if (snake->zodiacType == "snake")
             {
                 for (int i = 0; i < zList.size; i++)
@@ -1861,14 +1881,14 @@ void Game::startGame(point goalLocation, bool printMapFlag = 0)
                             if (otherZodiac->zodiacType == "goat")
                             {
                                 cout << "goat: " << distanceToGoal << endl;
-                            }
+                            } // gulupleple
                             if (distanceToGoal < maxCheater)
                             {
                                 maxCheater = distanceToGoal;
                                 rat->location.x = otherZodiac->location.x;
                                 rat->location.y = otherZodiac->location.y;
                             }
-                            else if (distanceToGoal == maxCheater)
+                            else if (distanceToGoal == maxCheater) // gulupleple
                             {
                                 if (goalDistance(otherZodiac->location.y, goalLocation.y) < goalDistance(rat->location.y, goalLocation.y))
                                 {
@@ -1897,7 +1917,7 @@ void Game::startGame(point goalLocation, bool printMapFlag = 0)
             }
         }
 
-        // reset
+        // reset// gulupleple
         for (int i = 0; i < zList.size; i++)
         {
             zodiac *currentZodiac = zList[i];
@@ -1933,7 +1953,7 @@ void Game::startGame(point goalLocation, bool printMapFlag = 0)
                 int rankStore[zList.size];
                 for (int i = 0; i < zList.size; i++)
                 {
-                    zodiac *currentZodiac = zList[i];
+                    zodiac *currentZodiac = zList[i]; // gulupleple
                     currentZodiac->distanceToGoal = goalDistance(currentZodiac->location.x, goalLocation.x) + goalDistance(currentZodiac->location.y, goalLocation.y);
                     rankStore[i] = currentZodiac->distanceToGoal;
                 }
@@ -1964,7 +1984,11 @@ void Game::startGame(point goalLocation, bool printMapFlag = 0)
                         {
                             if (currentZodiac->ID != winnerZodiac->ID)
                             {
-                                cout << "Rank " << rankCounter[i] << ": ";
+                                if (rankCounter[i] == 1)
+                                    cout << "Congratulations to the winner ";
+                                else
+                                    cout << "Rank " << rankCounter[i] << ":";
+
                                 currentZodiac->printInfo();
                             }
                             currentZodiac->distanceToGoal = -1;
@@ -1973,13 +1997,13 @@ void Game::startGame(point goalLocation, bool printMapFlag = 0)
                     }
                 }
             }
-            else
-            {
-                cout << "All zodiacs are stuck. No winner this time.\n";
-            }
+            // else
+            // {// gulupleple
+            //     cout << "All zodiacs are stuck. No winner this time.\n";
+            // }// gulupleple
             break;
         }
     }
 }
-
+// this property is belong to Mai Huu Nghia - 2052612
 // ================================== END OF GAME INITIALIZE ==================================

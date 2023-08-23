@@ -4,6 +4,7 @@
 #include <iomanip>
 using namespace std;
 
+// this property is belong to Mai Huu Nghia - 2052612
 class gameMap
 {
 public:
@@ -14,7 +15,7 @@ public:
     gameMap(string **inputMat, int r, int c);
     gameMap(const gameMap &other); // copy constructor
     ~gameMap();
-
+    // 2052612 - Mai Huu Nghia
     void printTopHorizontalBorder();
     void printBottomLine();
     void printTopHorizontalCellBorder();
@@ -22,6 +23,7 @@ public:
     void printMap();
 };
 
+// this property is belong to Mai Huu Nghia - 2052612
 struct point
 {
     int x;
@@ -31,6 +33,7 @@ struct point
     point(int xCoord, int yCoord) : x(xCoord), y(yCoord) {}
 };
 
+// this property is belong to Mai Huu Nghia - 2052612
 class zodiac
 {
 public:
@@ -42,7 +45,7 @@ public:
     int step;
     int bufferSize;
     int distanceToGoal;
-
+    // 2052612 - Mai Huu Nghia
     zodiac(const string &id, const point &loc);
     virtual ~zodiac() {}
 
@@ -52,6 +55,7 @@ public:
     virtual void move(const point &goalLocation, const gameMap &gameMapMat);
 };
 
+// this property is belong to Mai Huu Nghia - 2052612
 class rat : public zodiac
 {
 public:
@@ -61,6 +65,7 @@ public:
     void move(const point &goalLocation, const gameMap &gameMapMat) override;
 };
 
+// this property is belong to Mai Huu Nghia - 2052612
 class ox : public zodiac
 {
 public:
@@ -70,6 +75,7 @@ public:
     void move(const point &goalLocation, const gameMap &gameMapMat) override;
 };
 
+// this property is belong to Mai Huu Nghia - 2052612
 class tiger : public zodiac
 {
 public:
@@ -79,6 +85,7 @@ public:
     void move(const point &goalLocation, const gameMap &gameMapMat) override;
 };
 
+// this property is belong to Mai Huu Nghia - 2052612
 class cat : public zodiac
 {
 public:
@@ -88,6 +95,7 @@ public:
     void move(const point &goalLocation, const gameMap &gameMapMat) override;
 };
 
+// this property is belong to Mai Huu Nghia - 2052612
 class dragon : public zodiac
 {
 public:
@@ -97,6 +105,7 @@ public:
     void move(const point &goalLocation, const gameMap &gameMapMat) override;
 };
 
+// this property is belong to Mai Huu Nghia - 2052612
 class snake : public zodiac
 {
 public:
@@ -106,6 +115,7 @@ public:
     void move(const point &goalLocation, const gameMap &gameMapMat) override;
 };
 
+// this property is belong to Mai Huu Nghia - 2052612
 class horse : public zodiac
 {
 public:
@@ -115,6 +125,7 @@ public:
     void move(const point &goalLocation, const gameMap &gameMapMat) override;
 };
 
+// this property is belong to Mai Huu Nghia - 2052612
 class goat : public zodiac
 {
 public:
@@ -124,6 +135,7 @@ public:
     void move(const point &goalLocation, const gameMap &gameMapMat) override;
 };
 
+// this property is belong to Mai Huu Nghia - 2052612
 class monkey : public zodiac
 {
 public:
@@ -133,6 +145,7 @@ public:
     void move(const point &goalLocation, const gameMap &gameMapMat) override;
 };
 
+// this property is belong to Mai Huu Nghia - 2052612
 class rooster : public zodiac
 {
 public:
@@ -142,6 +155,7 @@ public:
     void move(const point &goalLocation, const gameMap &gameMapMat) override;
 };
 
+// this property is belong to Mai Huu Nghia - 2052612
 class dog : public zodiac
 {
 public:
@@ -151,6 +165,7 @@ public:
     void move(const point &goalLocation, const gameMap &gameMapMat) override;
 };
 
+// this property is belong to Mai Huu Nghia - 2052612
 class boar : public zodiac
 {
 public:
@@ -160,6 +175,7 @@ public:
     void move(const point &goalLocation, const gameMap &gameMapMat) override;
 };
 
+// this property is belong to Mai Huu Nghia - 2052612
 class zoList
 {
 public:
@@ -174,6 +190,7 @@ public:
     zodiac *operator[](int i);
 };
 
+// this property is belong to Mai Huu Nghia - 2052612
 class Game
 {
 public:
