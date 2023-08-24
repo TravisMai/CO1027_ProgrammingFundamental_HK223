@@ -1784,6 +1784,24 @@ void Game::startGame(point goalLocation, bool printMapFlag = 0)
             setStartLocation->startLocation.x = zList[i]->location.x;
             setStartLocation->startLocation.y = zList[i]->location.y;
         }
+        
+        // snake effect
+        for (int i = 0; i < zList.size; i++)
+        {
+            zodiac *snake = zList[i]; // TravisMai
+            if (snake->zodiacType == "snake")
+            {
+                for (int i = 0; i < zList.size; i++)
+                {
+                    zodiac *otherZodiac = zList[i];
+                    if ((otherZodiac->location.x == snake->location.x) && (otherZodiac->location.y == snake->location.y) && (otherZodiac != snake))
+                    {
+                        if (otherZodiac->zodiacType != "cat" && otherZodiac->status == "")
+                            otherZodiac->status = "poisoned";
+                    }
+                }
+            }
+        }
 
         // tiger effect
         for (int i = 0; i < zList.size; i++)
@@ -1833,24 +1851,6 @@ void Game::startGame(point goalLocation, bool printMapFlag = 0)
             }
         } // gulupleple
 
-        // snake effect
-        for (int i = 0; i < zList.size; i++)
-        {
-            zodiac *snake = zList[i]; // TravisMai
-            if (snake->zodiacType == "snake")
-            {
-                for (int i = 0; i < zList.size; i++)
-                {
-                    zodiac *otherZodiac = zList[i];
-                    if ((otherZodiac->location.x == snake->location.x) && (otherZodiac->location.y == snake->location.y) && (otherZodiac != snake))
-                    {
-                        if (otherZodiac->zodiacType != "cat" && otherZodiac->status == "")
-                            otherZodiac->status = "poisoned";
-                    }
-                }
-            }
-        }
-
         // compute the location of all zodiacs before move
         for (int i = 0; i < zList.size; i++)
         {
@@ -1873,15 +1873,7 @@ void Game::startGame(point goalLocation, bool printMapFlag = 0)
                     {
                         if (otherZodiac->zodiacType != "cat" && otherZodiac->zodiacType != "tiger")
                         {
-                            int distanceToGoal = goalDistance(otherZodiac->location.y, goalLocation.y) + goalDistance(otherZodiac->location.x, goalLocation.x);
-                            if (otherZodiac->zodiacType == "monkey")
-                            {
-                                cout << "monkey: " << distanceToGoal << endl;
-                            }
-                            if (otherZodiac->zodiacType == "goat")
-                            {
-                                cout << "goat: " << distanceToGoal << endl;
-                            } // gulupleple
+                            int distanceToGoal = goalDistance(otherZodiac->location.y, goalLocation.y) + goalDistance(otherZodiac->location.x, goalLocation.x); // gulupleple
                             if (distanceToGoal < maxCheater)
                             {
                                 maxCheater = distanceToGoal;
