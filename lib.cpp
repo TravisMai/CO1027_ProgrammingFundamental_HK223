@@ -928,91 +928,147 @@ void computeOxBoarMonkey(point &location, const point goalLocation, int maxStep,
 }
 void tigerPushBack(point &location, const point goalLocation, const gameMap &gameMapMat)
 {
-    if (location.y > goalLocation.y)
-    { // gulupleple
-        if (location.x > goalLocation.x)
+    bool isEdge = false;
+    for (int i = 0; i < 2; i++)
+    {
+        if (!isEdge)
         {
-            if ((location.x + 2) >= gameMapMat.row)
-                location.x = gameMapMat.row - 1;
-            else
-                location.x += 2;
+            if (location.y > goalLocation.y)
+            {
+                if ((location.y + 1) >= gameMapMat.col)
+                    break;
+                else
+                {
+                    location.y++;
+                    if ((location.y + 1) >= gameMapMat.col)
+                        isEdge = true;
+                }
+            }
+            else if (location.y < goalLocation.y)
+            {
+                if ((location.y - 1) < 0)
+                    break;
+                else
+                {
+                    location.y--;
+                    if ((location.y - 1) < 0)
+                        isEdge = true;
+                }
+            }
 
-            if ((location.y + 2) >= gameMapMat.col)
-                location.y = gameMapMat.col - 1;
-            else
-                location.y += 2;
-        }
-        else if (location.x < goalLocation.x)
-        {
-            if ((location.x - 2) < 0)
-                location.x = 0;
-            else
-                location.x -= 2;
-
-            if ((location.y + 2) >= gameMapMat.col)
-                location.y = gameMapMat.col - 1;
-            else
-                location.y += 2;
+            if (location.x > goalLocation.x)
+            {
+                if ((location.x + 1) >= gameMapMat.row)
+                    break;
+                else
+                {
+                    location.x++;
+                    if ((location.x + 1) >= gameMapMat.row)
+                        isEdge = true;
+                }
+            }
+            else if (location.x < goalLocation.x)
+            {
+                if ((location.x - 1) < 0)
+                {
+                    break;
+                }
+                else
+                {
+                    location.x--;
+                    if ((location.x - 1) < 0)
+                        isEdge = true;
+                }
+            }
         }
         else
-        {
-            if ((location.y + 2) >= gameMapMat.col)
-                location.y = gameMapMat.col - 1;
-            else
-                location.y += 2;
-        }
-    } // TravisMai
-    else if (location.y < goalLocation.y)
-    {
-        if (location.x > goalLocation.x)
-        {
-            if ((location.x + 2) >= gameMapMat.row)
-                location.x = gameMapMat.row - 1;
-            else
-                location.x += 2;
-
-            if ((location.y - 2) < 0)
-                location.y = 0;
-            else
-                location.y -= 2;
-        }
-        else if (location.x < goalLocation.x)
-        {
-            if ((location.x - 2) < 0)
-                location.x = 0;
-            else
-                location.x -= 2;
-
-            if ((location.y - 2) < 0)
-                location.y = 0;
-            else
-                location.y -= 2;
-        }
-        else
-        {
-            if ((location.y - 2) < 0)
-                location.y = 0;
-            else
-                location.y -= 2;
-        }
+            break;
     }
-    else
-    {
-        if (location.x > goalLocation.x)
-        {
-            if ((location.x + 2) >= gameMapMat.row)
-                location.x = gameMapMat.row - 1;
-            else
-                location.x += 2;
-        }
-        else if (location.x < goalLocation.x)
-        {
-            if ((location.x - 2) < 0)
-                location.x = 0;
-            else
-                location.x -= 2;
-        }
-    }
+    // if (location.y > goalLocation.y)
+    // { // gulupleple
+    //     if (location.x > goalLocation.x)
+    //     {
+    //         if ((location.x + 2) >= gameMapMat.row)
+    //             location.x = gameMapMat.row - 1;
+    //         else
+    //             location.x += 2;
+
+    //         if ((location.y + 2) >= gameMapMat.col)
+    //             location.y = gameMapMat.col - 1;
+    //         else
+    //             location.y += 2;
+    //     }
+    //     else if (location.x < goalLocation.x)
+    //     {
+    //         if ((location.x - 2) < 0)
+    //             location.x = 0;
+    //         else
+    //             location.x -= 2;
+
+    //         if ((location.y + 2) >= gameMapMat.col)
+    //             location.y = gameMapMat.col - 1;
+    //         else
+    //             location.y += 2;
+    //     }
+    //     else
+    //     {
+    //         if ((location.y + 2) >= gameMapMat.col)
+    //             location.y = gameMapMat.col - 1;
+    //         else
+    //             location.y += 2;
+    //     }
+    // } // TravisMai
+    // else if (location.y < goalLocation.y)
+    // {
+    //     if (location.x > goalLocation.x)
+    //     {
+    //         if ((location.x + 2) >= gameMapMat.row)
+    //             location.x = gameMapMat.row - 1;
+    //         else
+    //             location.x += 2;
+
+    //         if ((location.y - 2) < 0)
+    //             location.y = 0;
+    //         else
+    //             location.y -= 2;
+    //     }
+    //     else if (location.x < goalLocation.x)
+    //     {
+    //         if ((location.x - 2) < 0)
+    //             location.x = 0;
+    //         else
+    //             location.x -= 2;
+
+    //         if ((location.y - 2) < 0)
+    //             location.y = 0;
+    //         else
+    //             location.y -= 2;
+    //     }
+    //     else
+    //     {
+    //         if ((location.y - 2) < 0)
+    //             location.y = 0;
+    //         else
+    //             location.y -= 2;
+    //     }
+    // }
+    // else
+    // {
+    //     if (location.x > goalLocation.x)
+    //     {
+    //         if ((location.x + 2) >= gameMapMat.row)
+    //             location.x = gameMapMat.row - 1;
+    //         else
+    //             location.x += 2;
+    //     }
+    //     else if (location.x < goalLocation.x)
+    //     {
+    //         if ((location.x - 2) < 0)
+    //             location.x = 0;
+    //         else
+    //             location.x -= 2;
+    //     }
+    // }
 }
 void defaultMove(point &location, point &startLocation, string ID, const gameMap &gameMapMat)
 {
@@ -1783,8 +1839,10 @@ void Game::startGame(point goalLocation, bool printMapFlag = 0)
             zodiac *setStartLocation = zList[i];
             setStartLocation->startLocation.x = zList[i]->location.x;
             setStartLocation->startLocation.y = zList[i]->location.y;
+            setStartLocation->beforeTigerPushLocation.x = zList[i]->location.x;
+            setStartLocation->beforeTigerPushLocation.y = zList[i]->location.y;
         }
-        
+
         // snake effect
         for (int i = 0; i < zList.size; i++)
         {
@@ -1922,7 +1980,7 @@ void Game::startGame(point goalLocation, bool printMapFlag = 0)
         for (int i = 0; i < zList.size; i++)
         {
             zodiac *currentZodiac = zList[i];
-            cout << currentZodiac->zodiacType << " " << currentZodiac->ID << " at (" << currentZodiac->location.x << "," << currentZodiac->location.y << ") move from (" << currentZodiac->startLocation.x << "," << currentZodiac->startLocation.y << ")\n";
+            cout << currentZodiac->zodiacType << " " << currentZodiac->ID << " at (" << currentZodiac->location.x << "," << currentZodiac->location.y << ") move from (" << currentZodiac->beforeTigerPushLocation.x << "," << currentZodiac->beforeTigerPushLocation.y << ")\n";
         }
         if (printMapFlag)
         {

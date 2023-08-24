@@ -40,6 +40,7 @@ public:
     string ID;
     point location;
     point startLocation;
+    point beforeTigerPushLocation;
     string status;
     string zodiacType;
     int step;
