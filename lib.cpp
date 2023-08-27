@@ -935,7 +935,7 @@ void tigerPushBack(point &location, const point goalLocation, const gameMap &gam
                         isEdge = true;
                 }
             }
-            else if (location.y < goalLocation.y)
+            else if (location.y <= goalLocation.y)
             {
                 if ((location.y - 1) < 0)
                     break;
@@ -958,7 +958,7 @@ void tigerPushBack(point &location, const point goalLocation, const gameMap &gam
                         isEdge = true;
                 }
             }
-            else if (location.x < goalLocation.x)
+            else if (location.x <= goalLocation.x)
             {
                 if ((location.x - 1) < 0)
                     break;
