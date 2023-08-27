@@ -1651,10 +1651,10 @@ void Game::startGame(point goalLocation, bool printMapFlag)
                         mapMat[otherZodiac->startLocation.x][otherZodiac->startLocation.y] = removeZodiac(mapMat[otherZodiac->startLocation.x][otherZodiac->startLocation.y], string(otherZodiac->ID));
                         otherZodiac->startLocation.x = otherZodiac->location.x;
                         otherZodiac->startLocation.y = otherZodiac->location.y;
-                        if (otherZodiac->zodiacType == "monkey" || otherZodiac->zodiacType == "rooster"){
-                            otherZodiac->beforeTigerPushLocation.x = otherZodiac->location.x;
-                            otherZodiac->beforeTigerPushLocation.y = otherZodiac->location.y;
-                        }
+                        // if (otherZodiac->zodiacType == "monkey" || otherZodiac->zodiacType == "rooster"){
+                        //     otherZodiac->beforeTigerPushLocation.x = otherZodiac->location.x;
+                        //     otherZodiac->beforeTigerPushLocation.y = otherZodiac->location.y;
+                        // }
                         if (otherZodiac->zodiacType == "dog" && otherZodiac->bufferSize == 0)
                             otherZodiac->bufferSize++;
                         if ((otherZodiac->zodiacType == "snake") && (tiger->status == ""))
