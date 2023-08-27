@@ -2,6 +2,7 @@
 #define LIB_H
 #include <string>
 #include <iomanip>
+#include <iostream>
 using namespace std;
 
 // this property is belong to Mai Huu Nghia - 2052612

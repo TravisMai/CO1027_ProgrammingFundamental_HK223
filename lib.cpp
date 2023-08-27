@@ -1,5 +1,4 @@
 #include "lib.h"
-#include <iostream>
 using namespace std;
 // 2052612 - Mai Huu Nghia
 // ================================== START OF SUPPORT FUNCTION ==================================
