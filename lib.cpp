@@ -1585,7 +1585,7 @@ void Game::addZo(zodiac *k)
             mapMat.mapMat[x][y] += k->ID;
     }
 }
-void Game::startGame(point goalLocation, bool printMapFlag = 0)
+void Game::startGame(point goalLocation, bool printMapFlag)
 {
     if (goalLocation.x < 0 || goalLocation.x >= mapMat.row || goalLocation.y < 0 || goalLocation.y >= mapMat.col)
     {

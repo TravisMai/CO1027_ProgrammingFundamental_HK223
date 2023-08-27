@@ -202,7 +202,7 @@ public:
 
     Game(const gameMap &m);
     void addZo(zodiac *k);
-    void startGame(point goalLocation, bool printMapFlag);
+    void startGame(point goalLocation, bool printMapFlag = 0);
 };
 
 #endif // LIB_H
