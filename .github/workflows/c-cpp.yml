@@ -15,5 +15,5 @@ jobs:
     - uses: actions/checkout@v3
     - name: Compile and Run
       run: |
-        if ($?) { g++ main.cpp lib.cpp -o main }
-        if ($?) { ./main }
+        g++ main.cpp lib.cpp -o main
+        ./main
