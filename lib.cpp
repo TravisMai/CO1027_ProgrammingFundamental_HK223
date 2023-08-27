@@ -615,7 +615,7 @@ void verticalCalculation(point &location, const point startLocation, const point
             if (distanceToGoalVertical > maxStep)
             {
                 bool isOstacle = false;
-                for (int i = startLocation.x - 1; i <= (startLocation.x - maxStep); i--)
+                for (int i = startLocation.x - 1; i >= (startLocation.x - maxStep); i--)
                 {
                     if (i < 0)
                         break;
@@ -669,7 +669,7 @@ void verticalCalculation(point &location, const point startLocation, const point
             else
             {
                 bool isOstacle = false;
-                for (int i = startLocation.x - 1; i <= (startLocation.x - distanceToGoalVertical); i--)
+                for (int i = startLocation.x - 1; i >= (startLocation.x - distanceToGoalVertical); i--)
                 {
                     if (i < 0)
                         break;
@@ -833,7 +833,7 @@ void verticalCalculation(point &location, const point startLocation, const point
     else
         horizontalCalculation(location, startLocation, goalLocation, maxStep, zodiacType, distanceToGoalHorizontal, distanceToGoalVertical, gameMapMat);
 }
-void defaultComputeLocation(point &location, point &startLocation, const point goalLocation, int maxStep, string &status, string zodiacType, const gameMap &gameMapMat)
+void defaultComputeLocation(point &location, point &startLocation, const point beforeTigerPushLocation, const point goalLocation, int maxStep, string &status, string zodiacType, const gameMap &gameMapMat)
 {
     int distanceToGoalHorizontal = goalDistance(location.y, goalLocation.y);
     int distanceToGoalVertical = goalDistance(location.x, goalLocation.x); // nghia.maiemches
@@ -845,7 +845,7 @@ void defaultComputeLocation(point &location, point &startLocation, const point g
     else
     {
         status = "";
-        if (findObstacles(gameMapMat.mapMat[location.x][location.y], 'O'))
+        if (findObstacles(gameMapMat.mapMat[beforeTigerPushLocation.x][beforeTigerPushLocation.y], 'O'))
             maxStep = 1;
 
         if (ogirinalHorizontal < ogirinalVertical)
@@ -1245,26 +1245,26 @@ void zodiac::computeLocation(const point &goalLocation, const gameMap &gameMapMa
 void rat::computeLocation(const point &goalLocation, const gameMap &gameMapMat)
 {
     int maxStep = this->step + this->bufferSize;
-    defaultComputeLocation(this->location, this->startLocation, goalLocation, maxStep, this->status, this->zodiacType, gameMapMat);
+    defaultComputeLocation(this->location, this->startLocation, this->beforeTigerPushLocation, goalLocation, maxStep, this->status, this->zodiacType, gameMapMat);
 }
 void ox::computeLocation(const point &goalLocation, const gameMap &gameMapMat)
 {
     int maxStep = this->step + this->bufferSize;
-    if (findObstacles(gameMapMat.mapMat[this->location.x][this->location.y], 'W'))
+    if (findObstacles(gameMapMat.mapMat[this->beforeTigerPushLocation.x][this->beforeTigerPushLocation.y], 'W'))
         maxStep = 3 + this->bufferSize; // TravisMai
-    if (findObstacles(gameMapMat.mapMat[this->location.x][this->location.y], 'O'))
+    if (findObstacles(gameMapMat.mapMat[this->beforeTigerPushLocation.x][this->beforeTigerPushLocation.y], 'O'))
         maxStep = 1;
     computeOxBoarMonkey(this->location, goalLocation, maxStep, gameMapMat);
 }
 void tiger::computeLocation(const point &goalLocation, const gameMap &gameMapMat)
 {
     int maxStep = this->step + this->bufferSize;
-    defaultComputeLocation(this->location, this->startLocation, goalLocation, maxStep, this->status, this->zodiacType, gameMapMat);
+    defaultComputeLocation(this->location, this->startLocation, this->beforeTigerPushLocation, goalLocation, maxStep, this->status, this->zodiacType, gameMapMat);
 }
 void cat::computeLocation(const point &goalLocation, const gameMap &gameMapMat)
 {
     int maxStep = this->step + this->bufferSize;
-    defaultComputeLocation(this->location, this->startLocation, goalLocation, maxStep, this->status, this->zodiacType, gameMapMat);
+    defaultComputeLocation(this->location, this->startLocation, this->beforeTigerPushLocation, goalLocation, maxStep, this->status, this->zodiacType, gameMapMat);
 }
 void dragon::computeLocation(const point &goalLocation, const gameMap &gameMapMat)
 {
@@ -1292,7 +1292,7 @@ void dragon::computeLocation(const point &goalLocation, const gameMap &gameMapMa
                 this->location.x -= distanceToMove;
             }
             else
-                defaultComputeLocation(this->location, this->startLocation, goalLocation, maxStep, this->status, this->zodiacType, gameMapMat);
+                defaultComputeLocation(this->location, this->startLocation, this->beforeTigerPushLocation, goalLocation, maxStep, this->status, this->zodiacType, gameMapMat);
         }
         else if (this->location.x < goalLocation.x)
         {
@@ -1312,10 +1312,10 @@ void dragon::computeLocation(const point &goalLocation, const gameMap &gameMapMa
                 this->location.x += distanceToMove;
             }
             else
-                defaultComputeLocation(this->location, this->startLocation, goalLocation, maxStep, this->status, this->zodiacType, gameMapMat);
+                defaultComputeLocation(this->location, this->startLocation, this->beforeTigerPushLocation, goalLocation, maxStep, this->status, this->zodiacType, gameMapMat);
         } // TravisMai
         else
-            defaultComputeLocation(this->location, this->startLocation, goalLocation, maxStep, this->status, this->zodiacType, gameMapMat);
+            defaultComputeLocation(this->location, this->startLocation, this->beforeTigerPushLocation, goalLocation, maxStep, this->status, this->zodiacType, gameMapMat);
     }
     else if (this->location.y < goalLocation.y)
     {
@@ -1337,7 +1337,7 @@ void dragon::computeLocation(const point &goalLocation, const gameMap &gameMapMa
                 this->location.x -= distanceToMove;
             }
             else
-                defaultComputeLocation(this->location, this->startLocation, goalLocation, maxStep, this->status, this->zodiacType, gameMapMat);
+                defaultComputeLocation(this->location, this->startLocation, this->beforeTigerPushLocation, goalLocation, maxStep, this->status, this->zodiacType, gameMapMat);
         }
         else if (this->location.x < goalLocation.x)
         {
@@ -1357,70 +1357,70 @@ void dragon::computeLocation(const point &goalLocation, const gameMap &gameMapMa
                 this->location.x += distanceToMove;
             }
             else
-                defaultComputeLocation(this->location, this->startLocation, goalLocation, maxStep, this->status, this->zodiacType, gameMapMat);
+                defaultComputeLocation(this->location, this->startLocation, this->beforeTigerPushLocation, goalLocation, maxStep, this->status, this->zodiacType, gameMapMat);
         }
         else
-            defaultComputeLocation(this->location, this->startLocation, goalLocation, maxStep, this->status, this->zodiacType, gameMapMat);
+            defaultComputeLocation(this->location, this->startLocation, this->beforeTigerPushLocation, goalLocation, maxStep, this->status, this->zodiacType, gameMapMat);
     }
     else
     {
         if (this->location.x > goalLocation.x)
-            defaultComputeLocation(this->location, this->startLocation, goalLocation, maxStep, this->status, this->zodiacType, gameMapMat);
+            defaultComputeLocation(this->location, this->startLocation, this->beforeTigerPushLocation, goalLocation, maxStep, this->status, this->zodiacType, gameMapMat);
         else if (this->location.x < goalLocation.x)
-            defaultComputeLocation(this->location, this->startLocation, goalLocation, maxStep, this->status, this->zodiacType, gameMapMat);
+            defaultComputeLocation(this->location, this->startLocation, this->beforeTigerPushLocation, goalLocation, maxStep, this->status, this->zodiacType, gameMapMat);
 
     } // gulupleple
 }
 void snake::computeLocation(const point &goalLocation, const gameMap &gameMapMat)
 {
     int maxStep = this->step + this->bufferSize;
-    defaultComputeLocation(this->location, this->startLocation, goalLocation, maxStep, this->status, this->zodiacType, gameMapMat);
+    defaultComputeLocation(this->location, this->startLocation, this->beforeTigerPushLocation, goalLocation, maxStep, this->status, this->zodiacType, gameMapMat);
 }
 void horse::computeLocation(const point &goalLocation, const gameMap &gameMapMat)
 {
     int maxStep = this->step + this->bufferSize;
-    defaultComputeLocation(this->location, this->startLocation, goalLocation, maxStep, this->status, this->zodiacType, gameMapMat);
+    defaultComputeLocation(this->location, this->startLocation, this->beforeTigerPushLocation, goalLocation, maxStep, this->status, this->zodiacType, gameMapMat);
 }
 void goat::computeLocation(const point &goalLocation, const gameMap &gameMapMat)
 {
     int maxStep = this->step + this->bufferSize;
-    defaultComputeLocation(this->location, this->startLocation, goalLocation, maxStep, this->status, this->zodiacType, gameMapMat);
+    defaultComputeLocation(this->location, this->startLocation, this->beforeTigerPushLocation, goalLocation, maxStep, this->status, this->zodiacType, gameMapMat);
 }
 void monkey::computeLocation(const point &goalLocation, const gameMap &gameMapMat)
 {
     int maxStep = this->step + this->bufferSize;
-    if (findObstacles(gameMapMat.mapMat[this->location.x][this->location.y], 'T'))
+    if (findObstacles(gameMapMat.mapMat[this->beforeTigerPushLocation.x][this->beforeTigerPushLocation.y], 'T'))
         maxStep = 4 + this->bufferSize;
-    if (findObstacles(gameMapMat.mapMat[this->location.x][this->location.y], 'O'))
+    if (findObstacles(gameMapMat.mapMat[this->beforeTigerPushLocation.x][this->beforeTigerPushLocation.y], 'O'))
         maxStep = 1;
-    if (findObstacles(gameMapMat.mapMat[this->location.x][this->location.y], 'T'))
+    if (findObstacles(gameMapMat.mapMat[this->beforeTigerPushLocation.x][this->beforeTigerPushLocation.y], 'T'))
         computeOxBoarMonkey(this->location, goalLocation, maxStep, gameMapMat);
     else
-        defaultComputeLocation(this->location, this->startLocation, goalLocation, maxStep, this->status, this->zodiacType, gameMapMat);
+        defaultComputeLocation(this->location, this->startLocation, this->beforeTigerPushLocation, goalLocation, maxStep, this->status, this->zodiacType, gameMapMat);
 }
 void rooster::computeLocation(const point &goalLocation, const gameMap &gameMapMat)
 {
     int maxStep = this->step + this->bufferSize;
-    if (findObstacles(gameMapMat.mapMat[this->location.x][this->location.y], 'S') || findObstacles(gameMapMat.mapMat[this->location.x][this->location.y], 'T'))
+    if (findObstacles(gameMapMat.mapMat[this->beforeTigerPushLocation.x][this->beforeTigerPushLocation.y], 'S') || findObstacles(gameMapMat.mapMat[this->beforeTigerPushLocation.x][this->beforeTigerPushLocation.y], 'T'))
         maxStep = 3 + this->bufferSize;
-    if (findObstacles(gameMapMat.mapMat[this->location.x][this->location.y], 'O'))
+    if (findObstacles(gameMapMat.mapMat[this->beforeTigerPushLocation.x][this->beforeTigerPushLocation.y], 'O'))
         maxStep = 1;
     if (maxStep == (3 + this->bufferSize))
         computeRooster(this->location, this->startLocation, goalLocation, maxStep, this->status, gameMapMat);
     else if (isRoosterNextToStone(this->location, this->startLocation, goalLocation, maxStep, this->status, this->zodiacType, gameMapMat))
         return;
     else
-        defaultComputeLocation(this->location, this->startLocation, goalLocation, maxStep, this->status, this->zodiacType, gameMapMat);
+        defaultComputeLocation(this->location, this->startLocation, this->beforeTigerPushLocation, goalLocation, maxStep, this->status, this->zodiacType, gameMapMat);
 }
 void dog::computeLocation(const point &goalLocation, const gameMap &gameMapMat)
 {
     int maxStep = this->step + this->bufferSize;
-    defaultComputeLocation(this->location, this->startLocation, goalLocation, maxStep, this->status, this->zodiacType, gameMapMat);
+    defaultComputeLocation(this->location, this->startLocation, this->beforeTigerPushLocation, goalLocation, maxStep, this->status, this->zodiacType, gameMapMat);
 }
 void boar::computeLocation(const point &goalLocation, const gameMap &gameMapMat)
 {
     int maxStep = this->step + this->bufferSize;
-    if (findObstacles(gameMapMat.mapMat[this->location.x][this->location.y], 'O'))
+    if (findObstacles(gameMapMat.mapMat[this->beforeTigerPushLocation.x][this->beforeTigerPushLocation.y], 'O'))
         maxStep = 1;
 
     computeOxBoarMonkey(this->location, goalLocation, maxStep, gameMapMat);
@@ -1631,7 +1631,7 @@ void Game::startGame(point goalLocation, bool printMapFlag = 0)
                     zodiac *otherZodiac = zList[i];
                     if ((otherZodiac->location.x == snake->location.x) && (otherZodiac->location.y == snake->location.y) && (otherZodiac != snake))
                     {
-                        if (otherZodiac->zodiacType != "cat" && otherZodiac->status == "")
+                        if (otherZodiac->zodiacType != "cat" && otherZodiac->zodiacType != "snake" && otherZodiac->status == "")
                             otherZodiac->status = "poisoned";
                     }
                 }
@@ -1732,14 +1732,6 @@ void Game::startGame(point goalLocation, bool printMapFlag = 0)
                     winnerFound = true;
             }
         }
-        // reset// gulupleple
-        for (int i = 0; i < zList.size; i++)
-        {
-            zodiac *currentZodiac = zList[i];
-            currentZodiac->bufferSize = 0;
-            if (currentZodiac->status == "poisoned")
-                currentZodiac->status = "";
-        }
         // print result of each turn
         for (int i = 0; i < zList.size; i++)
         {
@@ -1751,10 +1743,18 @@ void Game::startGame(point goalLocation, bool printMapFlag = 0)
         for (int i = 0; i < zList.size; i++)
         {
             zodiac *currentZodiac = zList[i];
-            if (currentZodiac->location.x == currentZodiac->beforeTigerPushLocation.x && currentZodiac->location.y == currentZodiac->beforeTigerPushLocation.y)
+            if (currentZodiac->location.x == currentZodiac->beforeTigerPushLocation.x && currentZodiac->location.y == currentZodiac->beforeTigerPushLocation.y && currentZodiac->status != "poisoned")
                 currentZodiac->status = "Stuck";
             if (currentZodiac->status != "Stuck")
                 allStuck = false;
+        }
+        // reset// gulupleple
+        for (int i = 0; i < zList.size; i++)
+        {
+            zodiac *currentZodiac = zList[i];
+            currentZodiac->bufferSize = 0;
+            if (currentZodiac->status == "poisoned")
+                currentZodiac->status = "";
         }
         if (allStuck || winnerFound)
         {
