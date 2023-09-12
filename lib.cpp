@@ -17,6 +17,15 @@ void modifyArray(int arr[], int size)
         }
         arr[i] = count;
     }
+    int temp = arr[0];
+    for (int i = 0; i < size; i++)
+    {
+        if (arr[i] != temp)
+        {
+            arr[i] = i + 1;
+            temp = arr[i];            
+        }
+    }
 }
 int goalDistance(int x, int y) { return abs(x - y); }
 string removeZodiac(string input, const string &substring)
